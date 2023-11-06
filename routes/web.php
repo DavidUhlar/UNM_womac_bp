@@ -14,11 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'App\Http\Controllers'], function()
-{   
+{
     /**
      * Home Routes
      */
     Route::get('/', 'HomeController@index')->name('home.index');
+    Route::get('/womac', 'WomacController@show')->name('home.womac');
+    Route::get('o_nas', 'O_nasController@show')->name('home.o_nas');
+
 
     Route::group(['middleware' => ['guest']], function() {
         /**

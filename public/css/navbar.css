@@ -1,0 +1,36 @@
+
+
+/*navigavny panel*/
+.logo {
+    height: 35px;
+}
+
+.login {
+    overflow: hidden;
+    right: 10px;
+    margin-left: auto;
+
+
+}
+.nav-item a:hover {
+    color: indianred;
+
+}
+.navbar-brand{
+    font-size: smaller;
+}
+.navbar {
+    position: sticky;
+}
+
+
+@media (min-width : 768px) {
+
+    .login {
+        position: absolute;
+        overflow: hidden;
+        right: 10px;
+        margin-left: auto;
+
+    }
+}

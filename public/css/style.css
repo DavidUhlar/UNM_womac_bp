@@ -1,0 +1,83 @@
+
+.body {
+
+}
+
+/* hl stranka*/
+.carousel .carousel-item {
+    height: 500px;
+}
+
+.carousel-item img {
+
+    object-fit: cover;
+    object-position: center;
+    height: 100%;
+
+}
+
+.obsah_text {
+    padding: 5%;
+}
+.zoznamWomac {
+    margin-left: 8%;
+}
+
+p {
+    margin-left: 2rem;
+}
+
+.hlavickaBold {
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+.linkText {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.linkText:hover {
+    text-decoration: underline;
+}
+/* o nas*/
+.poznamkaParagraf {
+    font-size: small;
+    color: rgb(128, 128, 128);
+    font-weight: lighter;
+    margin-bottom: 2%;
+}
+
+.accordion-button {
+    font-weight: bold;
+
+}
+
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-top: 8%;
+    align-items: center;
+
+
+}
+
+
+
+.kontakt > h6{
+
+    margin-top: 20%;
+}
+.kontakt {
+    padding: 3%;
+}
+
+
+
+
+
+
