@@ -1,0 +1,41 @@
+@media (min-width : 640px) {
+    .mapaOdkaz {
+        height: 80vh;
+        width: 80vh;
+        background-color: black;
+        padding: 0.5%;
+        margin-bottom: 3%;
+    }
+}
+@media (max-width : 640px) {
+
+    .mapaOdkaz {
+        height: 50vh;
+        width: 50vh;
+        background-color: black;
+        padding: 0.5%;
+        margin-bottom: 3%;
+
+    }
+}
+
+@media (max-width : 370px) {
+
+    .mapaOdkaz {
+        height: 25vh;
+        width: 25vh;
+        background-color: black;
+        padding: 0.5%;
+        margin-bottom: 3%;
+
+    }
+}
+
+
+
+
+
+
+
+
+
