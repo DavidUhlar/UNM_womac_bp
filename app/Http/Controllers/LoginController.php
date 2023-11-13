@@ -10,7 +10,7 @@ class LoginController extends Controller
 {
     /**
      * Display login page.
-     * 
+     *
      * @return Renderable
      */
     public function show()
@@ -20,9 +20,9 @@ class LoginController extends Controller
 
     /**
      * Handle account login request
-     * 
+     *
      * @param LoginRequest $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function login(LoginRequest $request)
@@ -43,14 +43,14 @@ class LoginController extends Controller
 
     /**
      * Handle response after user authenticated
-     * 
+     *
      * @param Request $request
      * @param Auth $user
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
-    protected function authenticated(Request $request, $user) 
+    protected function authenticated(Request $request, $user)
     {
-        return redirect()->intended();
+        return redirect()->intended('/loginSuccess');
     }
 }

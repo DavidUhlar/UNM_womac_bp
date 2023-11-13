@@ -2,13 +2,9 @@
 
 @section('content')
 
-        @auth
-        <h1>Dashboard</h1>
-        <p class="lead">Only authenticated users can access this section.</p>
-        <a class="btn btn-lg btn-primary" href="https://codeanddeploy.com" role="button">View more tutorials here &raquo;</a>
-        @endauth
 
-        @guest
+
+{{--        @guest--}}
                 <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
@@ -97,6 +93,6 @@
                     </p>
 
                 </div>
-        @endguest
+{{--        @endguest--}}
 
 @endsection

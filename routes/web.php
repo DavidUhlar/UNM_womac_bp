@@ -23,7 +23,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/womac', 'WomacController@show')->name('home.womac');
     Route::get('o_nas', 'O_nasController@show')->name('home.o_nas');
 
-
+    Route::get('/loginSuccess', 'HomeController@loginSuccess')->name('home.loginSuccess');
 
     Route::group(['middleware' => ['guest']], function() {
         /**
@@ -37,6 +37,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
          */
         Route::get('/login', 'LoginController@show')->name('login.show');
         Route::post('/login', 'LoginController@login')->name('login.perform');
+
 
     });
 

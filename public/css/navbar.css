@@ -5,13 +5,13 @@
     height: 35px;
 }
 
-.login {
-    overflow: hidden;
-    right: 10px;
-    margin-left: auto;
+/*.login {*/
+/*    overflow: hidden;*/
+/*    right: 10px;*/
+/*    margin-left: auto;*/
 
 
-}
+/*}*/
 .nav-item a:hover {
     color: indianred;
 
@@ -24,13 +24,14 @@
 }
 
 
-@media (min-width : 768px) {
+/*@media (min-width : 768px) {*/
 
-    .login {
-        position: absolute;
-        overflow: hidden;
-        right: 10px;
-        margin-left: auto;
+/*    .login {*/
+/*        margin-right: auto;*/
 
-    }
-}
+/*    }*/
+/*}*/
+
+
+
+

@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index() 
+    public function index()
     {
         return view('home.index');
+    }
+
+    public function loginSuccess() {
+        return view('auth.loginSuccess');
     }
 }
