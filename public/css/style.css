@@ -76,7 +76,12 @@ p {
     padding: 3%;
 }
 
-
+.centerNadpis {
+    text-align: center;
+    padding: 10rem;
+    margin: auto;
+    background-color: red;
+}
 
 
 
