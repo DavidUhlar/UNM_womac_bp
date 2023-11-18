@@ -1,5 +1,5 @@
 @extends('layouts.app-master')
-<link rel="stylesheet" href=" {{ asset("css/sidebar_womac.css")}}">
+<link rel="stylesheet" href=" {{ asset("css/sidebar_womac.css") }}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 @section('content')
 
@@ -29,26 +29,59 @@
 
 
 <div class="containerWomac">
-    <div class="side-bar active">
+    <div class="side-bar">
 
         <div class="menu">
 
             <div class="item">
-                <a class="sub-btn nadpisko">Tables</a>
-                <div class="sub-menu">
-                    <a href="#" class="sub-item">Sub Item 01</a>
-                    <div class="item">
-                        <a class="sub-btn nadpisko">Tables</a>
-                        <div class="sub-menu">
-                            <a href="#" class="sub-item">N</a>
-                            <a href="#" class="sub-item">I</a>
-                            <a href="#" class="sub-item">G</a>
-
-                        </div>
+                <a class="sub-btn nadpisko">Pacient 1</a>
+                <div class="sub-menu ">
+                    <div class="sidebarHeading">
+                        Koleno
                     </div>
-                    <a href="#" class="sub-item">G</a>
-                    <a href="#" class="sub-item">E</a>
-                    <a href="#" class="sub-item">R</a>
+
+                    <a href="#" class="sub-btn operacie">Operácia 01</a>
+                    <div class="sub-menu">
+                        <a href="#" class="sub-item">Womac 1</a>
+                        <a href="#" class="sub-item">Womac 2</a>
+                        <a href="#" class="sub-item">Womac 3</a>
+
+                    </div>
+                    <div class="sidebarHeading">
+                        Bedro
+                    </div>
+                    <a href="#" class="sub-btn operacie">Operácia 02</a>
+                    <div class="sub-menu">
+                        <a href="#" class="sub-item">Womac 10</a>
+                        <a href="#" class="sub-item">Womac 20</a>
+                        <a href="#" class="sub-item">Womac 30</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <a class="sub-btn nadpisko">Pacient 2</a>
+                <div class="sub-menu ">
+                    <div class="sidebarHeading">
+                        Koleno
+                    </div>
+
+                    <a href="#" class="sub-btn operacie">Operácia 01</a>
+                    <div class="sub-menu">
+                        <a href="#" class="sub-item">Womac 1</a>
+
+
+                    </div>
+                    <div class="sidebarHeading">
+                        Bedro
+                    </div>
+                    <a href="#" class="sub-btn operacie">Operácia 02</a>
+                    <div class="sub-menu">
+                        <a href="#" class="sub-item">Womac 10</a>
+                        <a href="#" class="sub-item">Womac 20</a>
+
+
+                    </div>
                 </div>
             </div>
 
@@ -57,136 +90,19 @@
         </div>
     </div>
 
-    {{--https://foolishdeveloper.com/sidebar-dropdown-menu-using-html-css-javascript/--}}
+    {{-- https://foolishdeveloper.com/sidebar-dropdown-menu-using-html-css-javascript/ --}}
     <script type="text/javascript">
         $(document).ready(function(){
             $('.sub-btn').click(function(){
                 $(this).next('.sub-menu').slideToggle();
-                $(this).find('.dropdown').toggleClass('rotate');
+                $(this).toggleClass('activeMenu');
+                // $(this).find('.dropdown').toggleClass('rotate');
             });
         });
     </script>
-{{--    <div class="sideBarWomac">--}}
-{{--        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary" >--}}
-{{--            <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">--}}
 
-{{--                <span class="fs-5 fw-bold">Zoznam pacientov</span>--}}
-{{--            </a>--}}
-{{--            <div class="list-group list-group-flush border-bottom scrollarea">--}}
-{{--                <a href="#" class="list-group-item list-group-item-action active py-3 lh-sm" aria-current="true">--}}
-{{--                    <div class="d-flex w-100 align-items-center justify-content-between">--}}
-{{--                        <strong class="mb-1">Rudiáš Bohatý</strong>--}}
-{{--                        <small>Narodenie: 1.1.1956</small>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-10 mb-1 small">Operácia vykonaná dňa: 6.4.2022</div>--}}
-{{--                    <ul class="list-unstyled ps-0">--}}
-{{--                        <li class="mb-1">--}}
-{{--                            <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">--}}
-{{--                                Home--}}
-{{--                            </button>--}}
-{{--                            <div class="collapse hide" id="home-collapse">--}}
-{{--                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Overview</a></li>--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Updates</a></li>--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Reports</a></li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
-{{--                        <li class="mb-1">--}}
-{{--                            <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true">--}}
-{{--                                Dashboard--}}
-{{--                            </button>--}}
-{{--                            <div class="collapse hide" id="dashboard-collapse">--}}
-{{--                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Overview</a></li>--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Weekly</a></li>--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Monthly</a></li>--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Annually</a></li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
-{{--                        <li class="mb-1">--}}
-{{--                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">--}}
-{{--                                Orders--}}
-{{--                            </button>--}}
-{{--                            <div class="collapse" id="orders-collapse">--}}
-{{--                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">--}}
-{{--                                    <li><a href="#" class="link-dark rounded">New</a></li>--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Processed</a></li>--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Shipped</a></li>--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Returned</a></li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
-{{--                        <li class="border-top my-3"></li>--}}
-{{--                        <li class="mb-1">--}}
-{{--                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">--}}
-{{--                                Account--}}
-{{--                            </button>--}}
-{{--                            <div class="collapse" id="account-collapse">--}}
-{{--                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">--}}
-{{--                                    <li><a href="#" class="link-dark rounded">New...</a></li>--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Profile</a></li>--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Settings</a></li>--}}
-{{--                                    <li><a href="#" class="link-dark rounded">Sign out</a></li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
-{{--                    </ul>--}}
-{{--                </a>--}}
-{{--                <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">--}}
-{{--                    <div class="d-flex w-100 align-items-center justify-content-between">--}}
-{{--                        <strong class="mb-1">Metod Mužský</strong>--}}
-{{--                        <small class="text-body-secondary">Narodenie: 12.1.1956</small>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-10 mb-1 small">Operácia vykonaná dňa: 2.6.2022</div>--}}
-{{--                </a>--}}
-{{--                <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">--}}
-{{--                    <div class="d-flex w-100 align-items-center justify-content-between">--}}
-{{--                        <strong class="mb-1">Patrik Jedľovský</strong>--}}
-{{--                        <small class="text-body-secondary">Narodenie: 21.4.1980</small>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-10 mb-1 small">Operácia vykonaná dňa: 2.6.2022</div>--}}
-{{--                </a>--}}
-{{--                <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">--}}
-{{--                    <div class="d-flex w-100 align-items-center justify-content-between">--}}
-{{--                        <strong class="mb-1">Patrik Jedľovský</strong>--}}
-{{--                        <small class="text-body-secondary">Narodenie: 21.4.1980</small>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-10 mb-1 small">Operácia vykonaná dňa: 2.6.2022</div>--}}
-{{--                </a>--}}
-{{--                <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">--}}
-{{--                    <div class="d-flex w-100 align-items-center justify-content-between">--}}
-{{--                        <strong class="mb-1">Patrik Jedľovský</strong>--}}
-{{--                        <small class="text-body-secondary">Narodenie: 21.4.1980</small>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-10 mb-1 small">Operácia vykonaná dňa: 2.6.2022</div>--}}
-{{--                </a>--}}
-{{--                <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">--}}
-{{--                    <div class="d-flex w-100 align-items-center justify-content-between">--}}
-{{--                        <strong class="mb-1">Patrik Jedľovský</strong>--}}
-{{--                        <small class="text-body-secondary">Narodenie: 21.4.1980</small>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-10 mb-1 small">Operácia vykonaná dňa: 2.6.2022</div>--}}
-{{--                </a>--}}
-{{--                <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">--}}
-{{--                    <div class="d-flex w-100 align-items-center justify-content-between">--}}
-{{--                        <strong class="mb-1">Patrik Jedľovský</strong>--}}
-{{--                        <small class="text-body-secondary">Narodenie: 21.4.1980</small>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-10 mb-1 small">Operácia vykonaná dňa: 2.6.2022</div>--}}
-{{--                </a>--}}
-{{--                <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">--}}
-{{--                    <div class="d-flex w-100 align-items-center justify-content-between">--}}
-{{--                        <strong class="mb-1">Patrik Jedľovský</strong>--}}
-{{--                        <small class="text-body-secondary">Narodenie: 21.4.1980</small>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-10 mb-1 small">Operácia vykonaná dňa: 2.6.2022</div>--}}
-{{--                </a>--}}
 
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+
     <div class="womacVpisovanie">
         <div class="menuVpisovanie">
             <div class = "womacMenuButton">

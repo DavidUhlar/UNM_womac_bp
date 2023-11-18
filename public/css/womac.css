@@ -8,20 +8,20 @@
 
 }
 
-.sideBarWomac {
-    width: auto;
-    height: 80vh;
-    border: black solid 2px;
-    overflow-y: scroll;
-    margin-bottom: 4%;
-    min-width: 35vw;
-}
+/*.side-bar {*/
+/*    width: auto;*/
+/*    height: 80vh;*/
+/*    border: black solid 2px;*/
+/*    overflow-y: scroll;*/
+/*    margin-bottom: 4%;*/
+/*    min-width: 35vw;*/
+/*}*/
 
-@media (max-width : 1030px) {
-    .sideBarWomac {
-        height: 50vh;
-    }
-}
+/*@media (max-width : 1030px) {*/
+/*    .side-bar {*/
+/*        height: 50vh;*/
+/*    }*/
+/*}*/
 .womacVpisovanie {
     width: auto;
     display: flex;

@@ -1,54 +1,105 @@
 .side-bar{
-    /*background: #1b1a1b;*/
-    /*width: 250px;*/
-    /*height: 100vh;*/
-    /*left: -250px;*/
-    /*overflow-y: auto;*/
-    /*transition: 0.6s ease;*/
-    /*transition-property: left;*/
+
     width: auto;
-    height: 80vh;
-    border: black solid 2px;
-    overflow-y: scroll;
+    /*height: 200vh;*/
+    /*border: black solid 2px;*/
+    /*overflow-y: scroll;*/
     margin-bottom: 4%;
-    min-width: 35vw;
+    /*min-width: 35vw;*/
 }
 
+@media (max-width : 600px) {
+    .side-bar .menu{
+        max-height: 60vh;
+        min-width: 70vw;
+    }
+
+}
+
+@media (min-width : 600px) {
+    .side-bar .menu{
+
+        max-width: 35vw;
+    }
+
+}
 .side-bar::-webkit-scrollbar {
     width: 0px;
 }
 
-.side-bar .menu{
+.side-bar .menu {
     /*width: 100%;*/
     /*margin-top: 30px;*/
-    width: auto;
-    height: 80vh;
+    /*width: auto;*/
+    height: 100vh;
+    background-color: #444;
     border: black solid 2px;
     overflow-y: scroll;
     margin-bottom: 4%;
-    min-width: 35vw;
+    width: 50vw;
 }
 
 .side-bar .menu .item a{
     color: #fff;
-    font-size: 16px;
+
     text-decoration: none;
     display: block;
-    padding: 5px 30px;
-    line-height: 20px;
+    /*padding: 5px 30px;*/
+    line-height: 30px;
 }
 
 .side-bar .menu .item a:hover{
-    background: #33363a;
+    background: #262627;
     transition: 0.3s ease;
 }
 
 .side-bar .menu .item .sub-menu{
-    background: #262627;
+    background: #33363a;
+    /*background-color: white;*/
+    color: black;
     display: none;
 }
 
 .nadpisko {
     font-weight: bolder;
-    background-color: greenyellow;
+    color: black;
+    /*background-color: darkred;*/
+    padding: 5px 30px;
+    font-size: 20px;
+    border: black solid 3px;
 }
+.nadpisko.activeMenu {
+    font-weight: bolder;
+    color: black;
+    background-color: darkred;
+    padding: 5px 30px;
+    font-size: 20px;
+    border: black solid 1px;
+}
+.sidebarHeading {
+    background: #262627;
+    color: white;
+    font-weight: bold;
+    padding: 5px 5.6vh;
+    font-size: 20px;
+}
+
+a.operacie {
+
+    padding: 5px 5.6vh;
+}
+
+.sub-item {
+    padding: 5px 8.5vh;
+}
+
+.activeMenu {
+
+    border: 2px solid darkred;
+    border-radius: 10px;
+    box-shadow: 0 0 5px red;
+    background-color: black;
+    font-weight: bold;
+}
+
+
