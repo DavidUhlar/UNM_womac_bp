@@ -16,11 +16,10 @@ return new class extends Migration
         Schema::create('womac_knee', function (Blueprint $table) {
             $table->id()->unsignedBigInteger()->nullable(false)->unique()->autoIncrement();
 
-            $table->unsignedBigInteger('id_patient')->nullable(false);
-            $table->unsignedBigInteger('id_operation')->nullable(false);
-            $table->unsignedBigInteger('id_visit')->nullable(false);
+            $table->unsignedBigInteger('id_womac')->nullable(false);
 
             $table->date('date_visit')->nullable(false);
+            $table->date('date_womac')->nullable(true);
 
             $table->unsignedTinyInteger('answer_01')->nullable(true);
             $table->unsignedTinyInteger('answer_02')->nullable(true);
