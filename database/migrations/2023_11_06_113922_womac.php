@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('womac_knee', function (Blueprint $table) {
+        Schema::create('womac', function (Blueprint $table) {
             $table->id()->unsignedBigInteger()->nullable(false)->unique()->autoIncrement();
 
             $table->unsignedBigInteger('id_womac')->nullable(false);
 
             $table->date('date_visit')->nullable(false);
-            $table->date('date_womac')->nullable(true);
+            $table->date('date_womac')->nullable(false);
 
             $table->unsignedTinyInteger('answer_01')->nullable(true);
             $table->unsignedTinyInteger('answer_02')->nullable(true);
@@ -46,10 +46,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('answer_23')->nullable(true);
             $table->unsignedTinyInteger('answer_24')->nullable(true);
 
-            $table->unsignedTinyInteger('total_avg')->nullable(true);  /*%priemer odpovedi podla vypoctu*/
-
-            $table->unsignedTinyInteger('total_kss1')->nullable(true);
-            $table->unsignedTinyInteger('total_kss2')->nullable(true);
+            $table->string('note', 4096)->nullable(true);
 
             $table->string('filled', 16)->nullable(false);
 

@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class WomacOperation extends Model
+{
+    use HasFactory;
+    
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'womac_has_operation';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'id',
+        'id_womac',
+        'id_patient',
+        'id_operation',
+        'id_visit',
+    ];
+    
+    public $timestamps = false;
+}

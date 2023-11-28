@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('womac_has_operation', function (Blueprint $table) {
+        Schema::create('womac_result', function (Blueprint $table) {
             $table->id()->unsignedBigInteger()->nullable(false)->unique()->autoIncrement();
 
             $table->unsignedBigInteger('id_womac')->nullable(false);
-            $table->unsignedBigInteger('id_patient')->nullable(false);
-            $table->unsignedBigInteger('id_operation')->nullable(false);
-            $table->unsignedBigInteger('id_visit')->nullable(false);
+
+            $table->string('result_name', 16)->nullable(false);
+            $table->float('result_value')->nullable(true);
         });
 
     }
