@@ -67,6 +67,9 @@
                     <a class="nav-link @if($routeName == 'home.o_nas') active @endif" href="{{route('home.o_nas')}}">O
                         nás</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link @if($routeName == 'oznam.oznam') active @endif" href="{{route('oznam.oznam')}}">Oznam</a>
+                </li>
 
             </ul>
 

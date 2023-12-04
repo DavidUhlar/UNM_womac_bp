@@ -128,8 +128,4 @@
 
 </div>
 
-
-</body>
-
-</html>
 @endsection

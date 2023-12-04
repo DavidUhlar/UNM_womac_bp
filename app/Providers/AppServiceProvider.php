@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
                 ->select('d_pacient.id as id_pacient', 'd_pacient.meno', 'd_pacient.priezvisko',
                     'd_operacia.id as id_operacia', 'd_operacia.sar_id', 'd_operacia.typ', 'd_operacia.subtyp')
                 ->rightJoin('d_operacia','d_pacient.id', 'd_operacia.id_pac')
-                ->rightJoin('')
+                //->rightJoin('')
                 ->where('d_pacient.id', '>', '11100')
                 ->orderBy('id_pacient')
                 ->orderBy('typ')

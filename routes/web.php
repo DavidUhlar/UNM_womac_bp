@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OznamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +24,22 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/womac', 'WomacController@show')->name('home.womac');
     Route::get('o_nas', 'O_nasController@show')->name('home.o_nas');
 
-    //Route::get('/womac-data', 'WomacController@returnDataPacient')->name('home.womac.data');
+    Route::get('/oznam_index', 'OznamController@index')->name('oznam.oznam');
 
-    //Route::post('/womac/{operation}', 'WomacController@store')->name('womac.store');
+    // returns the form for adding a post
+    Route::get('/oznam_index/oznam/create', 'OznamController@create')->name('oznam.create');
+// adds a post to the database
+    Route::post('/oznam_index/oznam', 'OznamController@store')->name('oznam.store');
+// returns a page that shows a full post
+    Route::get('/oznam_index/oznam/{id}', 'OznamController@show')->name('oznam.oznamShow');
+// returns the form for editing a post
+    Route::get('/oznam_index/oznam/edit/{id}', 'OznamController@edit')->name('oznam.oznamEdit');
+// updates a post
+    Route::put('/oznam_index/oznam/edit/{id}', 'OznamController@update')->name('oznam.update');
+// deletes a post
+    Route::delete('/oznam_index/oznam/{id}', 'OznamController@destroy')->name('oznam.destroy');
+
+
     Route::group(['prefix' => 'womac'], function (){
         Route::post('/create', 'WomacController@create')->name('womac.create');
     });
