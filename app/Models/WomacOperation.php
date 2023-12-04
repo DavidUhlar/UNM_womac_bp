@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class WomacOperation extends Model
 {
     use HasFactory;
-    
+
     /**
      * The database table used by the model.
      *
@@ -28,6 +28,23 @@ class WomacOperation extends Model
         'id_operation',
         'id_visit',
     ];
-    
+
     public $timestamps = false;
+
+    public function pacient()
+    {
+        return $this->belongsTo(Pacient::class, 'id_patient', 'id');
+    }
+
+    // Vztah k operacím
+    public function operacia()
+    {
+        return $this->belongsTo(Operacia::class, 'id_operation', 'id');
+    }
+
+    // Vztah k dotazníku Womac
+    public function womac()
+    {
+        return $this->belongsTo(Womac::class, 'id_womac', 'id');
+    }
 }

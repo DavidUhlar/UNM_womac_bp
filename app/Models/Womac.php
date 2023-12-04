@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Womac extends Model
 {
     use HasFactory;
-    
+
     /**
      * The database table used by the model.
      *
@@ -24,10 +24,10 @@ class Womac extends Model
     protected $fillable = [
         'id',
         'id_womac',
-        
+
         'date_visit',
         'date_womac',
-        
+
         'answer_01',
         'answer_02',
         'answer_03',
@@ -52,11 +52,11 @@ class Womac extends Model
         'answer_22',
         'answer_23',
         'answer_24',
-        
+
         'note',
-        
+
         'filled',
-        
+
         'created_at',
         'updated_at',
         'deleted_at',
@@ -68,6 +68,14 @@ class Womac extends Model
         'closed_by',
         'locked_by',
     ];
-    
+
     public $timestamps = false;
+
+
+
+    // Define the relationship through the pivot table
+    public function operacie()
+    {
+        return $this->belongsToMany(Operacia::class, 'womac_has_operation', 'id_womac', 'id_operation');
+    }
 }
