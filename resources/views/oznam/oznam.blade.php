@@ -3,6 +3,9 @@
 @section('content')
     <div class="container mt-5">
         <div class="row">
+            <div class="col-sm">
+                <a href="{{ route('oznam.create') }}" class="btn btn-primary btn-sm">Create</a>
+            </div>
             @foreach ($oznam as $post)
                 <div class="col-sm">
                     <div class="card">
@@ -14,6 +17,7 @@
                         </div>
                         <div class="card-footer">
                             <div class="row">
+
                                 <div class="col-sm">
                                     <a href="{{ route('oznam.oznamEdit', $post->id) }}" class="btn btn-primary btn-sm">Edit</a>
                                 </div>

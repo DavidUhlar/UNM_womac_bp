@@ -15,4 +15,6 @@ class Oznam extends Model
         'obsah',
         'autor'
     ];
+
+
 }

@@ -29,7 +29,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     // returns the form for adding a post
     Route::get('/oznam_index/oznam/create', 'OznamController@create')->name('oznam.create');
 // adds a post to the database
-    Route::post('/oznam_index/oznam', 'OznamController@store')->name('oznam.store');
+    Route::post('/oznam_index/oznam/create', 'OznamController@store')->name('oznam.store');
 // returns a page that shows a full post
     Route::get('/oznam_index/oznam/{id}', 'OznamController@show')->name('oznam.oznamShow');
 // returns the form for editing a post
