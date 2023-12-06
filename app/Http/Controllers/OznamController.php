@@ -19,33 +19,7 @@ class OznamController extends Controller
         return view('oznam.oznam', compact('oznam'));
     }
 
-/*
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nazov' => 'required|max:255',
-            'obsah' => 'required',
-        ]);
 
-        // Get the currently authenticated user
-        $user = Auth::user();
-
-        // Create a new Oznam record with the user ID as the author
-        $oznam = new Oznam([
-            'nazov' => $request->input('nazov'),
-            'obsah' => $request->input('obsah'),
-            'autor' => $user->getAuthIdentifierName(),
-        ]);
-
-        // Associate the user with the post
-        //$oznam->autor()->associate($user);
-
-        // Save the post to the database
-        $oznam->save();
-
-        return redirect()->route('oznam.oznam')->with('success', 'Oznam created');
-    }
-*/
     public function store(Request $request)
     {
 //        dd($request);
@@ -54,17 +28,17 @@ class OznamController extends Controller
             'obsah' => 'required',
         ]);
 
-        // Get the currently authenticated user
+
         $user = Auth::user();
 
-        // Create a new Oznam record with the user ID as the author
+
         $oznam = new Oznam([
             'nazov' => $request->input('nazov'),
             'obsah' => $request->input('obsah'),
-            'autor' => $user->username, // Assuming 'username' is the correct column in the 'users' table
+            'autor' => $user->username,
         ]);
 
-        // Save the post to the database
+
         $oznam->save();
 
         return redirect()->route('oznam.oznam')->with('success', 'Oznam created');
@@ -109,7 +83,11 @@ class OznamController extends Controller
     public function edit($id)
     {
         $oznam = Oznam::find($id);
+
         return view('oznam.OznamEdit', compact('oznam'));
+
+
+
     }
 
     public function create()

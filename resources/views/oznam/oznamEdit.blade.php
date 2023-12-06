@@ -5,6 +5,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 
+    @auth
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -60,4 +61,12 @@
 
         }
     </script>
+
+    @endauth
+
+    @guest
+        <div class="centerNadpis">
+            <h1>Nemôžeš meniť oznam bez prihlásenia</h1>
+        </div>
+    @endguest
 @endsection
