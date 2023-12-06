@@ -68,11 +68,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::get('/loginSuccess', 'HomeController@loginSuccess')->name('home.loginSuccess');
 
+
+    /**
+     * Logout Routes
+     */
+    Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+
     Route::group(['middleware' => ['auth', 'permission']], function() {
-        /**
-         * Logout Routes
-         */
-        Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+
 
         /**
          * User Routes

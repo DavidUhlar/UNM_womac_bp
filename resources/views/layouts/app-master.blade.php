@@ -39,7 +39,7 @@
         <link rel="stylesheet" href=" {{ asset("css/womac.css")}}">
         <link rel="stylesheet" href=" {{ asset("css/navbar.css")}}">
         <link rel="stylesheet" href=" {{ asset("css/mapa.css")}}">
-
+        <link rel="stylesheet" href=" {{ asset("css/oznam.css")}}">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>

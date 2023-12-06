@@ -73,7 +73,7 @@
                     </div>
                 @endforeach
                 <div class="item">
-                    <a class="sub-btn nadpisko">Pacient 2</a>
+                    <a class="sub-btn nadpisko">Pacient 1</a>
                     <div class="sub-menu ">
                         <div class="sidebarHeading">
                             Koleno
@@ -97,12 +97,36 @@
                         </div>
                     </div>
                 </div>
+                    <div class="item">
+                        <a class="sub-btn nadpisko">Pacient 2</a>
+                        <div class="sub-menu ">
+                            <div class="sidebarHeading">
+                                Koleno
+                            </div>
 
+                            <a href="#" class="sub-btn operacie">Operácia 01</a>
+                            <div class="sub-menu">
+                                <a href="#" class="sub-item">Womac 1</a>
+
+
+                            </div>
+                            <div class="sidebarHeading">
+                                Bedro
+                            </div>
+                            <a href="#" class="sub-btn operacie">Operácia 02</a>
+                            <div class="sub-menu">
+                                <a href="#" class="sub-item">Womac 10</a>
+                                <a href="#" class="sub-item">Womac 20</a>
+
+
+                            </div>
+                        </div>
+                    </div>
 
             </div>
         </div>
 
-        {{-- https://foolishdeveloper.com/sidebar-dropdown-menu-using-html-css-javascript/ --}}
+
         <script type="text/javascript">
             $(document).ready(function () {
                 $('.sub-btn').click(function () {
@@ -110,27 +134,16 @@
                     subMenu.slideToggle();
                     $(this).toggleClass('activeMenu');
 
-                    // Získáme rodiče (item), abychom mohli najít všechny ostatní sub-menu uvnitř stejného pacienta
+
                     var parentItem = $(this).closest('.item');
 
-                    // Zavřeme všechny ostatní sub-menu uvnitř stejného pacienta
+
                     parentItem.siblings().find('.sub-menu').slideUp();
                     parentItem.siblings().find('.sub-btn').removeClass('activeMenu');
                 });
             });
 
-            $(document).ready(function () {
-                $('.sub-btn.operacie').click(function () {
-                    // Získáme id operace z atributu data-operation
-                    var operationId = $(this).data('operation');
 
-                    // Aktualizujeme akciu formuláře podle vybrané operace
-                    var form = $('.vpisovanieDat');
-                    form.attr('action', '/unm_womac/public/womac/submit/' + operationId);
-
-                    // Zde můžete také aktualizovat další informace na stránce podle vybrané operace
-                });
-            });
 
         </script>
 

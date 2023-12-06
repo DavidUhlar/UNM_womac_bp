@@ -48,8 +48,9 @@ class OznamController extends Controller
 */
     public function store(Request $request)
     {
+//        dd($request);
         $request->validate([
-            'nazov' => 'required|min:3|max:255',
+            'nazov' => 'required|min:4|max:255',
             'obsah' => 'required',
         ]);
 
@@ -75,16 +76,18 @@ class OznamController extends Controller
 
         //dd($request->all());
         $request->validate([
-            'nazov' => 'required|max:255',
+            'nazov' => 'required|min:4|max:255',
             'obsah' => 'required',
         ]);
 
         $oznam = Oznam::find($id);
 
-        $oznam->update([
-            'nazov' => $request->input('nazov'),
-            'obsah' => $request->input('obsah'),
-        ]);
+        if($oznam->autor == auth()->user()->username) {
+            $oznam->update([
+                'nazov' => $request->input('nazov'),
+                'obsah' => $request->input('obsah'),
+            ]);
+        }
 
         return redirect()->route('oznam.oznam')->with('success', 'Oznam updated');
     }
@@ -92,8 +95,13 @@ class OznamController extends Controller
 
     public function destroy($id)
     {
+
         $oznam = Oznam::find($id);
-        $oznam->delete();
+        if($oznam->autor == auth()->user()->username) {
+            $oznam->delete();
+        }
+
+
         return redirect()->route('oznam.oznam')
             ->with('success', 'Oznam deleted');
     }

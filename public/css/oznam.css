@@ -1,0 +1,21 @@
+
+.oznamNadpis {
+    padding: 5% 0 0 5%;
+}
+
+.autor {
+    font-size: large;
+}
+
+
+.oznamObsah {
+    font-size: 120%;
+}
+
+.create {
+    padding-bottom: 5%;
+}
+
+.tlacitko {
+    padding: 5px 10px;
+}
