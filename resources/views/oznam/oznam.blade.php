@@ -3,9 +3,11 @@
 @section('content')
     <link rel="stylesheet" href="{{ asset("css/oznam.css") }}">
     <div class="container mt-5">
+        @auth
         <div class="col-sm create">
             <a href="{{ route('oznam.create') }}" class="btn btn-primary btn-sm">Create</a>
         </div>
+        @endauth
         <div class="row">
             @foreach ($oznam as $post)
                 <div class="col-sm-6 mb-3"> <!-- Set a specific width and add margin-bottom -->
