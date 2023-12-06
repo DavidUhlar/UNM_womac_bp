@@ -49,7 +49,7 @@ class OznamController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nazov' => 'required|max:255',
+            'nazov' => 'required|min:3|max:255',
             'obsah' => 'required',
         ]);
 
