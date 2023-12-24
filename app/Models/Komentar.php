@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Oznam extends Model
+class Komentar extends Model
 {
     use HasFactory;
 
-    protected $table = 'oznam';
+    protected $table = 'komentar';
     protected $fillable = [
-        'nazov',
+        'id_prispevku',
         'obsah',
         'autor'
     ];
 
-    public function komentare()
+    public function oznam()
     {
-        return $this->hasMany(Komentar::class, 'id_prispevku');
+        return $this->belongsTo(Oznam::class, 'id_prispevku', 'id');
     }
 
 }

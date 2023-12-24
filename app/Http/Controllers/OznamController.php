@@ -1,15 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Komentar;
 use Illuminate\Http\Request;
 use App\Models\Oznam;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 class OznamController extends Controller
 {
     public function show($id) {
-        $oznam = Oznam::find($id);
-        return view('oznam.oznamShow')->with('oznam', $oznam);
+        $oznam = Oznam::with('komentare')->find($id);
+
+       //dd($oznam->komentare->all());
+        return view('oznam.oznamShow' , compact('oznam'));
     }
 
 
@@ -44,7 +48,55 @@ class OznamController extends Controller
         return redirect()->route('oznam.oznam')->with('success', 'Oznam created');
     }
 
+    public function storeComment(Request $request)
+    {
+//        dd($request);
+//        $request->validate([
+//            'nazov' => 'required|min:4|max:255',
+//            'obsah' => 'required',
+//        ]);
 
+
+        $user = Auth::user();
+
+
+        $komentar = new Komentar([
+            'id_prispevku' => $request->id,
+            'obsah' => $request->input('obsah'),
+            'autor' => $user->username,
+        ]);
+
+
+        $komentar->save();
+
+        return back()->with('success', 'Komentar created');
+    }
+
+    public function destroyComment($id)
+    {
+
+        $komentar = Komentar::find($id);
+        if($komentar->autor == auth()->user()->username) {
+            $komentar->delete();
+        }
+
+
+        return back()->with('success', 'Komentar deleted');
+    }
+
+    public function updateComment(Request $request, $id) {
+        $comment = Komentar::findOrFail($id);
+
+        // Add validation rules as needed
+        $request->validate([
+            'editedObsah' => 'required',
+        ]);
+
+        $comment->obsah = $request->input('editedObsah');
+        $comment->save();
+
+        return redirect()->back()->with('success', 'Comment updated successfully');
+    }
     public function update(Request $request, $id)
     {
 

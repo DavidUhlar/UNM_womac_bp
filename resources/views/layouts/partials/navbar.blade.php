@@ -1,11 +1,12 @@
 
 <?php $routeName = Route::currentRouteName() ?>
+<link rel="stylesheet" href=" {{ asset('css/navbar.css')}}">
 
 <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
     <div class="container-fluid">
 
         <a class="navbar-brand">
-            <img class="logo" src="pics/sar_logo.png" alt="logo">
+            <img class="logo" src="{{asset('pics/sar_logo.png')}}" alt="logo">
             Slovenský artroplastický register
         </a>
         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"

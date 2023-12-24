@@ -29,18 +29,25 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::group(['prefix' => 'oznam_index'], function (){
         Route::get('/', 'OznamController@index')->name('oznam.oznam');
 
-        // returns the form for adding a post
         Route::get('/oznam/create', 'OznamController@create')->name('oznam.create');
-    // adds a post to the database
+
         Route::post('/oznam/create', 'OznamController@store')->name('oznam.store');
-    // returns a page that shows a full post
+
         Route::get('/oznam/{id}', 'OznamController@show')->name('oznam.oznamShow');
-    // returns the form for editing a post
+
         Route::get('/oznam/edit/{id}', 'OznamController@edit')->name('oznam.oznamEdit');
-    // updates a post
+
         Route::put('/oznam/edit/{id}', 'OznamController@update')->name('oznam.update');
-    // deletes a post
+
         Route::delete('/oznam/{id}', 'OznamController@destroy')->name('oznam.destroy');
+
+
+
+
+        Route::post('/oznam/{id}', 'OznamController@storeComment')->name('oznam.comment');
+        Route::delete('/oznam/comment/{id}', 'OznamController@destroyComment')->name('oznam.CommentDestroy');
+        Route::put('/oznam/comments/{id}', 'OznamController@updateComment')->name('oznam.CommentUpdate');
+
 
     });
     Route::group(['prefix' => 'womac'], function (){

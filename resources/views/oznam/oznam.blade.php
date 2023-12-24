@@ -10,8 +10,8 @@
         @endauth
         <div class="row">
             @foreach ($oznam as $post)
-                <div class="col-sm-6 mb-3"> <!-- Set a specific width and add margin-bottom -->
-                    <div class="card h-100"> <!-- Set a specific height -->
+                <div class="col-sm-6 mb-3">
+                    <div class="card h-100">
                         <div class="card-header">
                             <h5 class="card-title">{{ $post->nazov }}</h5>
                         </div>
