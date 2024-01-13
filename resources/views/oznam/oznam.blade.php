@@ -43,5 +43,8 @@
                 </div>
             @endforeach
         </div>
+        <div class="text-center mt-3">
+            <button class="btn btn-primary" id="load-more-posts">Load More</button>
+        </div>
     </div>
 @endsection
