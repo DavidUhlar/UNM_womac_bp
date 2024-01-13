@@ -17,25 +17,23 @@
         </div>
 
         <div class="tlacitko">
-            Počet reakcií:{{$oznam->reakcie->where('reakcia', true)->count()}}
+            Počet reakcií: <span id="likeCount">{{ $oznam->reakcie->where('reakcia', true)->count() }}</span>
             @auth
-            <form action="{{ route('oznam.like', $oznam->id) }}" method="post" id="likeForm">
-                @csrf
-                @method('POST')
-                <button type="submit" class="btn btn-primary">
-    {{--                @dd($oznam->reakcie)--}}
-    {{--                like--}}
-                    @php
-
-                        $userReakcia = $oznam->reakcie->where('autor_reakcie', auth()->user()->username)->first();
-                    @endphp
-                    @if ($userReakcia && $userReakcia->reakcia)
-                        Unlike
-                    @else
-                        Like
-                    @endif
-                </button>
-            </form>
+                <form action="{{ route('oznam.like', $oznam->id) }}" method="post" id="likeForm">
+                    @csrf
+                    @method('POST')
+                    <button type="button" class="btn btn-primary" id="likeButton">
+                        {{-- like/unlike text --}}
+                        @php
+                            $userReakcia = $oznam->reakcie->where('autor_reakcie', auth()->user()->username)->first();
+                        @endphp
+                        @if ($userReakcia && $userReakcia->reakcia)
+                            Unlike
+                        @else
+                            Like
+                        @endif
+                    </button>
+                </form>
             @endauth
         </div>
         <a class="btn btn-outline-secondary" href="{{ route('oznam.oznam') }}">Návrat do oznam menu</a>
@@ -101,6 +99,30 @@
             @endforeach
         </div>
         <div id="loading-message"></div>
+        <script>
+            $(document).ready(function () {
+                $('#likeButton').click(function (e) {
+                    e.preventDefault(); // Prevent the default form submission
+
+
+                    $.ajax({
+                        type: 'POST',
+                        url: $('#likeForm').attr('action'),
+                        data: $('#likeForm').serialize(), // Serialize the form data
+                        success: function (response) {
+                            console.log('Like action successful:', response);
+                            // Update the UI or perform other actions if needed
+                            // For example, you can update the like/unlike text
+                            $('#likeButton').text(response.liked ? 'Unlike' : 'Like');
+                            $('#likeCount').text(response.likeCount);
+                        },
+                        error: function (error) {
+                            console.error('Error performing like action:', error);
+                        }
+                    });
+                });
+            });
+        </script>
         <script>
             function toggleEditForm(commentId) {
                 const editForm = document.getElementById(`editForm_${commentId}`);

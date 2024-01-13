@@ -120,31 +120,30 @@ class OznamController extends Controller
     }
 
 
-    public function likeOznam($id) {
+    public function likeOznam(Request $request, $id) {
         $oznam = Oznam::find($id);
 
-
         $reakcie = Reakcia::where('id_prispevku', $oznam->id)->get();
-
-
         $userReaction = $reakcie->where('autor_reakcie', auth()->user()->username)->first();
 
         if ($userReaction) {
             $userReaction->reakcia = !$userReaction->reakcia;
             $userReaction->save();
-
         } else {
-
             $reakcia = Reakcia::create([
                 'id_prispevku' => $oznam->id,
                 'autor_reakcie' => auth()->user()->username,
                 'reakcia' => true,
             ]);
             $reakcia->save();
-
         }
 
-        return back()->with('success', 'Reakcia created');
+        // Determine if the user liked or unliked the post
+        $liked = ($userReaction && $userReaction->reakcia) ? true : false;
+        $likeCount = $oznam->reakcie->where('reakcia', true)->count();
+
+        // Return a JSON response with additional information
+        return response()->json(['success' => 'Reakcia created', 'liked' => $liked, 'likeCount' => $likeCount,]);
     }
 
 
