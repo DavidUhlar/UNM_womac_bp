@@ -9,12 +9,15 @@
             <a href="{{ route('oznam.create') }}" class="btn btn-primary btn-sm">Create</a>
         </div>
         @endauth
+        <div><h2> Počet oznamov: {{$oznamCount}}</h2></div>
+            <br>
         <div class="row" id="oznam-container">
             @foreach ($oznam as $post)
                 <div class="col-sm-6 mb-3">
                     <div class="card h-100">
                         <div class="card-header">
                             <h5 class="card-title">{{ $post->nazov }}</h5>
+
                         </div>
                         <div class="card-body">
                             <p class="card-text">Autor: {{ $post->autor }}</p>
@@ -32,6 +35,9 @@
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm tlacitko">Delete</button>
                                             </form>
+                                        </div>
+                                        <div class="col-sm tlacitko">
+                                            <a href="{{ route('oznam.tag', $post->id) }}" class="btn btn-primary btn-sm tlacitko">Tag</a>
                                         </div>
                                     @endif
                                 @endauth

@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('has_tag', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_prispevku');
-            $table->integer('id_tagu');
+            $table->unsignedBigInteger('id_prispevku')->constrained('oznam')->onDelete('cascade');
+            $table->integer('id_tagu')->constrained('tags')->onDelete('cascade');
         });
     }
 

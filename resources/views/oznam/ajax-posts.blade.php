@@ -22,6 +22,9 @@
                                         <button type="submit" class="btn btn-danger btn-sm tlacitko">Delete</button>
                                     </form>
                                 </div>
+                                <div class="col-sm tlacitko">
+                                    <a href="{{ route('oznam.tag', $post->id) }}" class="btn btn-primary btn-sm tlacitko">Tag</a>
+                                </div>
                             @endif
                         @endauth
                         <div class="col-sm tlacitko">

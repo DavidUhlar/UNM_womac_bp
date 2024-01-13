@@ -7,6 +7,8 @@
     <div class="oznamNadpis">
         <h1 class="nadpisko">Prispevok {{ $oznam->id }}</h1>
         <h2>{{ $oznam->nazov }}</h2>
+
+        <div class="tagy"><h4>Tagy:  @foreach($tagNames as $tag) <span class="badge text-bg-info rounded-pill">{{ $tag }}</span> @endforeach</h4></div>
         <div class ="autor"> Author: {{ $oznam->autor }}</div>
         <div class="obsah_text ">
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Komentar;
 use App\Models\Reakcia;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Models\Oznam;
 use Illuminate\Support\Facades\Auth;
@@ -12,9 +13,9 @@ class OznamController extends Controller
 {
     public function show($id) {
         $oznam = Oznam::with('komentare', 'reakcie')->find($id);
-
+        $tagNames = $oznam->tags->pluck('nazov')->all();
        //dd($oznam->komentare->all());
-        return view('oznam.oznamShow' , compact('oznam'));
+        return view('oznam.oznamShow' , compact('oznam', 'tagNames'));
     }
 
 
@@ -23,6 +24,7 @@ class OznamController extends Controller
 //        $oznam = Oznam::all();
         $oznam = Oznam::paginate(6);
         $oznamCount = Oznam::all()->count();
+
         return view('oznam.oznam', compact('oznam', 'oznamCount'));
     }
 
