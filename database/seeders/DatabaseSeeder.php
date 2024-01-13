@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Komentar;
 use App\Models\Oznam;
 use Illuminate\Database\Seeder;
 
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Oznam::factory(100)->create();
+        Oznam::factory(30)->create();
+        Komentar::factory(20)->create();
     }
 }

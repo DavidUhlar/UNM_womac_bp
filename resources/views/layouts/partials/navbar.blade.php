@@ -1,4 +1,5 @@
 
+
 <?php $routeName = Route::currentRouteName() ?>
 <link rel="stylesheet" href=" {{ asset('css/navbar.css')}}">
 
@@ -32,7 +33,7 @@
                         nás</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if($routeName == 'oznam.oznam') active @endif" href="{{route('oznam.oznam')}}">Oznam</a>
+                    <a class="nav-link @if(Str::startsWith($routeName, 'oznam.')) active @endif" href="{{route('oznam.oznam')}}">Oznam</a>
                 </li>
 
             </ul>

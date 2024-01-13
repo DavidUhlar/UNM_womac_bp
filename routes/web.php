@@ -29,6 +29,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::group(['prefix' => 'oznam_index'], function (){
         Route::get('/', 'OznamController@index')->name('oznam.oznam');
 
+        //ajax
+        Route::get('/load-more-posts', 'OznamController@loadMorePosts')->name('oznam.load-more-posts');
+        Route::get('/oznam/{id}/load-more-comments', 'OznamController@loadMoreComments')->name('oznam.load-more-comments');
+
+
+
         Route::get('/oznam/create', 'OznamController@create')->name('oznam.create');
 
         Route::post('/oznam/create', 'OznamController@store')->name('oznam.store');

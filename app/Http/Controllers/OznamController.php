@@ -20,10 +20,28 @@ class OznamController extends Controller
 
     public function index()
     {
-        $oznam = Oznam::all();
-        return view('oznam.oznam', compact('oznam'));
+//        $oznam = Oznam::all();
+        $oznam = Oznam::paginate(6);
+        $oznamCount = Oznam::all()->count();
+        return view('oznam.oznam', compact('oznam', 'oznamCount'));
     }
 
+    public function loadMorePosts(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $oznam = Oznam::paginate(6, ['*'], 'page', $page);
+
+        return view('oznam.ajax-posts', compact('oznam'));
+    }
+
+    public function loadMoreComments(Request $request, $id)
+    {
+        $page = $request->input('page', 1);
+        $oznam = Oznam::findOrFail($id);
+        $comments = $oznam->komentare()->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
+
+        return view('oznam.ajax-comments', compact('comments'));
+    }
 
     public function store(Request $request)
     {

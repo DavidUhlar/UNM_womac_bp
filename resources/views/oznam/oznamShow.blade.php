@@ -1,7 +1,8 @@
+
 @extends('layouts.app-master')
 
 @section('content')
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <div class="oznamNadpis">
         <h1 class="nadpisko">Prispevok {{ $oznam->id }}</h1>
@@ -26,7 +27,7 @@
 
                         $userReakcia = $oznam->reakcie->where('autor_reakcie', auth()->user()->username)->first();
                     @endphp
-                    @if ($userReakcia->reakcia)
+                    @if ($userReakcia && $userReakcia->reakcia)
                         Unlike
                     @else
                         Like
@@ -61,46 +62,99 @@
         </form>
         @endauth
 {{--        @dd($oznam->komentare->count())--}}
-        @foreach($oznam->komentare->reverse() as $koment)
-        <div class="komentarObsah">
-            <div class="komentarAutor">
-                {{ $koment->autor }}
-            </div>
-
-            <div class="komentarText">
-                {{ $koment->obsah }}
-            </div>
-
-            @auth
-            @if($koment->autor == auth()->user()->username)
-                <div class="col-sm tlacitko">
-                    <form action="{{ route('oznam.CommentDestroy', $koment->id) }}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm tlacitko">Delete</button>
-                    </form>
+        <div id="comments-container">
+            @foreach($oznam->komentare->reverse()->take(5) as $koment)
+            <div class="komentarObsah" >
+                <div class="komentarAutor">
+                    {{ $koment->autor }}
                 </div>
 
-                <div class="col-sm tlacitko">
-
-                    <button class="btn btn-primary btn-sm tlacitko" onclick="toggleEditForm({{ $koment->id }})">Edit</button>
-                    <form class="tlacitko" id="editForm_{{ $koment->id }}" action="{{ route('oznam.CommentUpdate', $koment->id) }}" method="post" style="display: none;">
-                        @csrf
-                        @method('PUT')
-                        <textarea name="editedObsah" class="form-input" required>{{ $koment->obsah }}</textarea>
-                        <button type="submit" class="btn btn-success btn-sm tlacitko">Save</button>
-                    </form>
+                <div class="komentarText">
+                    {{ $koment->obsah }}
                 </div>
-            @endif
-            @endauth
+
+                @auth
+                @if($koment->autor == auth()->user()->username)
+                    <div class="col-sm tlacitko">
+                        <form action="{{ route('oznam.CommentDestroy', $koment->id) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm tlacitko">Delete</button>
+                        </form>
+                    </div>
+
+                    <div class="col-sm tlacitko">
+
+                        <button class="btn btn-primary btn-sm tlacitko" onclick="toggleEditForm({{ $koment->id }})">Edit</button>
+                        <form class="tlacitko" id="editForm_{{ $koment->id }}" action="{{ route('oznam.CommentUpdate', $koment->id) }}" method="post" style="display: none;">
+                            @csrf
+                            @method('PUT')
+                            <textarea name="editedObsah" class="form-input" required>{{ $koment->obsah }}</textarea>
+                            <button type="submit" class="btn btn-success btn-sm tlacitko">Save</button>
+                        </form>
+                    </div>
+                @endif
+                @endauth
+            </div>
+            @endforeach
         </div>
-        @endforeach
-
+        <div id="loading-message"></div>
         <script>
             function toggleEditForm(commentId) {
                 const editForm = document.getElementById(`editForm_${commentId}`);
                 editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
             }
+
+
+            var page = 2;
+            var loading = false;
+            var totalComments = {{ $oznam->komentare->count() }};
+            var commentsDisplayed = 0;
+
+            function loadMoreComments() {
+
+                if (loading || (commentsDisplayed >= totalComments)) {
+                    return;
+                }
+
+
+                loading = true;
+                $('#loading-message').text('Loading more comments...');
+                $.ajax({
+                    url: '{{ route("oznam.load-more-comments", $oznam->id) }}?page=' + page,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#comments-container').append(data);
+                        page++;
+                        commentsDisplayed += 5;
+                    },
+                    error: function (error) {
+                        console.error('Error loading more comments:', error);
+                    },
+                    complete: function () {
+                        loading = false;
+
+                        $('#loading-message').text('');
+
+                        if (commentsDisplayed >= totalComments) {
+                            $(window).off('scroll');
+                        }
+                    },
+                });
+            }
+
+            $(window).scroll(function() {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                    setTimeout(function () {
+
+                        loadMoreComments();
+
+                    }, 2000);
+                }
+            });
+
+            // loadMoreComments();
+
         </script>
     </div>
 

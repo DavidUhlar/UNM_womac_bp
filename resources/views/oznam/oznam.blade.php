@@ -1,6 +1,7 @@
 @extends('layouts.app-master')
 
 @section('content')
+
     <link rel="stylesheet" href="{{ asset("css/oznam.css") }}">
     <div class="container mt-5">
         @auth
@@ -8,7 +9,7 @@
             <a href="{{ route('oznam.create') }}" class="btn btn-primary btn-sm">Create</a>
         </div>
         @endauth
-        <div class="row">
+        <div class="row" id="oznam-container">
             @foreach ($oznam as $post)
                 <div class="col-sm-6 mb-3">
                     <div class="card h-100">
@@ -47,4 +48,31 @@
             <button class="btn btn-primary" id="load-more-posts">Load More</button>
         </div>
     </div>
+
+    <script>
+        var page = 2;
+        var totalOznam = {{ $oznamCount }};
+
+        var oznamDisplayed = 0;
+
+        $('#load-more-posts').on('click', function () {
+            $.ajax({
+                url: '{{ url('/oznam_index/load-more-posts') }}',
+                type: 'GET',
+                data: { page: page },
+                success: function (data) {
+                    $('#oznam-container').append(data);
+                    page++;
+                    oznamDisplayed += 6;
+
+                    if (oznamDisplayed >= totalOznam) {
+                        $('#load-more-posts').hide();
+                    }
+                },
+                error: function (error) {
+                    console.error('Error loading more posts:', error);
+                }
+            });
+        });
+    </script>
 @endsection
