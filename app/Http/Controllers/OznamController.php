@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Komentar;
+use App\Models\Reakcia;
 use Illuminate\Http\Request;
 use App\Models\Oznam;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 class OznamController extends Controller
 {
     public function show($id) {
-        $oznam = Oznam::with('komentare')->find($id);
+        $oznam = Oznam::with('komentare', 'reakcie')->find($id);
 
        //dd($oznam->komentare->all());
         return view('oznam.oznamShow' , compact('oznam'));
@@ -87,7 +88,7 @@ class OznamController extends Controller
     public function updateComment(Request $request, $id) {
         $comment = Komentar::findOrFail($id);
 
-        // Add validation rules as needed
+
         $request->validate([
             'editedObsah' => 'required',
         ]);
@@ -97,6 +98,39 @@ class OznamController extends Controller
 
         return redirect()->back()->with('success', 'Comment updated successfully');
     }
+
+
+    public function likeOznam($id) {
+        $oznam = Oznam::find($id);
+
+
+        $reakcie = Reakcia::where('id_prispevku', $oznam->id)->get();
+
+
+        $userReaction = $reakcie->where('autor_reakcie', auth()->user()->username)->first();
+
+        if ($userReaction) {
+            $userReaction->reakcia = !$userReaction->reakcia;
+            $userReaction->save();
+
+        } else {
+
+            $reakcia = Reakcia::create([
+                'id_prispevku' => $oznam->id,
+                'autor_reakcie' => auth()->user()->username,
+                'reakcia' => true,
+            ]);
+            $reakcia->save();
+
+        }
+
+        return back()->with('success', 'Reakcia created');
+    }
+
+
+
+
+
     public function update(Request $request, $id)
     {
 

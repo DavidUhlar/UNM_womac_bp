@@ -41,13 +41,13 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
         Route::delete('/oznam/{id}', 'OznamController@destroy')->name('oznam.destroy');
 
+        Route::post('/oznam/{id}/like', 'OznamController@likeOznam')->name('oznam.like');
 
 
 
         Route::post('/oznam/{id}', 'OznamController@storeComment')->name('oznam.comment');
         Route::delete('/oznam/comment/{id}', 'OznamController@destroyComment')->name('oznam.CommentDestroy');
         Route::put('/oznam/comments/{id}', 'OznamController@updateComment')->name('oznam.CommentUpdate');
-
 
     });
     Route::group(['prefix' => 'womac'], function (){

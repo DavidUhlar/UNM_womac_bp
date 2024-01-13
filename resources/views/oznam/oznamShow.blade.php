@@ -12,6 +12,29 @@
             <p class="oznamObsah">{{ $oznam->obsah }}</p>
 
         </div>
+
+        <div class="tlacitko">
+            Počet reakcií:{{$oznam->reakcie->where('reakcia', true)->count()}}
+            @auth
+            <form action="{{ route('oznam.like', $oznam->id) }}" method="post" id="likeForm">
+                @csrf
+                @method('POST')
+                <button type="submit" class="btn btn-primary">
+    {{--                @dd($oznam->reakcie)--}}
+    {{--                like--}}
+                    @php
+
+                        $userReakcia = $oznam->reakcie->where('autor_reakcie', auth()->user()->username)->first();
+                    @endphp
+                    @if ($userReakcia->reakcia)
+                        Unlike
+                    @else
+                        Like
+                    @endif
+                </button>
+            </form>
+            @endauth
+        </div>
         <a class="btn btn-outline-secondary" href="{{ route('oznam.oznam') }}">Návrat do oznam menu</a>
     </div>
 
@@ -41,10 +64,10 @@
         @foreach($oznam->komentare->reverse() as $koment)
         <div class="komentarObsah">
             <div class="komentarAutor">
-                Autor: {{ $koment->autor }}
+                {{ $koment->autor }}
             </div>
 
-            <div>
+            <div class="komentarText">
                 {{ $koment->obsah }}
             </div>
 

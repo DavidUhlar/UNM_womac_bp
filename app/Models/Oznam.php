@@ -21,4 +21,8 @@ class Oznam extends Model
         return $this->hasMany(Komentar::class, 'id_prispevku');
     }
 
+    public function reakcie()
+    {
+        return $this->hasMany(Reakcia::class, 'id_prispevku');
+    }
 }

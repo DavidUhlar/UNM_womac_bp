@@ -13,7 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('reakcia', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_prispevku');
+            $table->string('autor_reakcie');
+            $table->boolean('reakcia')->default(false);
+            $table->timestamps();
+
+            $table->foreign('id_prispevku')->references('id')->on('oznam')->onDelete('cascade');
+        });
     }
 
     /**
