@@ -2,7 +2,8 @@
 
 @section('content')
 
-    <link rel="stylesheet" href="{{ asset("css/oznam.css") }}">
+{{--    <link rel="stylesheet" href="{{ asset("css/oznam.css") }}">--}}
+    <link rel="stylesheet" href="{{ asset("css/oznamPicture.css") }}">
     <div class="container mt-5">
         @auth
         <div class="col-sm create">
@@ -21,11 +22,27 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">Autor: {{ $post->autor }}</p>
+
                         </div>
+                        @php
+                            $tags = $post->tags->pluck('nazov')->all()
+                        @endphp
+
+                        @if($tags)
+                        <div class="card-body">
+                            <p class="card-text">Tagy: @foreach($tags as $tag) <span class="badge text-bg-info rounded-pill">{{ $tag }}</span> @endforeach</p>
+
+                        </div>
+                        @endif
+                        @if($post->image_path)
+                        <div class="card-body image-container">
+                            <img src="{{ asset('storage/' . $post->image_path) }}" alt="Oznam Image">
+                        </div>
+                        @endif
                         <div class="card-footer">
                             <div class="row">
                                 @auth
-                                    @if($post->autor == auth()->user()->username)
+                                    @if($post->autor == auth()->user()->username || auth()->user()->username == 'admin')
                                         <div class="col-sm tlacitko">
                                             <a href="{{ route('oznam.oznamEdit', $post->id) }}" class="btn btn-primary btn-sm tlacitko">Edit</a>
                                         </div>

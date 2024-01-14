@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Oznam;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 class OznamController extends Controller
 {
@@ -22,7 +23,7 @@ class OznamController extends Controller
     public function index()
     {
 //        $oznam = Oznam::all();
-        $oznam = Oznam::paginate(6);
+        $oznam = Oznam::orderBy('created_at', 'desc')->paginate(6);
         $oznamCount = Oznam::all()->count();
 
         return view('oznam.oznam', compact('oznam', 'oznamCount'));
@@ -31,7 +32,7 @@ class OznamController extends Controller
     public function loadMorePosts(Request $request)
     {
         $page = $request->input('page', 1);
-        $oznam = Oznam::paginate(6, ['*'], 'page', $page);
+        $oznam = Oznam::orderBy('created_at', 'desc')->paginate(6, ['*'], 'page', $page);
 
         return view('oznam.ajax-posts', compact('oznam'));
     }
@@ -55,13 +56,22 @@ class OznamController extends Controller
 
 
         $user = Auth::user();
+        $imagePath = null;
 
+        if ($request->hasFile('image')) {
+
+            $imagePath = $request->file('image')->store('uploads', 'public');
+
+        }
 
         $oznam = new Oznam([
             'nazov' => $request->input('nazov'),
             'obsah' => $request->input('obsah'),
             'autor' => $user->username,
+
         ]);
+
+        $oznam->image_path = $imagePath;
 
 
         $oznam->save();
@@ -97,7 +107,7 @@ class OznamController extends Controller
     {
 
         $komentar = Komentar::find($id);
-        if($komentar->autor == auth()->user()->username) {
+        if($komentar->autor == auth()->user()->username || auth()->user()->username == 'admin') {
             $komentar->delete();
         }
 
@@ -113,9 +123,10 @@ class OznamController extends Controller
             'editedObsah' => 'required',
         ]);
 
-        $comment->obsah = $request->input('editedObsah');
-        $comment->save();
-
+        if($comment->autor == auth()->user()->username || auth()->user()->username == 'admin') {
+            $comment->obsah = $request->input('editedObsah');
+            $comment->save();
+        }
         return redirect()->back()->with('success', 'Comment updated successfully');
     }
 
@@ -138,11 +149,10 @@ class OznamController extends Controller
             $reakcia->save();
         }
 
-        // Determine if the user liked or unliked the post
         $liked = ($userReaction && $userReaction->reakcia) ? true : false;
         $likeCount = $oznam->reakcie->where('reakcia', true)->count();
 
-        // Return a JSON response with additional information
+
         return response()->json(['success' => 'Reakcia created', 'liked' => $liked, 'likeCount' => $likeCount,]);
     }
 
@@ -157,16 +167,31 @@ class OznamController extends Controller
         $request->validate([
             'nazov' => 'required|min:4|max:255',
             'obsah' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $oznam = Oznam::find($id);
 
-        if($oznam->autor == auth()->user()->username) {
+        if($oznam->autor == auth()->user()->username || auth()->user()->username == 'admin') {
             $oznam->update([
                 'nazov' => $request->input('nazov'),
                 'obsah' => $request->input('obsah'),
             ]);
+
+            if ($request->hasFile('image')) {
+
+                if ($oznam->image_path) {
+                    Storage::delete($oznam->image_path);
+                }
+
+                $imagePath = $request->file('image')->store('uploads', 'public');
+                $oznam->image_path = $imagePath;
+            }
+
+            $oznam->save();
         }
+
+
 
         return redirect()->route('oznam.oznam')->with('success', 'Oznam updated');
     }
@@ -176,7 +201,7 @@ class OznamController extends Controller
     {
 
         $oznam = Oznam::find($id);
-        if($oznam->autor == auth()->user()->username) {
+        if($oznam->autor == auth()->user()->username || auth()->user()->username == 'admin') {
             $oznam->delete();
         }
 

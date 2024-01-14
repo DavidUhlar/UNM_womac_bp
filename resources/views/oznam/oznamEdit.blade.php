@@ -20,7 +20,7 @@
         <div class="row h-100 justify-content-center align-items-center">
             <div class="col-10 col-md-8 col-lg-6">
                 <h3>Edit oznamu</h3>
-                <form action="{{ route('oznam.update', $oznam->id) }}" method="post">
+                <form action="{{ route('oznam.update', $oznam->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -32,6 +32,10 @@
                     <div class="form-group">
                         <label for="obsah">Body</label>
                         <textarea class="form-control" id="obsah" name="obsah" rows="3" required>{{ $oznam->obsah }}{{ old('obsah') }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="file" name="image" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
                     </div>
                     <button type="submit" class="btn mt-3 btn-primary">Edit oznamu</button>
                 </form>

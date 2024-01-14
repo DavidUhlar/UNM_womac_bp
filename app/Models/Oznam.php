@@ -13,7 +13,8 @@ class Oznam extends Model
     protected $fillable = [
         'nazov',
         'obsah',
-        'autor'
+        'autor',
+        'image-path',
     ];
 
     public function komentare()

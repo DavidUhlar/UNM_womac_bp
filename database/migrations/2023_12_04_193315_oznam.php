@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('obsah');
             $table->timestamps();
             $table->string('autor');
+            $table->string('image_path')->nullable();
         });
     }
 

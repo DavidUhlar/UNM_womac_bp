@@ -2,6 +2,9 @@
 @extends('layouts.app-master')
 
 @section('content')
+
+    <link rel="stylesheet" href=" {{ asset('css/oznam.css') }}" />
+    <link rel="stylesheet" href="{{ asset("css/oznamPicture.css") }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <div class="oznamNadpis">
@@ -10,6 +13,11 @@
 
         <div class="tagy"><h4>Tagy:  @foreach($tagNames as $tag) <span class="badge text-bg-info rounded-pill">{{ $tag }}</span> @endforeach</h4></div>
         <div class ="autor"> Author: {{ $oznam->autor }}</div>
+        @if($oznam->image_path)
+            <div class="image_show">
+                <img src="{{ asset('storage/' . $oznam->image_path) }}" alt="Oznam Image" >
+            </div>
+        @endif
         <div class="obsah_text ">
 
             <p class="oznamObsah">{{ $oznam->obsah }}</p>
@@ -101,8 +109,8 @@
         <div id="loading-message"></div>
         <script>
             $(document).ready(function () {
-                $('#likeButton').click(function (e) {
-                    e.preventDefault(); // Prevent the default form submission
+                $('#likeButton').click(function () {
+                    // e.preventDefault();
 
 
                     $.ajax({
@@ -111,8 +119,6 @@
                         data: $('#likeForm').serialize(), // Serialize the form data
                         success: function (response) {
                             console.log('Like action successful:', response);
-                            // Update the UI or perform other actions if needed
-                            // For example, you can update the like/unlike text
                             $('#likeButton').text(response.liked ? 'Unlike' : 'Like');
                             $('#likeCount').text(response.likeCount);
                         },
@@ -173,7 +179,7 @@
 
                         loadMoreComments();
 
-                    }, 2000);
+                    }, 1500);
                 }
             });
 
