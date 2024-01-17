@@ -82,7 +82,6 @@
     display: block;
     width: 50vw;
     border: 1px solid black;
-    /*overflow: hidden;*/
     resize: both;
     min-height: 40px;
     line-height: 20px;
@@ -90,4 +89,5 @@
     margin-bottom: 1rem;
 
 }
+
 

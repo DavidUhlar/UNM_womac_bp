@@ -27,7 +27,7 @@ class Oznam extends Model
         return $this->hasMany(Reakcia::class, 'id_prispevku');
     }
 
-    public function tags()
+    public function tag()
     {
         return $this->belongsToMany(Tag::class, 'has_tag', 'id_prispevku', 'id_tagu');
     }

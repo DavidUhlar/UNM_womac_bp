@@ -14,32 +14,27 @@ class OznamController extends Controller
 {
     public function show($id) {
         $oznam = Oznam::with('komentare', 'reakcie')->find($id);
-        $tagNames = $oznam->tags->pluck('nazov')->all();
+//        $tagNames = $oznam->tags->pluck('nazov')->all();
+        $tagNames = $oznam->tag ? $oznam->tag->pluck('nazov')->all() : [];
        //dd($oznam->komentare->all());
         return view('oznam.oznamShow' , compact('oznam', 'tagNames'));
     }
 
 
-    public function index()
-//    public function index(Request $request)
-    {
-//        $tagId = $request->input('tag');
-//        $query = Oznam::orderBy('created_at', 'desc');
-//        if ($tagId) {
-//            // If a tag is selected, filter oznams accordingly
-//            $query->whereHas('tags', function ($query) use ($tagId) {
-//                $query->where('id', $tagId);
-//            });
-//        }
 
-//
-//        $oznam = $query->paginate(6);
-//        $oznamCount = Oznam::all()->count();
+    public function index()
+    {
+
+        $tagyVsetky = Tag::all();
+
+
         $oznam = Oznam::orderBy('created_at', 'desc')->paginate(6);
         $oznamCount = Oznam::all()->count();
 
-        return view('oznam.oznam', compact('oznam', 'oznamCount'));
+        return view('oznam.oznam', compact('oznam', 'oznamCount', 'tagyVsetky'));
     }
+
+
 
     public function loadMorePosts(Request $request)
     {
@@ -94,10 +89,10 @@ class OznamController extends Controller
     public function storeComment(Request $request)
     {
 //        dd($request);
-//        $request->validate([
-//            'nazov' => 'required|min:4|max:255',
-//            'obsah' => 'required',
-//        ]);
+        $request->validate([
+
+            'obsah' => 'required',
+        ]);
 
 
         $user = Auth::user();
@@ -200,7 +195,7 @@ class OznamController extends Controller
             if ($request->hasFile('image')) {
 
                 if ($oznam->image_path) {
-                    Storage::delete($oznam->image_path);
+                    Storage::disk('public')->delete($oznam->image_path);
                 }
 
                 $imagePath = $request->file('image')->store('uploads', 'public');
@@ -221,6 +216,7 @@ class OznamController extends Controller
 
         $oznam = Oznam::find($id);
         if($oznam->autor == auth()->user()->username || auth()->user()->username == 'admin') {
+            Storage::disk('public')->delete($oznam->image_path);
             $oznam->delete();
         }
 

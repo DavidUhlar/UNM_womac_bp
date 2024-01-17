@@ -1,8 +1,10 @@
 @extends('layouts.app-master')
 
 @section('content')
-    <link rel="stylesheet" href=" {{ asset("css/oznam.css") }}">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ asset("css/oznamPicture.css") }}"/>
+    <script src="{{ asset("js/minLengthValidacia.js") }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
 
     @auth
@@ -28,7 +30,7 @@
                     @if($oznam->image_path)
 
                         <div class="form-group">
-                            <img src="{{ asset('storage/' . $oznam->image_path) }}" alt="Existing Image">
+                            <img src="{{ asset('storage/' . $oznam->image_path) }}" alt="Existing Image" class="obrazok-edit">
                         </div>
                         <div class="form-group">
                             <label class="fs-5" for="delete_image">Zmazanie aktuálneho obrázka:</label>
@@ -41,7 +43,7 @@
                     <div class="form-group">
                         <label class="fs-5" for="nazov">Title</label>
                         <input type="text" class="form-control  @if($errors->has('nazov')) is-invalid @endif" id="nazov" name="nazov"
-                               value="{{ $oznam->nazov }}" required onblur="checkLength(this, 3, 'The nazov must be at least 3 characters.');"{{ old('nazov') }}>
+                               value="{{ $oznam->nazov }}" required onblur="checkLength(this, 3, 'nazov musi mat 3 znaky.');"{{ old('nazov') }}>
                     </div>
                     <div class="form-group">
                         <label class="fs-5" for="obsah">Body</label>
@@ -60,30 +62,6 @@
             </div>
         </div>
     </div>
-
-
-    <script type="text/javascript">
-        function checkLength(element, min_lenght, err_msg) {
-            var lenItem = $(element).val().length;
-
-            if (lenItem < min_lenght) {
-                $(element).addClass("is-invalid");
-
-                element.setCustomValidity(err_msg);
-                element.reportValidity();
-
-                setTimeout(function() {
-                    element.focus();
-                }, 10);
-                element.focus();
-            } else {
-                $(element).removeClass("is-invalid");
-                element.setCustomValidity('');
-            }
-
-        }
-    </script>
-
 
 
     @endauth

@@ -8,6 +8,11 @@
     <script src="{{ asset("js/likeAjax.js") }}"></script>
     <script src="{{ asset("js/koments.js") }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+
+        var totalComments = {{ $oznam->komentare->count() }};
+        var loadMoreCommentsRoute = @json(route("oznam.load-more-comments", $oznam->id));
+    </script>
 
     <div class="oznamNadpis">
         <h1 class="nadpisko">Prispevok {{ $oznam->id }}</h1>
@@ -37,12 +42,15 @@
                         @php
                             $userReakcia = $oznam->reakcie->where('autor_reakcie', auth()->user()->username)->first();
                         @endphp
+
                         @if ($userReakcia && $userReakcia->reakcia)
                             Unlike
                         @else
                             Like
                         @endif
+
                     </button>
+
                 </form>
             @endauth
         </div>
@@ -84,7 +92,7 @@
                 </div>
 
                 @auth
-                @if($koment->autor == auth()->user()->username)
+                @if($koment->autor == auth()->user()->username || auth()->user()->username == 'admin')
                     <div class="col-sm tlacitko">
                         <form action="{{ route('oznam.CommentDestroy', $koment->id) }}" method="post">
                             @csrf
@@ -110,11 +118,7 @@
         </div>
         <div id="loading-message"></div>
 
-        <script>
 
-            var totalComments = {{ $oznam->komentare->count() }};
-            var loadMoreCommentsRoute = @json(route("oznam.load-more-comments", $oznam->id));
-        </script>
     </div>
 
 

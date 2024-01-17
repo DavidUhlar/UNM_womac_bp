@@ -4,24 +4,23 @@
 
     <link rel="stylesheet" href="{{ asset("css/oznam.css") }}"/>
     <link rel="stylesheet" href="{{ asset("css/oznamPicture.css") }}"/>
+    <script>
+        var totalOznam = {{ $oznamCount }};
+        var loadMoreOznamRoute = @json(route("oznam.load-more-posts"));
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset("js/oznamAjax.js") }}"></script>
+
     <div class="container mt-5">
         @auth
         <div class="col-sm create">
             <a href="{{ route('oznam.create') }}" class="btn btn-primary btn-sm">Create</a>
         </div>
         @endauth
-{{--        <div>--}}
-{{--            <h2> Počet oznamov: {{$oznamCount}}</h2>--}}
-{{--            --}}
-{{--            <label for="tagFilter">Filter by Tag:</label>--}}
-{{--            <select id="tagFilter" class="form-select">--}}
-{{--                <option value="">All</option>--}}
-{{--                @foreach ($tags as $tag)--}}
-{{--                    <option value="{{ $tag->id }}">{{ $tag->nazov }}</option>--}}
-{{--                @endforeach--}}
-{{--            </select>--}}
-{{--            <button class="btn btn-primary" id="filterByTag">Filter</button>--}}
-{{--        </div>--}}
+        <div>
+            <h2> Počet oznamov: {{$oznamCount}}</h2>
+
+        </div>
             <br>
         <div class="row" id="oznam-container">
             @foreach ($oznam as $post)
@@ -36,7 +35,8 @@
 
                         </div>
                         @php
-                            $tags = $post->tags->pluck('nazov')->all()
+//                            $tags = $post->tags->pluck('nazov')->all()
+                            $tags = $post->tag ? $post->tag->pluck('nazov')->all() : [];
                         @endphp
 
                         @if($tags)
@@ -83,30 +83,4 @@
         </div>
     </div>
 
-    <script>
-        var page = 2;
-        var totalOznam = {{ $oznamCount }};
-
-        var oznamDisplayed = 0;
-
-        $('#load-more-posts').on('click', function () {
-            $.ajax({
-                url: '{{ url('/oznam_index/load-more-posts') }}',
-                type: 'GET',
-                data: { page: page },
-                success: function (data) {
-                    $('#oznam-container').append(data);
-                    page++;
-                    oznamDisplayed += 6;
-
-                    if (oznamDisplayed >= totalOznam) {
-                        $('#load-more-posts').hide();
-                    }
-                },
-                error: function (error) {
-                    console.error('Error loading more posts:', error);
-                }
-            });
-        });
-    </script>
 @endsection

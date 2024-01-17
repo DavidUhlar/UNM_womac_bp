@@ -21,6 +21,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
      */
     Route::get('/', 'HomeController@index')->name('home.index');
 
+
     Route::get('/womac', 'WomacController@show')->name('home.womac');
     Route::get('o_nas', 'O_nasController@show')->name('home.o_nas');
 
@@ -28,6 +29,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::group(['prefix' => 'oznam_index'], function (){
         Route::get('/', 'OznamController@index')->name('oznam.oznam');
+
+
 
         //ajax
         Route::get('/load-more-posts', 'OznamController@loadMorePosts')->name('oznam.load-more-posts');

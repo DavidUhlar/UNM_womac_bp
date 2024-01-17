@@ -2,7 +2,8 @@
 
 @section('content')
     <link rel="stylesheet" href=" {{ asset("css/oznam.css") }}">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{{ asset("js/minLengthValidacia.js") }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -21,7 +22,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="nazov">Názov</label>
-                        <input type="text" class="form-control @if($errors->has('nazov')) is-invalid @endif" id="nazov" name="nazov" value="" required onblur="checkLength(this, 3, 'The nazov must be at least 3 characters.');" {{ old('nazov') }}>
+                        <input type="text" class="form-control @if($errors->has('nazov')) is-invalid @endif" id="nazov" name="nazov" value="" required onblur="checkLength(this, 3, 'nazov musi mat 3 znaky.');" {{ old('nazov') }}>
                     </div>
                     <div class="form-group">
                         <label for="obsah">Obsah</label>
@@ -36,29 +37,6 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        function checkLength(element, min_lenght, err_msg) {
-            var lenItem = $(element).val().length;
-
-            if (lenItem < min_lenght) {
-                $(element).addClass("is-invalid");
-
-                element.setCustomValidity(err_msg);
-                element.reportValidity();
-
-                setTimeout(function() {
-                    element.focus();
-                }, 10);
-                element.focus();
-            } else {
-                $(element).removeClass("is-invalid");
-                element.setCustomValidity('');
-            }
-
-        }
-    </script>
-
-
 
 
 

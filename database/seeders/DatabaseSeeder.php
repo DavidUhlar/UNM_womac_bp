@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-
+        Tag::factory(5)->create();
         Oznam::factory(30)->create();
         Komentar::factory(20)->create();
-        Tag::factory(5)->create();
+
     }
 }

@@ -12,7 +12,8 @@
 
                 </div>
                 @php
-                    $tags = $post->tags->pluck('nazov')->all()
+//                    $tags = $post->tags->pluck('nazov')->all()
+                    $tags = $post->tag ? $post->tag->pluck('nazov')->all() : [];
                 @endphp
 
                 @if($tags)

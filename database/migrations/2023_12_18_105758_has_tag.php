@@ -14,9 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('has_tag', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_prispevku')->constrained('oznam')->onDelete('cascade');
-            $table->integer('id_tagu')->constrained('tags')->onDelete('cascade');
+            $table->unsignedBigInteger('id_prispevku');
+            $table->unsignedBigInteger('id_tagu');
+
+            $table->foreign('id_prispevku')->references('id')->on('oznam')->onDelete('cascade');
+            $table->foreign('id_tagu')->references('id')->on('tag')->onDelete('cascade');
         });
     }
 

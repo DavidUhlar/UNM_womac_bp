@@ -10,21 +10,21 @@ class TagController extends Controller
 {
     public function indexTag($id)
     {
+
         $oznam = Oznam::find($id);
         $tags = Tag::all();
-        $associatedTags = $oznam ? $oznam->tags->pluck('id')->toArray() : [];
+        $associatedTags = $oznam ? $oznam->tag->pluck('id')->toArray() : [];
+
         return view('oznam.oznamTags', compact('oznam', 'tags', 'associatedTags'));
     }
 
     public function associateTag(Request $request, $oznamId)
     {
-//        $request->validate([
-//            'tag.*' => 'exists:tag,id',
-//        ]);
+
 
         $tagIds = $request->input('tags');
         $oznam = Oznam::find($oznamId);
-        $oznam->tags()->sync($tagIds);
+        $oznam->tag()->sync($tagIds);
 
 
         return redirect()->route('oznam.oznam');

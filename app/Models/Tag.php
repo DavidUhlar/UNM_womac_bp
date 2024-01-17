@@ -13,7 +13,7 @@ class Tag extends Model
     protected $fillable = ['nazov'];
 
     public $timestamps = false;
-    public function oznams()
+    public function oznam()
     {
         return $this->belongsToMany(Oznam::class, 'has_tag', 'id_tagu', 'id');
     }
