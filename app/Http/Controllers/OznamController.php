@@ -21,8 +21,20 @@ class OznamController extends Controller
 
 
     public function index()
+//    public function index(Request $request)
     {
-//        $oznam = Oznam::all();
+//        $tagId = $request->input('tag');
+//        $query = Oznam::orderBy('created_at', 'desc');
+//        if ($tagId) {
+//            // If a tag is selected, filter oznams accordingly
+//            $query->whereHas('tags', function ($query) use ($tagId) {
+//                $query->where('id', $tagId);
+//            });
+//        }
+
+//
+//        $oznam = $query->paginate(6);
+//        $oznamCount = Oznam::all()->count();
         $oznam = Oznam::orderBy('created_at', 'desc')->paginate(6);
         $oznamCount = Oznam::all()->count();
 
@@ -177,6 +189,13 @@ class OznamController extends Controller
                 'nazov' => $request->input('nazov'),
                 'obsah' => $request->input('obsah'),
             ]);
+
+            if ($request->input('delete_image') == 1 && $oznam->image_path) {
+                Storage::disk('public')->delete($oznam->image_path);
+
+                $oznam->image_path = null;
+//                $oznam->save();
+            }
 
             if ($request->hasFile('image')) {
 

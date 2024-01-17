@@ -24,19 +24,35 @@
                     @csrf
                     @method('PUT')
 
+
+                    @if($oznam->image_path)
+
+                        <div class="form-group">
+                            <img src="{{ asset('storage/' . $oznam->image_path) }}" alt="Existing Image">
+                        </div>
+                        <div class="form-group">
+                            <label class="fs-5" for="delete_image">Zmazanie aktuálneho obrázka:</label>
+                            <input type="checkbox" name="delete_image" id="delete_image" value="1">
+                        </div>
+                    @endif
+                    <br>
+
+
                     <div class="form-group">
-                        <label for="nazov">Title</label>
+                        <label class="fs-5" for="nazov">Title</label>
                         <input type="text" class="form-control  @if($errors->has('nazov')) is-invalid @endif" id="nazov" name="nazov"
                                value="{{ $oznam->nazov }}" required onblur="checkLength(this, 3, 'The nazov must be at least 3 characters.');"{{ old('nazov') }}>
                     </div>
                     <div class="form-group">
-                        <label for="obsah">Body</label>
+                        <label class="fs-5" for="obsah">Body</label>
                         <textarea class="form-control" id="obsah" name="obsah" rows="3" required>{{ $oznam->obsah }}{{ old('obsah') }}</textarea>
                     </div>
-
-                    <div class="form-group">
+                    <br>
+                    <div class="form-group fs-5">
                         <input type="file" name="image" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
                     </div>
+
+
                     <button type="submit" class="btn mt-3 btn-primary">Edit oznamu</button>
                 </form>
 
@@ -67,6 +83,8 @@
 
         }
     </script>
+
+
 
     @endauth
 

@@ -23,6 +23,9 @@
     position: sticky;
 }
 
+.account-navbar {
+    font-weight: bold;
+}
 
 /*@media (min-width : 768px) {*/
 

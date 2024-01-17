@@ -5,6 +5,8 @@
 
     <link rel="stylesheet" href=" {{ asset('css/oznam.css') }}" />
     <link rel="stylesheet" href="{{ asset("css/oznamPicture.css") }}">
+    <script src="{{ asset("js/likeAjax.js") }}"></script>
+    <script src="{{ asset("js/koments.js") }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <div class="oznamNadpis">
@@ -107,84 +109,11 @@
             @endforeach
         </div>
         <div id="loading-message"></div>
+
         <script>
-            $(document).ready(function () {
-                $('#likeButton').click(function () {
-                    // e.preventDefault();
 
-
-                    $.ajax({
-                        type: 'POST',
-                        url: $('#likeForm').attr('action'),
-                        data: $('#likeForm').serialize(), // Serialize the form data
-                        success: function (response) {
-                            console.log('Like action successful:', response);
-                            $('#likeButton').text(response.liked ? 'Unlike' : 'Like');
-                            $('#likeCount').text(response.likeCount);
-                        },
-                        error: function (error) {
-                            console.error('Error performing like action:', error);
-                        }
-                    });
-                });
-            });
-        </script>
-        <script>
-            function toggleEditForm(commentId) {
-                const editForm = document.getElementById(`editForm_${commentId}`);
-                editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
-            }
-
-
-            var page = 2;
-            var loading = false;
             var totalComments = {{ $oznam->komentare->count() }};
-            var commentsDisplayed = 0;
-
-            function loadMoreComments() {
-
-                if (loading || (commentsDisplayed >= totalComments)) {
-                    return;
-                }
-
-
-                loading = true;
-                $('#loading-message').text('Loading more comments...');
-                $.ajax({
-                    url: '{{ route("oznam.load-more-comments", $oznam->id) }}?page=' + page,
-                    type: 'GET',
-                    success: function (data) {
-                        $('#comments-container').append(data);
-                        page++;
-                        commentsDisplayed += 5;
-                    },
-                    error: function (error) {
-                        console.error('Error loading more comments:', error);
-                    },
-                    complete: function () {
-                        loading = false;
-
-                        $('#loading-message').text('');
-
-                        if (commentsDisplayed >= totalComments) {
-                            $(window).off('scroll');
-                        }
-                    },
-                });
-            }
-
-            $(window).scroll(function() {
-                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
-                    setTimeout(function () {
-
-                        loadMoreComments();
-
-                    }, 1500);
-                }
-            });
-
-            // loadMoreComments();
-
+            var loadMoreCommentsRoute = @json(route("oznam.load-more-comments", $oznam->id));
         </script>
     </div>
 

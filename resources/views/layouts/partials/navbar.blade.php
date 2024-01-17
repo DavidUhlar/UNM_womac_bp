@@ -50,6 +50,9 @@
                         @endguest
                         @auth
                             <li class="nav-item">
+                                <div class="nav-link account-navbar">{{auth()->user()->username}}</div>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('logout.perform') }}">Logout</a>
                             </li>
                         @endauth

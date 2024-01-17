@@ -2,15 +2,26 @@
 
 @section('content')
 
-{{--    <link rel="stylesheet" href="{{ asset("css/oznam.css") }}">--}}
-    <link rel="stylesheet" href="{{ asset("css/oznamPicture.css") }}">
+    <link rel="stylesheet" href="{{ asset("css/oznam.css") }}"/>
+    <link rel="stylesheet" href="{{ asset("css/oznamPicture.css") }}"/>
     <div class="container mt-5">
         @auth
         <div class="col-sm create">
             <a href="{{ route('oznam.create') }}" class="btn btn-primary btn-sm">Create</a>
         </div>
         @endauth
-        <div><h2> Počet oznamov: {{$oznamCount}}</h2></div>
+{{--        <div>--}}
+{{--            <h2> Počet oznamov: {{$oznamCount}}</h2>--}}
+{{--            --}}
+{{--            <label for="tagFilter">Filter by Tag:</label>--}}
+{{--            <select id="tagFilter" class="form-select">--}}
+{{--                <option value="">All</option>--}}
+{{--                @foreach ($tags as $tag)--}}
+{{--                    <option value="{{ $tag->id }}">{{ $tag->nazov }}</option>--}}
+{{--                @endforeach--}}
+{{--            </select>--}}
+{{--            <button class="btn btn-primary" id="filterByTag">Filter</button>--}}
+{{--        </div>--}}
             <br>
         <div class="row" id="oznam-container">
             @foreach ($oznam as $post)
