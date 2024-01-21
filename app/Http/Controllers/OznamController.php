@@ -57,7 +57,7 @@ class OznamController extends Controller
 //        dd($request);
         $request->validate([
             'nazov' => 'required|min:4|max:255',
-            'obsah' => 'required',
+            'obsah' => 'required|max:20000',
         ]);
 
 
@@ -126,7 +126,7 @@ class OznamController extends Controller
 
 
         $request->validate([
-            'editedObsah' => 'required',
+            'editedObsah' => 'required|max:255',
         ]);
 
         if($comment->autor == auth()->user()->username || auth()->user()->username == 'admin') {
@@ -172,7 +172,7 @@ class OznamController extends Controller
         //dd($request->all());
         $request->validate([
             'nazov' => 'required|min:4|max:255',
-            'obsah' => 'required',
+            'obsah' => 'required|max:20000',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
