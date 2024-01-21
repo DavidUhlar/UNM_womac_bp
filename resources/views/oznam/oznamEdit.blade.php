@@ -41,12 +41,12 @@
 
 
                     <div class="form-group">
-                        <label class="fs-5" for="nazov">Title</label>
+                        <label class="fs-5" for="nazov">Názov</label>
                         <input type="text" class="form-control  @if($errors->has('nazov')) is-invalid @endif" id="nazov" name="nazov"
                                value="{{ $oznam->nazov }}" required onblur="checkLength(this, 3, 'nazov musi mat 3 znaky.');"{{ old('nazov') }}>
                     </div>
                     <div class="form-group">
-                        <label class="fs-5" for="obsah">Body</label>
+                        <label class="fs-5" for="obsah">Obsah</label>
                         <textarea class="form-control" id="obsah" name="obsah" rows="3" required>{{ $oznam->obsah }}{{ old('obsah') }}</textarea>
                     </div>
                     <br>

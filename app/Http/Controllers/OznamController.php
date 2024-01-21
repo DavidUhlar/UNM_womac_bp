@@ -14,7 +14,6 @@ class OznamController extends Controller
 {
     public function show($id) {
         $oznam = Oznam::with('komentare', 'reakcie')->find($id);
-//        $tagNames = $oznam->tags->pluck('nazov')->all();
         $tagNames = $oznam->tag ? $oznam->tag->pluck('nazov')->all() : [];
        //dd($oznam->komentare->all());
         return view('oznam.oznamShow' , compact('oznam', 'tagNames'));

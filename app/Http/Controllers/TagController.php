@@ -22,9 +22,9 @@ class TagController extends Controller
     {
 
 
-        $tagIds = $request->input('tags');
+        $tagId = $request->input('tags');
         $oznam = Oznam::find($oznamId);
-        $oznam->tag()->sync($tagIds);
+        $oznam->tag()->sync($tagId);
 
 
         return redirect()->route('oznam.oznam');
