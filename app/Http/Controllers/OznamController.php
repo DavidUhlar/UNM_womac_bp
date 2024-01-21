@@ -90,7 +90,7 @@ class OznamController extends Controller
 //        dd($request);
         $request->validate([
 
-            'obsah' => 'required',
+            'obsah' => 'required|max:255',
         ]);
 
 
