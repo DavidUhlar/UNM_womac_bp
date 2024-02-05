@@ -4,61 +4,69 @@
 @section('content')
     @auth
 
-{{--        @dd($dataPacient)--}}
 
 
     <div class="containerWomac">
         <div class="side-bar">
 
             <div class="menu">
+{{--                {{ dd($dataPacient) }}--}}
                 @foreach($dataPacient as $pacient)
                     <div class="item">
                         <a class="sub-btn nadpisko">
-                            {{ $pacient['id_pacient'] }}.
+                            {{ $pacient['id'] }}.
                             {{ $pacient['meno'] }}
                             {{ $pacient['priezvisko'] }}
-
-
                         </a>
-{{--                        @foreach($pacient->operacie as $operacia)--}}
+{{--                        {{ dd($pacient->operacie->where('typ', 0)) }}--}}
+                        @foreach($pacient->operacie as $operacia)
+
                             <div class="sub-menu ">
 
                                 @php
                                     //$operacieVsetky = $pacient[0]['id_operacia'];
-                                    //$operacieKoleno = $pacient->operacie->where('typ', 1);
+                                    $operacieKoleno = $pacient->operacie->where('typ', 1);
+                                    $operacieBedro = $pacient->operacie->where('typ', 0);
 
-                                    $operacieBedro = $pacient[0] ?? [];
-                                    $operacieKoleno = $pacient[1] ?? [];
+//                                    $operacieBedro = $pacient[0] ?? [];
+//                                    $operacieKoleno = $pacient[1] ?? [];
+
 
                                 @endphp
 
-                                @if(!empty($operacieKoleno))
+
+                                @if(count($operacieKoleno) > 0)
+{{--                                @if(!empty($operacieKoleno))--}}
+
 
 
                                     <div class="sidebarHeading">
                                         Koleno
                                     </div>
                                     @foreach($operacieKoleno as $operaciaPacientaK)
-                                    <a href="#" class="sub-btn operacie" data-operation="{{ $operaciaPacientaK['sar_id'] }}">Operácia</a>
-                                    <div class="sub-menu">
+                                        <a href="#" class="sub-btn operacie" data-operation="{{ $operaciaPacientaK['sar_id'] }}">Operácia {{ $operaciaPacientaK['sar_id'] }}</a>
+    {{--                                    <a href="#" class="sub-btn operacie" data-operation="">Operácia</a>--}}
+                                        <div class="sub-menu">
 
 
-                                        <a href="#" class="sub-item">Womac data</a>
+                                            <a href="#" class="sub-item">Womac data</a>
 
-                                        <a href="#" class="sub-item">Womac 2</a>
-                                        <a href="#" class="sub-item">Womac 3</a>
+                                            <a href="#" class="sub-item">Womac 2</a>
+                                            <a href="#" class="sub-item">Womac 3</a>
 
-                                    </div>
+                                        </div>
                                     @endforeach
                                 @endif
 
-
-                                @if(!empty($operacieBedro))
+{{--                                {{ dd($pacient->operacie->where('typ', 0)) }}--}}
+{{--                                @if(!empty($operacieBedro))--}}
+                                @if(count($operacieBedro) > 0)
                                     <div class="sidebarHeading">
                                         Bedro
                                     </div>
                                     @foreach($operacieBedro as $operaciaPacientaB)
-                                    <a href="#" class="sub-btn operacie" data-operation="{{ $operaciaPacientaB['sar_id'] }}">Operácia</a>
+                                    <a href="#" class="sub-btn operacie" data-operation="{{ $operaciaPacientaB['sar_id'] }}">Operácia {{ $operaciaPacientaB['sar_id'] }}</a>
+{{--                                    <a href="#" class="sub-btn operacie" data-operation="">Operácia</a>--}}
 
                                     <div class="sub-menu">
                                         <a href="#" class="sub-item">Womac 10</a>
@@ -69,59 +77,64 @@
                                     @endforeach
                                 @endif
                             </div>
-{{--                        @endforeach--}}
+                        @endforeach
                     </div>
                 @endforeach
-                <div class="item">
-                    <a class="sub-btn nadpisko">Pacient 1</a>
-                    <div class="sub-menu ">
-                        <div class="sidebarHeading">
-                            Koleno
-                        </div>
-
-                        <a href="#" class="sub-btn operacie">Operácia 01</a>
-                        <div class="sub-menu">
-                            <a href="#" class="sub-item">Womac 1</a>
 
 
-                        </div>
-                        <div class="sidebarHeading">
-                            Bedro
-                        </div>
-                        <a href="#" class="sub-btn operacie">Operácia 02</a>
-                        <div class="sub-menu">
-                            <a href="#" class="sub-item">Womac 10</a>
-                            <a href="#" class="sub-item">Womac 20</a>
+
+{{--                <div class="item">--}}
+{{--                    <a class="sub-btn nadpisko">Pacient 1</a>--}}
+{{--                    <div class="sub-menu ">--}}
+{{--                        <div class="sidebarHeading">--}}
+{{--                            Koleno--}}
+{{--                        </div>--}}
+
+{{--                        <a href="#" class="sub-btn operacie">Operácia 01</a>--}}
+{{--                        <div class="sub-menu">--}}
+{{--                            <a href="#" class="sub-item">Womac 1</a>--}}
 
 
-                        </div>
-                    </div>
-                </div>
-                    <div class="item">
-                        <a class="sub-btn nadpisko">Pacient 2</a>
-                        <div class="sub-menu ">
-                            <div class="sidebarHeading">
-                                Koleno
-                            </div>
-
-                            <a href="#" class="sub-btn operacie">Operácia 01</a>
-                            <div class="sub-menu">
-                                <a href="#" class="sub-item">Womac 1</a>
+{{--                        </div>--}}
+{{--                        <div class="sidebarHeading">--}}
+{{--                            Bedro--}}
+{{--                        </div>--}}
+{{--                        <a href="#" class="sub-btn operacie">Operácia 02</a>--}}
+{{--                        <div class="sub-menu">--}}
+{{--                            <a href="#" class="sub-item">Womac 10</a>--}}
+{{--                            <a href="#" class="sub-item">Womac 20</a>--}}
 
 
-                            </div>
-                            <div class="sidebarHeading">
-                                Bedro
-                            </div>
-                            <a href="#" class="sub-btn operacie">Operácia 02</a>
-                            <div class="sub-menu">
-                                <a href="#" class="sub-item">Womac 10</a>
-                                <a href="#" class="sub-item">Womac 20</a>
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="item">--}}
+{{--                    <a class="sub-btn nadpisko">Pacient 2</a>--}}
+{{--                    <div class="sub-menu ">--}}
+{{--                        <div class="sidebarHeading">--}}
+{{--                            Koleno--}}
+{{--                        </div>--}}
+
+{{--                        <a href="#" class="sub-btn operacie">Operácia 01</a>--}}
+{{--                        <div class="sub-menu">--}}
+{{--                            <a href="#" class="sub-item">Womac 1</a>--}}
 
 
-                            </div>
-                        </div>
-                    </div>
+{{--                        </div>--}}
+{{--                        <div class="sidebarHeading">--}}
+{{--                            Bedro--}}
+{{--                        </div>--}}
+{{--                        <a href="#" class="sub-btn operacie">Operácia 02</a>--}}
+{{--                        <div class="sub-menu">--}}
+{{--                            <a href="#" class="sub-item">Womac 10</a>--}}
+{{--                            <a href="#" class="sub-item">Womac 20</a>--}}
+
+
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+
+
 
             </div>
         </div>

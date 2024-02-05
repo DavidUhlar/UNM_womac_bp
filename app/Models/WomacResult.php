@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class WomacResult extends Model
 {
     use HasFactory;
-    
+
     /**
      * The database table used by the model.
      *
@@ -24,10 +24,16 @@ class WomacResult extends Model
     protected $fillable = [
         'id',
         'id_womac',
-        
+
         'result_name',
         'result_value',
     ];
-    
+
     public $timestamps = false;
+
+
+//    public function womac()
+//    {
+//        return $this->belongsTo(Womac::class, 'id_womac', 'id_womac')->whereNull('closed_at');
+//    }
 }

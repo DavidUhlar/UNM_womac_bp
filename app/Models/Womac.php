@@ -73,9 +73,14 @@ class Womac extends Model
 
 
 
-    // Define the relationship through the pivot table
+
     public function operacie()
     {
         return $this->belongsToMany(Operacia::class, 'womac_has_operation', 'id_womac', 'id_operation');
+    }
+
+    public function result()
+    {
+        return $this->hasOne(WomacResult::class, 'id_womac', 'id_womac');
     }
 }

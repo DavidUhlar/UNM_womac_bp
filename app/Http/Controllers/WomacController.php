@@ -20,12 +20,19 @@ class WomacController extends Controller
 */
     public function show()
     {
-        // Get all pacients with their operacie and womac relationships
-        //$dataPacient = Pacient::with('operacie.womac')->get();
 
+        $dataPacient = Pacient::with('operacie.womac')->get();
+//        $dataPacient = Pacient::get();
+        $pacientCount = Pacient::all()->count();
+//        dd($dataPacient, $pacientCount);
 
-        //return view('home.womac', ['dataPacient' => $dataPacient]);
-        return view('home.womac');
+//        \DB::enableQueryLog();
+//        $dataPacient = Pacient::with('operacie.womac')->get();
+//        dd(\DB::getQueryLog());
+        return view('home.womac', compact('dataPacient'));
+//        return view('home.womac', [
+//        'dataPacient' => $dataPacient,
+//        ]);
     }
 /*
     public function returnDataPacient()
