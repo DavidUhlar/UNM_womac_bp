@@ -27,6 +27,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
 
 
+
+
     Route::group(['prefix' => 'oznam_index'], function (){
         Route::get('/', 'OznamController@index')->name('oznam.oznam');
 
@@ -64,7 +66,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
 
     Route::group(['prefix' => 'womac'], function (){
-        Route::post('/create', 'WomacController@create')->name('womac.create');
+//        Route::post('/create', 'WomacController@create')->name('womac.create');
+        Route::post('/create/{id_operation}', 'WomacController@create')->name('womac.create');
+//        Route::post('/womac/update/{id_operation}', 'WomacController@update')->name('womac.update');
     });
 
 
