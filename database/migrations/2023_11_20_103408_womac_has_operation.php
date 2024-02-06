@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('womac_has_operation', function (Blueprint $table) {
+            //toto tu nemusi byt
             $table->id()->unsignedBigInteger()->nullable(false)->unique()->autoIncrement();
 
 //            $table->unsignedBigInteger('id_womac')->nullable(false);

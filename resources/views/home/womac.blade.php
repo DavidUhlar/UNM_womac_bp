@@ -179,7 +179,7 @@
 
 
 
-                    $('#hiddenOperationIdInput').val(sarID);
+                    $('#hiddenOperationIdInput').val(operationID);
                     var formAction = '/unm_womac_bp/public/womac/create/' + operationID;
                     {{--var formAction = @json(route("womac.create")) + operationID;--}}
                     $('.vpisovanieDat').attr('action', formAction);

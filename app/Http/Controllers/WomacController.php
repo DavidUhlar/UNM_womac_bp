@@ -14,9 +14,22 @@ class WomacController extends Controller
     public function show()
     {
 
-        $dataPacient = Pacient::with('operacie.womac')->get();
-//        $pacientCount = Pacient::all()->count();
+//        $dataPacient = Pacient::with('operacie.womac')->get();
+        $dataPacient = Pacient::all();
 //        dd($dataPacient, $pacientCount);
+
+        foreach ($dataPacient as $pacient) {
+
+            $operacie = Operacia::where('id_pac', $pacient->id)->firstOrFail();
+
+
+            foreach ($operacie as $operacia) {
+                $operacie->pacient()->associate($pacient);
+                $operacie->save();
+            }
+        }
+
+
 
 
         return view('home.womac', compact('dataPacient'));
@@ -45,17 +58,22 @@ class WomacController extends Controller
 
         $womacOperation = new WomacOperation();
 
-        $womacOperation->id_patient = Operacia::find($operationID)->pacient()->id;
+        $womac = Womac::find($record->id_womac);
+        $womacOperation->womac()->associate($womac);
+
+        $operacia = Operacia::with('pacient')->find($operationID);
+        $womacOperation->operacia()->associate($operacia);
+
+        $pacient = $operacia->pacient()->first();;
+
+
+        $womacOperation->id_patient = $pacient->id;
         $womacOperation->id_womac = $record->id_womac;
         $womacOperation->id_operation = $operationID;
         $womacOperation->id_visit = 1;
 
 
-        $womac = Womac::find($record->id_womac);
-        $womacOperation->womac()->associate($womac);
 
-        $operacia = Operacia::find($operationID);
-        $womacOperation->operacia()->associate($operacia);
 
 
         $womacOperation->save();
