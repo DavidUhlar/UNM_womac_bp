@@ -69,6 +69,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 //        Route::post('/create', 'WomacController@create')->name('womac.create');
         Route::post('/create/{id_operation}', 'WomacController@create')->name('womac.create');
 //        Route::post('/womac/update/{id_operation}', 'WomacController@update')->name('womac.update');
+
+        Route::get('/womac-data/{id_womac}', 'WomacController@getWomacData')->name('womac.getWomac');
+//        Route::get('/fetch-womac-data/{id}', [YourController::class, 'fetchWomacData']);
     });
 
 

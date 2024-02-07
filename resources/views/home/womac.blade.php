@@ -44,13 +44,12 @@
                                     Koleno
                                 </div>
                                 @foreach($operacieKoleno as $operaciaPacientaK)
-                                    <a href="#" class="sub-btn operacie" data-operation="{{ $operaciaPacientaK['sar_id'] }}">Operácia {{ $operaciaPacientaK['sar_id'] }} </a>
+                                    <a href="#" class="sub-btn operacie" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaK['sar_id'] }}" data-pacient-id="{{ $pacient['id'] }}">Operácia {{ $operaciaPacientaK['sar_id'] }} </a>
 {{--                                    <a href="#" class="sub-btn operacie" data-operation="">Operácia</a>--}}
                                     <div class="sub-menu">
 
 
                                         <a href="#" class="sub-item">Womac data</a>
-
                                         <a href="#" class="sub-item">Womac 2</a>
                                         <a href="#" class="sub-item">Womac 3</a>
 
@@ -65,7 +64,7 @@
                                     Bedro
                                 </div>
                                 @foreach($operacieBedro as $operaciaPacientaB)
-                                    <a href="#" class="sub-btn operacie" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }}" >Operácia {{ $operaciaPacientaB['sar_id'] }}
+                                    <a href="#" class="sub-btn operacie" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }} " data-pacient-id="{{ $pacient['id'] }}">Operácia {{ $operaciaPacientaB['sar_id'] }}
 
 {{--                                        <button href="{{ route('womac.create', $operaciaPacientaB['id']) }}" class="btn btn-success">--}}
 {{--                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-database-fill-add" viewBox="0 0 16 16">--}}
@@ -78,10 +77,15 @@
     {{--                                    <a href="#" class="sub-btn operacie" data-operation="">Operácia</a>--}}
 
                                     <div class="sub-menu">
-                                        <a href="#" class="sub-item">Womac 10</a>
-                                        <a href="#" class="sub-item">Womac 20</a>
-                                        <a href="#" class="sub-item">Womac 30</a>
+{{--                                        <a href="#" class="sub-item">Womac 10</a>--}}
+{{--                                        <a href="#" class="sub-item">Womac 20</a>--}}
+{{--                                        <a href="#" class="sub-item">Womac 30</a>--}}
 
+                                        @foreach($womac as $wData)
+
+                                            <a href="#" class="sub-item" data-id="{{ $wData->id_womac }}">{{ $wData->id_womac }}, {{ $wData->date_womac }}</a>
+
+                                        @endforeach
                                     </div>
                                 @endforeach
                             @endif
@@ -91,57 +95,6 @@
                 @endforeach
 
 
-
-{{--                <div class="item">--}}
-{{--                    <a class="sub-btn nadpisko">Pacient 1</a>--}}
-{{--                    <div class="sub-menu ">--}}
-{{--                        <div class="sidebarHeading">--}}
-{{--                            Koleno--}}
-{{--                        </div>--}}
-
-{{--                        <a href="#" class="sub-btn operacie">Operácia 01</a>--}}
-{{--                        <div class="sub-menu">--}}
-{{--                            <a href="#" class="sub-item">Womac 1</a>--}}
-
-
-{{--                        </div>--}}
-{{--                        <div class="sidebarHeading">--}}
-{{--                            Bedro--}}
-{{--                        </div>--}}
-{{--                        <a href="#" class="sub-btn operacie">Operácia 02</a>--}}
-{{--                        <div class="sub-menu">--}}
-{{--                            <a href="#" class="sub-item">Womac 10</a>--}}
-{{--                            <a href="#" class="sub-item">Womac 20</a>--}}
-
-
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="item">--}}
-{{--                    <a class="sub-btn nadpisko">Pacient 2</a>--}}
-{{--                    <div class="sub-menu ">--}}
-{{--                        <div class="sidebarHeading">--}}
-{{--                            Koleno--}}
-{{--                        </div>--}}
-
-{{--                        <a href="#" class="sub-btn operacie">Operácia 01</a>--}}
-{{--                        <div class="sub-menu">--}}
-{{--                            <a href="#" class="sub-item">Womac 1</a>--}}
-
-
-{{--                        </div>--}}
-{{--                        <div class="sidebarHeading">--}}
-{{--                            Bedro--}}
-{{--                        </div>--}}
-{{--                        <a href="#" class="sub-btn operacie">Operácia 02</a>--}}
-{{--                        <div class="sub-menu">--}}
-{{--                            <a href="#" class="sub-item">Womac 10</a>--}}
-{{--                            <a href="#" class="sub-item">Womac 20</a>--}}
-
-
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
 
 
 
@@ -200,6 +153,51 @@
 
         </script>
 
+
+
+
+        <script>
+            $(document).ready(function () {
+                $('.sub-item').click(function (e) {
+                    e.preventDefault();
+
+                    // Get the ID from the clicked sub-item
+                    var idWomac = $(this).data('id');
+                    console.log(idWomac);
+                    // Make an AJAX request to fetch data from the server
+                    $.ajax({
+                        // url: '/fetch-womac-data/' + idWomac, // Update the URL with your Laravel route
+                        url: '{{ route("womac.getWomac", ["id_womac" => ":id"]) }}'.replace(':id', idWomac),
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log('AJAX Success - Data:', data);
+                            // Update form inputs with the values from the server response
+                            // $('#id_womac').val(data.id_womac);
+                            // $('#date_womac').val(data.date_womac);
+                            // $('#date_visit').val(data.date_visit);
+                            $('input[name="id_womac"]').val(data.id_womac);
+                            $('input[name="date_womac"]').val(data.date_womac);
+                            $('input[name="date_visit"]').val(data.date_visit);
+                            $('input[name="answer_01"]').val(data.answer_01);
+                            $('input[name="answer_02"]').val(data.answer_02);
+                            $('input[name="answer_03"]').val(data.answer_03);
+                            $('input[name="answer_04"]').val(data.answer_04);
+                            $('input[name="answer_05"]').val(data.answer_05);
+                            $('input[name="answer_06"]').val(data.answer_06);
+                            $('input[name="answer_07"]').val(data.answer_07);
+                            $('input[name="answer_08"]').val(data.answer_08);
+                            $('input[name="answer_09"]').val(data.answer_09);
+                            $('input[name="answer_10"]').val(data.answer_10);
+
+                        },
+                        error: function (error) {
+                            console.error('Error fetching data:', error);
+                        }
+                    });
+                });
+            });
+        </script>
 
 
         <div class="womacVpisovanie">

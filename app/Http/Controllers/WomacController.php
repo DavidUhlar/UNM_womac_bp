@@ -14,6 +14,8 @@ class WomacController extends Controller
     public function show()
     {
 
+//        $womacData = Womac::where('id_womac', 25)->firstOrFail()->toArray();
+//        dd($womacData);
 //        $dataPacient = Pacient::with('operacie.womac')->get();
         $dataPacient = Pacient::all();
 //        dd($dataPacient, $pacientCount);
@@ -21,6 +23,7 @@ class WomacController extends Controller
         foreach ($dataPacient as $pacient) {
 
             $operacie = Operacia::where('id_pac', $pacient->id)->firstOrFail();
+//            $operacie = Operacia::where('id_pac', $pacient->id)->get();
 
 
             foreach ($operacie as $operacia) {
@@ -30,11 +33,45 @@ class WomacController extends Controller
         }
 
 
+//        $womacData = WomacOperation::all();
+        $womac = Womac::all();
 
+//        dd($womac);
 
-        return view('home.womac', compact('dataPacient'));
+        return view('home.womac', compact('dataPacient', 'womac'));
 
     }
+    public function getWomacData($id_womac)
+    {
+
+            $womacData = Womac::where('id_womac', $id_womac)->firstOrFail();
+            return response()->json(['id_womac' => $womacData->id_womac,
+                'date_womac' => $womacData->date_womac,
+                'date_visit' => $womacData->date_visit,
+                'answer_01' => $womacData->answer_01,
+                'answer_02' => $womacData->answer_02,
+                'answer_03' => $womacData->answer_03,
+                'answer_04' => $womacData->answer_04,
+                'answer_05' => $womacData->answer_05,
+                'answer_06' => $womacData->answer_06,
+                'answer_07' => $womacData->answer_07,
+                'answer_08' => $womacData->answer_08,
+                'answer_09' => $womacData->answer_09,
+                'answer_10' => $womacData->answer_10,
+
+                ]);
+
+    }
+//    public function getWomacData($id_womac)
+//    {
+//
+//
+//        $womacData = Womac::where('id_womac', $id_womac)->firstOrFail()->toArray();
+//
+//        dd($womacData);
+//
+//        return response()->json($womacData);
+//    }
 
     public function create(Request $request)
     {
@@ -92,35 +129,39 @@ class WomacController extends Controller
 
     }
 
-    public function update(Request $request)
-    {
-
-        $request->validate([
-
-        ]);
-        //dd($request);
 
 
-
-        $request->merge([
-            'filled'=>'all',
-            'created_by'=>auth()->user()->id,
-            'updated_by'=>auth()->user()->id,
-        ]);
-        $record = Womac::create($request->all());
-
-
-//        $operationModel->womac()->attach($womac, [
-//            'id_patient' => $patientId,
-//            'id_operation' => $operationModel->id,
-//            'id_womac' => $womacId,
-//            'id_visit'=> $operationModel->id
+//    public function update(Request $request)
+//    {
+//
+//        $request->validate([
+//
 //        ]);
-        //$operationModel->womac()->attach($womac);
+//        //dd($request);
+//
+//
+//
+//        $request->merge([
+//            'filled'=>'all',
+//            'created_by'=>auth()->user()->id,
+//            'updated_by'=>auth()->user()->id,
+//        ]);
+//        $record = Womac::create($request->all());
+//
+//
+////        $operationModel->womac()->attach($womac, [
+////            'id_patient' => $patientId,
+////            'id_operation' => $operationModel->id,
+////            'id_womac' => $womacId,
+////            'id_visit'=> $operationModel->id
+////        ]);
+//        //$operationModel->womac()->attach($womac);
+//
+//
+//        return redirect()->route('home.womac');
+//
+//
+//    }
 
 
-        return redirect()->route('home.womac');
-
-
-    }
 }
