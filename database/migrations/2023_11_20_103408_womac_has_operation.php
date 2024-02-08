@@ -14,12 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('womac_has_operation', function (Blueprint $table) {
-            //toto tu nemusi byt
+
             $table->id()->unsignedBigInteger()->nullable(false)->unique()->autoIncrement();
 
 //            $table->unsignedBigInteger('id_womac')->nullable(false);
 //            $table->unsignedBigInteger('id_patient')->nullable(false);
 //            $table->unsignedBigInteger('id_operation')->nullable(false);
+//            $table->primary(['id_patient', 'id_operation']);
+
+
             $table->unsignedBigInteger('id_visit')->nullable(false);
 
 
@@ -33,7 +36,7 @@ return new class extends Migration
 
             // Womac ID
             $table->unsignedBigInteger('id_womac')->nullable(false);;
-            $table->foreign('id_womac')->references('id_womac')->on('womac')->onDelete('cascade');
+//            $table->foreign('id_womac')->references('id_womac')->on('womac')->onDelete('cascade');
 
         });
 

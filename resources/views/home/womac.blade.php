@@ -49,10 +49,14 @@
                                     <div class="sub-menu">
 
 
-                                        <a href="#" class="sub-item">Womac data</a>
-                                        <a href="#" class="sub-item">Womac 2</a>
-                                        <a href="#" class="sub-item">Womac 3</a>
+{{--                                        <a href="#" class="sub-item">Womac data</a>--}}
+{{--                                        <a href="#" class="sub-item">Womac 2</a>--}}
+{{--                                        <a href="#" class="sub-item">Womac 3</a>--}}
+                                        @foreach($womac as $wData)
 
+                                            <a href="#" class="sub-item" data-id="{{ $wData->id_womac }}">{{ $wData->id_womac }}, {{ $wData->date_womac }}</a>
+
+                                        @endforeach
                                     </div>
                                 @endforeach
                             @endif
@@ -158,45 +162,67 @@
 
         <script>
             $(document).ready(function () {
+                var updateMode = true; // Variable to track the mode
+
                 $('.sub-item').click(function (e) {
                     e.preventDefault();
 
-                    // Get the ID from the clicked sub-item
                     var idWomac = $(this).data('id');
                     console.log(idWomac);
-                    // Make an AJAX request to fetch data from the server
-                    $.ajax({
-                        // url: '/fetch-womac-data/' + idWomac, // Update the URL with your Laravel route
-                        url: '{{ route("womac.getWomac", ["id_womac" => ":id"]) }}'.replace(':id', idWomac),
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (data) {
-                            console.log('AJAX Success - Data:', data);
-                            // Update form inputs with the values from the server response
-                            // $('#id_womac').val(data.id_womac);
-                            // $('#date_womac').val(data.date_womac);
-                            // $('#date_visit').val(data.date_visit);
-                            $('input[name="id_womac"]').val(data.id_womac);
-                            $('input[name="date_womac"]').val(data.date_womac);
-                            $('input[name="date_visit"]').val(data.date_visit);
-                            $('input[name="answer_01"]').val(data.answer_01);
-                            $('input[name="answer_02"]').val(data.answer_02);
-                            $('input[name="answer_03"]').val(data.answer_03);
-                            $('input[name="answer_04"]').val(data.answer_04);
-                            $('input[name="answer_05"]').val(data.answer_05);
-                            $('input[name="answer_06"]').val(data.answer_06);
-                            $('input[name="answer_07"]').val(data.answer_07);
-                            $('input[name="answer_08"]').val(data.answer_08);
-                            $('input[name="answer_09"]').val(data.answer_09);
-                            $('input[name="answer_10"]').val(data.answer_10);
 
-                        },
-                        error: function (error) {
-                            console.error('Error fetching data:', error);
-                        }
-                    });
+                    if (updateMode) {
+                        $.ajax({
+                            url: '{{ route("womac.getWomac", ["id_womac" => ":id"]) }}'.replace(':id', idWomac),
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log('AJAX Success - Data:', data);
+
+                                $('input[name="id_womac"]').val(data.id_womac);
+                                $('input[name="date_womac"]').val(data.date_womac);
+                                $('input[name="date_visit"]').val(data.date_visit);
+                                $('input[name="answer_01"]').val(data.answer_01);
+                                $('input[name="answer_02"]').val(data.answer_02);
+                                $('input[name="answer_03"]').val(data.answer_03);
+                                $('input[name="answer_04"]').val(data.answer_04);
+                                $('input[name="answer_05"]').val(data.answer_05);
+                                $('input[name="answer_06"]').val(data.answer_06);
+                                $('input[name="answer_07"]').val(data.answer_07);
+                                $('input[name="answer_08"]').val(data.answer_08);
+                                $('input[name="answer_09"]').val(data.answer_09);
+                                $('input[name="answer_10"]').val(data.answer_10);
+                                $('input[name="answer_11"]').val(data.answer_11);
+                                $('input[name="answer_12"]').val(data.answer_12);
+                                $('input[name="answer_13"]').val(data.answer_13);
+                                $('input[name="answer_14"]').val(data.answer_14);
+                                $('input[name="answer_15"]').val(data.answer_15);
+                                $('input[name="answer_16"]').val(data.answer_16);
+                                $('input[name="answer_17"]').val(data.answer_17);
+                                $('input[name="answer_18"]').val(data.answer_18);
+                                $('input[name="answer_19"]').val(data.answer_19);
+                                $('input[name="answer_20"]').val(data.answer_20);
+                                $('input[name="answer_21"]').val(data.answer_21);
+                                $('input[name="answer_22"]').val(data.answer_22);
+                                $('input[name="answer_23"]').val(data.answer_23);
+                                $('input[name="answer_24"]').val(data.answer_24);
+
+                            },
+                            error: function (error) {
+                                console.error('Error fetching data:', error);
+                            }
+                        });
+                    } else {
+
+                        $('input[type="text"]').val('');
+                        $('input[type="date"]').val('');
+                        document.getElementById('id_womac').value = 0;
+                    }
+                    updateMode = !updateMode;
                 });
+
             });
+
+
         </script>
 
 
@@ -223,18 +249,16 @@
                 <form class="vpisovanieDat" method="post">
                     @csrf
                     <input type="hidden" id="hiddenOperationIdInput" name="id_operation" value="">
+
                     <input type="hidden" id="id_womac" name="id_womac" value="50">
-                    {{--                    <input type="hidden" id="date_visit" name="date_visit" value="2023-01-01">--}}
-                    {{--                    <input type="hidden" id="date_womac" name="date_womac" value="2023-02-02">--}}
+
+
 
                     <div class="inputAndLabel">
                         <label class="nazovWomacInput" for="date_visit">Dátum vizity</label>
                         <input type="date" id="date_womac" name="date_visit" value="">
-
-
                     </div>
                     <div class="inputAndLabel">
-
                         <label class="nazovWomacInput" for="date_womac">Dátum womac</label>
                         <input type="date" id="date_womac" name="date_womac" value="">
                     </div>
@@ -336,6 +360,17 @@
                         <label class="nazovWomacInput" for="answer_24">24</label>
                         <input type="text" class="womacInput" name="answer_24" id="answer_24" maxlength="1">
                     </div>
+
+
+                    <div class="inputAndLabel">
+                        <label class="nazovWomacInput" for="hhs">HHS</label>
+                        <input type="text" class="womacInput" name="hhs" id="hhs" maxlength="2">
+                    </div>
+                    <div class="inputAndLabel">
+                        <label class="nazovWomacInput" for="KKS">KKS</label>
+                        <input type="text" class="womacInput" name="KKS" id="KKS" maxlength="2">
+                    </div>
+
                     <button class="buttonSubmit">Potvrdiť</button>
                 </form>
 

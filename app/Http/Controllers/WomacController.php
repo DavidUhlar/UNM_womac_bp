@@ -34,7 +34,9 @@ class WomacController extends Controller
 
 
 //        $womacData = WomacOperation::all();
-        $womac = Womac::all();
+        $womac = Womac::whereNull('closed_at')
+            ->whereNull('deleted_at')
+            ->whereNull('locked_at')->get();
 
 //        dd($womac);
 
@@ -58,20 +60,25 @@ class WomacController extends Controller
                 'answer_08' => $womacData->answer_08,
                 'answer_09' => $womacData->answer_09,
                 'answer_10' => $womacData->answer_10,
+                'answer_11' => $womacData->answer_11,
+                'answer_12' => $womacData->answer_12,
+                'answer_13' => $womacData->answer_13,
+                'answer_14' => $womacData->answer_14,
+                'answer_15' => $womacData->answer_15,
+                'answer_16' => $womacData->answer_16,
+                'answer_17' => $womacData->answer_17,
+                'answer_18' => $womacData->answer_18,
+                'answer_19' => $womacData->answer_19,
+                'answer_20' => $womacData->answer_20,
+                'answer_21' => $womacData->answer_21,
+                'answer_22' => $womacData->answer_22,
+                'answer_23' => $womacData->answer_23,
+                'answer_24' => $womacData->answer_24,
 
                 ]);
 
     }
-//    public function getWomacData($id_womac)
-//    {
-//
-//
-//        $womacData = Womac::where('id_womac', $id_womac)->firstOrFail()->toArray();
-//
-//        dd($womacData);
-//
-//        return response()->json($womacData);
-//    }
+
 
     public function create(Request $request)
     {
@@ -88,41 +95,97 @@ class WomacController extends Controller
             'created_by'=>auth()->user()->id,
             'updated_by'=>auth()->user()->id,
         ]);
-        $record = Womac::create($request->all());
-
-        $operationID = $request->id_operation;
 
 
-        $womacOperation = new WomacOperation();
+        $exists = Womac::where('id_womac', $request->id_womac)
+            ->whereNull('closed_at')
+            ->whereNull('deleted_at')
+            ->whereNull('locked_at')
+            ->exists();
 
-        $womac = Womac::find($record->id_womac);
-        $womacOperation->womac()->associate($womac);
+        if ($exists) {
 
-        $operacia = Operacia::with('pacient')->find($operationID);
-        $womacOperation->operacia()->associate($operacia);
+            $womacUpdate = Womac::where('id_womac', $request->id_womac)
+                ->whereNull('closed_at')
+                ->whereNull('deleted_at')
+                ->whereNull('locked_at')
+                ->first();
 
-        $pacient = $operacia->pacient()->first();;
-
-
-        $womacOperation->id_patient = $pacient->id;
-        $womacOperation->id_womac = $record->id_womac;
-        $womacOperation->id_operation = $operationID;
-        $womacOperation->id_visit = 1;
-
+//            $womacOp = WomacOperation::where('id_womac', $womacUpdate->id_womac);
+//            $womacOp->womac()->dissociate($womacUpdate);
+//            $womacOp->womac()->associate($womacUpdate);
+            $newRecord = Womac::make($womacUpdate->toArray());
 
 
+            $newRecord->id = null;
+            $newRecord->closed_at = now();
+            $newRecord->closed_by = auth()->user()->id;
+            $newRecord->save();
+
+            $womacUpdate->update([
+
+                'date_womac' => $request->input('date_womac'),
+                'date_visit' => $request->input('date_visit'),
+                'answer_01' => $request->input('answer_01'),
+                'answer_02' => $request->input('answer_02'),
+                'answer_03' => $request->input('answer_03'),
+                'answer_04' => $request->input('answer_04'),
+                'answer_05' => $request->input('answer_05'),
+                'answer_06' => $request->input('answer_06'),
+                'answer_07' => $request->input('answer_07'),
+                'answer_08' => $request->input('answer_08'),
+                'answer_09' => $request->input('answer_09'),
+                'answer_10' => $request->input('answer_10'),
+                'answer_11' => $request->input('answer_11'),
+                'answer_12' => $request->input('answer_12'),
+                'answer_13' => $request->input('answer_13'),
+                'answer_14' => $request->input('answer_14'),
+                'answer_15' => $request->input('answer_15'),
+                'answer_16' => $request->input('answer_16'),
+                'answer_17' => $request->input('answer_17'),
+                'answer_18' => $request->input('answer_18'),
+                'answer_19' => $request->input('answer_19'),
+                'answer_20' => $request->input('answer_20'),
+                'answer_21' => $request->input('answer_21'),
+                'answer_22' => $request->input('answer_22'),
+                'answer_23' => $request->input('answer_23'),
+                'answer_24' => $request->input('answer_24'),
+
+            ]);
+        } else {
+
+            $record = Womac::create($request->all());
+            do {
+                $randomWomacId = mt_rand(1, 999999999);
+            } while (Womac::where('id_womac', $randomWomacId)->exists());
+            $record->update(['id_womac' => $randomWomacId]);
+
+            $operationID = $request->id_operation;
 
 
-        $womacOperation->save();
-//        $operationModel->womac()->attach($womac, [
-//            'id_patient' => $patientId,
-//            'id_operation' => $operationModel->id,
-//            'id_womac' => $womacId,
-//            'id_visit'=> $operationModel->id
-//        ]);
-        //$operationModel->womac()->attach($womac);
+            $womacOperation = new WomacOperation();
 
-//        $record->operacie()->sync($operationID);
+            $womac = Womac::find($record->id_womac);
+            $womacOperation->womac()->associate($womac);
+
+            $operacia = Operacia::with('pacient')->find($operationID);
+            $womacOperation->operacia()->associate($operacia);
+
+            $pacient = $operacia->pacient()->first();;
+
+
+            $womacOperation->id_patient = $pacient->id;
+            $womacOperation->id_womac = $record->id_womac;
+            $womacOperation->id_operation = $operationID;
+            $womacOperation->id_visit = 1;
+
+
+
+
+
+            $womacOperation->save();
+        }
+
 
         return redirect()->route('home.womac');
 
@@ -130,38 +193,6 @@ class WomacController extends Controller
     }
 
 
-
-//    public function update(Request $request)
-//    {
-//
-//        $request->validate([
-//
-//        ]);
-//        //dd($request);
-//
-//
-//
-//        $request->merge([
-//            'filled'=>'all',
-//            'created_by'=>auth()->user()->id,
-//            'updated_by'=>auth()->user()->id,
-//        ]);
-//        $record = Womac::create($request->all());
-//
-//
-////        $operationModel->womac()->attach($womac, [
-////            'id_patient' => $patientId,
-////            'id_operation' => $operationModel->id,
-////            'id_womac' => $womacId,
-////            'id_visit'=> $operationModel->id
-////        ]);
-//        //$operationModel->womac()->attach($womac);
-//
-//
-//        return redirect()->route('home.womac');
-//
-//
-//    }
 
 
 }

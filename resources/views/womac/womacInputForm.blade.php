@@ -1,5 +1,6 @@
-<form class="vpisovanieDat" action="{{ route('womac.update') }}" method="post">
+<form class="vpisovanieDat" method="post">
     @csrf
+    <input type="hidden" id="hiddenOperationIdInput" name="id_operation" value="">
     <input type="hidden" id="id_womac" name="id_womac" value="50">
     {{--                    <input type="hidden" id="date_visit" name="date_visit" value="2023-01-01">--}}
     {{--                    <input type="hidden" id="date_womac" name="date_womac" value="2023-02-02">--}}
