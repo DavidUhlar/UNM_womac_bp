@@ -44,7 +44,7 @@
                                     Koleno
                                 </div>
                                 @foreach($operacieKoleno as $operaciaPacientaK)
-                                    <a href="#" class="sub-btn operacie" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaK['sar_id'] }}" data-pacient-id="{{ $pacient['id'] }}">Operácia {{ $operaciaPacientaK['sar_id'] }} </a>
+                                    <a href="#" class="sub-btn operacie" data-typ="koleno" data-id-operation="{{ $operaciaPacientaK['id'] }}" data-operation="{{ $operaciaPacientaK['sar_id'] }}" data-pacient-id="{{ $pacient['id'] }}">Operácia {{ $operaciaPacientaK['sar_id'] }} </a>
 {{--                                    <a href="#" class="sub-btn operacie" data-operation="">Operácia</a>--}}
                                     <div class="sub-menu">
 
@@ -52,10 +52,27 @@
 {{--                                        <a href="#" class="sub-item">Womac data</a>--}}
 {{--                                        <a href="#" class="sub-item">Womac 2</a>--}}
 {{--                                        <a href="#" class="sub-item">Womac 3</a>--}}
-                                        @foreach($womac as $wData)
+{{--                                        @foreach($womac as $wData)--}}
 
-                                            <a href="#" class="sub-item" data-id="{{ $wData->id_womac }}">{{ $wData->id_womac }}, {{ $wData->date_womac }}</a>
+{{--                                            <a href="#" class="sub-item" data-id="{{ $wData->id_womac }}">{{ $wData->id_womac }}, {{ $wData->date_womac }}</a>--}}
 
+{{--                                        @endforeach--}}
+                                        @php
+                                            $womacOperations = App\Models\WomacOperation::all();
+                                            $uniqueIdWomacValues = $womacOperations
+                                                    ->where('id_patient', $pacient->id)
+                                                    ->where('id_operation', $operaciaPacientaK->id)
+                                                    ->pluck('id_womac')
+                                                    ->unique()
+                                        @endphp
+
+                                        {{--                                        {{$womacOperations}}--}}
+                                        @foreach($uniqueIdWomacValues as $idWomac)
+                                            @if($womData = $womac->where('id_womac', $idWomac)->first())
+                                                <a href="#" class="sub-item" data-typ="koleno" data-id="{{ $womData->id_womac }}">
+                                                    {{ $womData->id_womac }}, {{ $womData->date_womac }}
+                                                </a>
+                                            @endif
                                         @endforeach
                                     </div>
                                 @endforeach
@@ -68,7 +85,7 @@
                                     Bedro
                                 </div>
                                 @foreach($operacieBedro as $operaciaPacientaB)
-                                    <a href="#" class="sub-btn operacie" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }} " data-pacient-id="{{ $pacient['id'] }}">Operácia {{ $operaciaPacientaB['sar_id'] }}
+                                    <a href="#" class="sub-btn operacie" data-typ="bedro" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }} " data-pacient-id="{{ $pacient['id'] }}">Operácia {{ $operaciaPacientaB['sar_id'] }}
 
 {{--                                        <button href="{{ route('womac.create', $operaciaPacientaB['id']) }}" class="btn btn-success">--}}
 {{--                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-database-fill-add" viewBox="0 0 16 16">--}}
@@ -107,13 +124,14 @@
 {{--                                        {{$womacOperations}}--}}
                                         @foreach($uniqueIdWomacValues as $idWomac)
                                             @if($womData = $womac->where('id_womac', $idWomac)->first())
-                                                <a href="#" class="sub-item" data-id="{{ $womData->id_womac }}">
+                                                <a href="#" class="sub-item" data-typ="bedro" data-id="{{ $womData->id_womac }}">
                                                     {{ $womData->id_womac }}, {{ $womData->date_womac }}
                                                 </a>
                                             @endif
                                         @endforeach
                                     </div>
                                 @endforeach
+
                             @endif
                         </div>
 {{--                        @endforeach--}}
@@ -166,14 +184,9 @@
                     updateContent();
                 });
 
-                // Function to update content in the Blade view
                 function updateContent() {
-                    // Update the Blade view dynamically
                     document.getElementById('sarIdSpan').innerText = operationIdFromJavaScript;
 
-
-                    // Add your logic to conditionally show/hide elements or include other content
-                    // ...
                 }
             });
 
@@ -184,12 +197,13 @@
 
         <script>
             $(document).ready(function () {
-                var updateMode = true; // Variable to track the mode
+                var updateMode = true;
 
                 $('.sub-item').click(function (e) {
                     e.preventDefault();
 
                     var idWomac = $(this).data('id');
+                    var typ = $(this).data('typ');
                     console.log(idWomac);
 
                     if (updateMode) {
@@ -198,7 +212,7 @@
                             type: 'GET',
                             dataType: 'json',
                             success: function (data) {
-                                console.log('AJAX Success - Data:', data);
+                                console.log('data:', data);
 
                                 $('input[name="id_womac"]').val(data.id_womac);
                                 $('input[name="date_womac"]').val(data.date_womac);
@@ -227,7 +241,21 @@
                                 $('input[name="answer_22"]').val(data.answer_22);
                                 $('input[name="answer_23"]').val(data.answer_23);
                                 $('input[name="answer_24"]').val(data.answer_24);
+                                $('input[name="kks"]').val(data.resultWomac);
+                                $('input[name="hhs"]').val(data.resultWomac);
 
+                                if (typ === 'bedro') {
+
+                                    $('.inputAndLabel #hhs').show();
+                                    $('.inputAndLabel #kks').hide();
+                                    $('.inputAndLabel label[for="kks"]').hide();
+                                    $('.inputAndLabel label[for="hhs"]').show();
+                                } else {
+                                    $('.inputAndLabel #kks').show();
+                                    $('.inputAndLabel #hhs').hide();
+                                    $('.inputAndLabel label[for="kks"]').show();
+                                    $('.inputAndLabel label[for="hhs"]').hide();
+                                }
                             },
                             error: function (error) {
                                 console.error('Error fetching data:', error);
@@ -265,136 +293,136 @@
 
 
             <div>
-{{--                @include('womac.womacInputForm')--}}
+                @include('womac.womacInputForm')
 
 
-                <form class="vpisovanieDat" method="post">
-                    @csrf
-                    <input type="hidden" id="hiddenOperationIdInput" name="id_operation" value="">
+{{--                <form class="vpisovanieDat" method="post">--}}
+{{--                    @csrf--}}
+{{--                    <input type="hidden" id="hiddenOperationIdInput" name="id_operation" value="">--}}
 
-                    <input type="hidden" id="id_womac" name="id_womac" value="50">
-
-
-
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="date_visit">Dátum vizity</label>
-                        <input type="date" id="date_womac" name="date_visit" value="">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="date_womac">Dátum womac</label>
-                        <input type="date" id="date_womac" name="date_womac" value="">
-                    </div>
+{{--                    <input type="hidden" id="id_womac" name="id_womac" value="50">--}}
 
 
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_01">1</label>
-                        <input type="text" class="womacInput" name="answer_01" id="answer_01" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_02">2</label>
-                        <input type="text" class="womacInput" name="answer_02" id="answer_02" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_03">3</label>
-                        <input type="text" class="womacInput" name="answer_03" id="answer_03" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_04">4</label>
-                        <input type="text" class="womacInput" name="answer_04" id="answer_04" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_05">5</label>
-                        <input type="text" class="womacInput" name="answer_05" id="answer_05" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_06">6</label>
-                        <input type="text" class="womacInput" name="answer_06" id="answer_06" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_07">7</label>
-                        <input type="text" class="womacInput" name="answer_07" id="answer_07" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_08">8</label>
-                        <input type="text" class="womacInput" name="answer_08" id="answer_08" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_09">9</label>
-                        <input type="text" class="womacInput" name="answer_09" id="answer_09" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_10">10</label>
-                        <input type="text" class="womacInput" name="answer_10" id="answer_10" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_11">11</label>
-                        <input type="text" class="womacInput" name="answer_11" id="answer_11" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_12">12</label>
-                        <input type="text" class="womacInput" name="answer_12" id="answer_12" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_13">13</label>
-                        <input type="text" class="womacInput" name="answer_13" id="answer_13" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_14">14</label>
-                        <input type="text" class="womacInput" name="answer_14" id="answer_14" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_15">15</label>
-                        <input type="text" class="womacInput" name="answer_15" id="answer_15" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_16">16</label>
-                        <input type="text" class="womacInput" name="answer_16" id="answer_16" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_17">17</label>
-                        <input type="text" class="womacInput" name="answer_17" id="answer_17" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_18">18</label>
-                        <input type="text" class="womacInput" name="answer_18" id="answer_18" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_19">19</label>
-                        <input type="text" class="womacInput" name="answer_19" id="answer_19" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_20">20</label>
-                        <input type="text" class="womacInput" name="answer_20" id="answer_20" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_21">21</label>
-                        <input type="text" class="womacInput" name="answer_21" id="answer_21" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_22">22</label>
-                        <input type="text" class="womacInput" name="answer_22" id="answer_22" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_23">23</label>
-                        <input type="text" class="womacInput" name="answer_23" id="answer_23" maxlength="1">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="answer_24">24</label>
-                        <input type="text" class="womacInput" name="answer_24" id="answer_24" maxlength="1">
-                    </div>
+
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="date_visit">Dátum vizity</label>--}}
+{{--                        <input type="date" id="date_womac" name="date_visit" value="">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="date_womac">Dátum womac</label>--}}
+{{--                        <input type="date" id="date_womac" name="date_womac" value="">--}}
+{{--                    </div>--}}
 
 
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="hhs">HHS</label>
-                        <input type="text" class="womacInput" name="hhs" id="hhs" maxlength="2">
-                    </div>
-                    <div class="inputAndLabel">
-                        <label class="nazovWomacInput" for="KKS">KKS</label>
-                        <input type="text" class="womacInput" name="KKS" id="KKS" maxlength="2">
-                    </div>
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_01">1</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_01" id="answer_01" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_02">2</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_02" id="answer_02" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_03">3</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_03" id="answer_03" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_04">4</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_04" id="answer_04" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_05">5</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_05" id="answer_05" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_06">6</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_06" id="answer_06" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_07">7</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_07" id="answer_07" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_08">8</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_08" id="answer_08" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_09">9</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_09" id="answer_09" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_10">10</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_10" id="answer_10" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_11">11</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_11" id="answer_11" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_12">12</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_12" id="answer_12" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_13">13</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_13" id="answer_13" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_14">14</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_14" id="answer_14" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_15">15</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_15" id="answer_15" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_16">16</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_16" id="answer_16" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_17">17</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_17" id="answer_17" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_18">18</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_18" id="answer_18" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_19">19</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_19" id="answer_19" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_20">20</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_20" id="answer_20" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_21">21</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_21" id="answer_21" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_22">22</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_22" id="answer_22" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_23">23</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_23" id="answer_23" maxlength="1">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="answer_24">24</label>--}}
+{{--                        <input type="text" class="womacInput" name="answer_24" id="answer_24" maxlength="1">--}}
+{{--                    </div>--}}
 
-                    <button class="buttonSubmit">Potvrdiť</button>
-                </form>
+
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="hhs">HHS</label>--}}
+{{--                        <input type="text" class="womacInput" name="hhs" id="hhs" maxlength="2">--}}
+{{--                    </div>--}}
+{{--                    <div class="inputAndLabel">--}}
+{{--                        <label class="nazovWomacInput" for="kks">KKS</label>--}}
+{{--                        <input type="text" class="womacInput" name="kks" id="kks" maxlength="2">--}}
+{{--                    </div>--}}
+
+{{--                    <button class="buttonSubmit">Potvrdiť</button>--}}
+{{--                </form>--}}
 
             </div>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pacient;
 use App\Models\Operacia;
 use App\Models\WomacOperation;
+use App\Models\WomacResult;
 use Illuminate\Http\Request;
 use App\Models\Womac;
 
@@ -47,36 +48,48 @@ class WomacController extends Controller
     public function getWomacData($id_womac)
     {
 
-            $womacData = Womac::where('id_womac', $id_womac)->firstOrFail();
-            return response()->json(['id_womac' => $womacData->id_womac,
-                'date_womac' => $womacData->date_womac,
-                'date_visit' => $womacData->date_visit,
-                'answer_01' => $womacData->answer_01,
-                'answer_02' => $womacData->answer_02,
-                'answer_03' => $womacData->answer_03,
-                'answer_04' => $womacData->answer_04,
-                'answer_05' => $womacData->answer_05,
-                'answer_06' => $womacData->answer_06,
-                'answer_07' => $womacData->answer_07,
-                'answer_08' => $womacData->answer_08,
-                'answer_09' => $womacData->answer_09,
-                'answer_10' => $womacData->answer_10,
-                'answer_11' => $womacData->answer_11,
-                'answer_12' => $womacData->answer_12,
-                'answer_13' => $womacData->answer_13,
-                'answer_14' => $womacData->answer_14,
-                'answer_15' => $womacData->answer_15,
-                'answer_16' => $womacData->answer_16,
-                'answer_17' => $womacData->answer_17,
-                'answer_18' => $womacData->answer_18,
-                'answer_19' => $womacData->answer_19,
-                'answer_20' => $womacData->answer_20,
-                'answer_21' => $womacData->answer_21,
-                'answer_22' => $womacData->answer_22,
-                'answer_23' => $womacData->answer_23,
-                'answer_24' => $womacData->answer_24,
+        $womacData = Womac::where('id_womac', $id_womac)->firstOrFail();
 
-                ]);
+
+            $womacResult = WomacResult::where('id_womac', $id_womac)->firstOrFail();
+            $resultValue = $womacResult->result_value;
+
+
+//            $resultValue = null;
+
+
+
+
+
+        return response()->json(['id_womac' => $womacData->id_womac,
+            'date_womac' => $womacData->date_womac,
+            'date_visit' => $womacData->date_visit,
+            'answer_01' => $womacData->answer_01,
+            'answer_02' => $womacData->answer_02,
+            'answer_03' => $womacData->answer_03,
+            'answer_04' => $womacData->answer_04,
+            'answer_05' => $womacData->answer_05,
+            'answer_06' => $womacData->answer_06,
+            'answer_07' => $womacData->answer_07,
+            'answer_08' => $womacData->answer_08,
+            'answer_09' => $womacData->answer_09,
+            'answer_10' => $womacData->answer_10,
+            'answer_11' => $womacData->answer_11,
+            'answer_12' => $womacData->answer_12,
+            'answer_13' => $womacData->answer_13,
+            'answer_14' => $womacData->answer_14,
+            'answer_15' => $womacData->answer_15,
+            'answer_16' => $womacData->answer_16,
+            'answer_17' => $womacData->answer_17,
+            'answer_18' => $womacData->answer_18,
+            'answer_19' => $womacData->answer_19,
+            'answer_20' => $womacData->answer_20,
+            'answer_21' => $womacData->answer_21,
+            'answer_22' => $womacData->answer_22,
+            'answer_23' => $womacData->answer_23,
+            'answer_24' => $womacData->answer_24,
+            'resultWomac' => $resultValue,
+            ]);
 
     }
 
@@ -152,10 +165,28 @@ class WomacController extends Controller
                 'answer_23' => $request->input('answer_23'),
                 'answer_24' => $request->input('answer_24'),
 
+
             ]);
+
+            $womacResult = WomacResult::where('id_womac', $request->id_womac)->first();
+//            dd($request->all());
+
+            if ($request->input('hhs') !== null) {
+                $womacResult->update(['result_value' => $request->input('hhs')]);
+            } elseif ($request->input('kks') !== null) {
+                $womacResult->update(['result_value' => $request->input('kks')]);
+            } else {
+                $womacResult->update(['result_value' => null]);
+            }
+
+
+
+
         } else {
 
             $record = Womac::create($request->all());
+
+
             do {
                 $randomWomacId = mt_rand(1, 999999999);
             } while (Womac::where('id_womac', $randomWomacId)->exists());
@@ -165,14 +196,16 @@ class WomacController extends Controller
 
 
             $womacOperation = new WomacOperation();
+            $womac = Womac::where('id_womac', $record->id_womac)->first();
 
-            $womac = Womac::find($record->id_womac);
+
+
+
             $womacOperation->womac()->associate($womac);
-
             $operacia = Operacia::with('pacient')->find($operationID);
             $womacOperation->operacia()->associate($operacia);
 
-            $pacient = $operacia->pacient()->first();;
+            $pacient = $operacia->pacient()->first();
 
 
             $womacOperation->id_patient = $pacient->id;
@@ -183,7 +216,21 @@ class WomacController extends Controller
 
 
 
+            if ($operacia->typ == 0) {
+                $typResult = "hhs";
+            } else {
+                $typResult = "kks";
+            }
 
+//            dd($womac);
+            $resultWomac = WomacResult::create([
+                'id_womac' => $womac->id_womac,
+                'result_name' => $typResult,
+
+            ]);
+//            $womac->result()->associate($resultWomac);
+
+            $resultWomac->save();
             $womacOperation->save();
         }
 

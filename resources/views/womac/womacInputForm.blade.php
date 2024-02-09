@@ -1,18 +1,16 @@
 <form class="vpisovanieDat" method="post">
     @csrf
     <input type="hidden" id="hiddenOperationIdInput" name="id_operation" value="">
+
     <input type="hidden" id="id_womac" name="id_womac" value="50">
-    {{--                    <input type="hidden" id="date_visit" name="date_visit" value="2023-01-01">--}}
-    {{--                    <input type="hidden" id="date_womac" name="date_womac" value="2023-02-02">--}}
+
+
 
     <div class="inputAndLabel">
         <label class="nazovWomacInput" for="date_visit">Dátum vizity</label>
         <input type="date" id="date_womac" name="date_visit" value="">
-
-
     </div>
     <div class="inputAndLabel">
-
         <label class="nazovWomacInput" for="date_womac">Dátum womac</label>
         <input type="date" id="date_womac" name="date_womac" value="">
     </div>
@@ -114,5 +112,16 @@
         <label class="nazovWomacInput" for="answer_24">24</label>
         <input type="text" class="womacInput" name="answer_24" id="answer_24" maxlength="1">
     </div>
+
+
+    <div id="hhs" class="inputAndLabel">
+        <label class="nazovWomacInput" for="hhs">HHS</label>
+        <input type="text" class="womacInput" name="hhs" id="hhs" maxlength="2">
+    </div>
+    <div id="kks" class="inputAndLabel">
+        <label class="nazovWomacInput" for="kks">KKS</label>
+        <input type="text" class="womacInput" name="kks" id="kks" maxlength="2">
+    </div>
+
     <button class="buttonSubmit">Potvrdiť</button>
 </form>
