@@ -14,11 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('womac_result', function (Blueprint $table) {
-            $table->id()->unsignedBigInteger()->nullable(false)->unique()->autoIncrement();
+            //toto by tu nemuselo byt
+//            $table->id()->unsignedBigInteger()->nullable(false)->unique()->autoIncrement();
 
             $table->unsignedBigInteger('id_womac')->nullable(false);
-
             $table->string('result_name', 16)->nullable(false);
+            $table->primary(['id_womac', 'result_name']);
+
+
             $table->float('result_value')->nullable(true);
         });
 

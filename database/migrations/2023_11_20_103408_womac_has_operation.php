@@ -35,7 +35,7 @@ return new class extends Migration
             $table->foreign('id_operation')->references('id')->on('d_operacia')->onDelete('cascade');
 
             // Womac ID
-            $table->unsignedBigInteger('id_womac')->nullable(false);;
+            $table->unsignedBigInteger('id_womac')->nullable(false);
 //            $table->foreign('id_womac')->references('id_womac')->on('womac')->onDelete('cascade');
 
         });

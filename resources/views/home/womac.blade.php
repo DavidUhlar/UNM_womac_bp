@@ -85,10 +85,32 @@
 {{--                                        <a href="#" class="sub-item">Womac 20</a>--}}
 {{--                                        <a href="#" class="sub-item">Womac 30</a>--}}
 
-                                        @foreach($womac as $wData)
+{{--                                        {{ $filteredWomacOperations = $womacOperations->where('id_patient', $pacient->id)->where('id_operation', $operaciaPacientaB->id)->pluck('id_womac')->unique() }}--}}
+{{--                                        @foreach($filteredWomacOperations as $womOp)--}}
+{{--                                            @foreach($womac as $wData)--}}
 
-                                            <a href="#" class="sub-item" data-id="{{ $wData->id_womac }}">{{ $wData->id_womac }}, {{ $wData->date_womac }}</a>
+{{--                                                @if($wData->id_womac = $womOp)--}}
+{{--                                                    <a href="#" class="sub-item" data-id="{{ $wData->id_womac }}">{{ $wData->id_womac }}, {{ $wData->date_womac }}</a>--}}
+{{--                                                @endif--}}
+{{--                                            @endforeach--}}
 
+{{--                                        @endforeach--}}
+                                        @php
+                                            $womacOperations = App\Models\WomacOperation::all();
+                                            $uniqueIdWomacValues = $womacOperations
+                                                    ->where('id_patient', $pacient->id)
+                                                    ->where('id_operation', $operaciaPacientaB->id)
+                                                    ->pluck('id_womac')
+                                                    ->unique()
+                                        @endphp
+
+{{--                                        {{$womacOperations}}--}}
+                                        @foreach($uniqueIdWomacValues as $idWomac)
+                                            @if($womData = $womac->where('id_womac', $idWomac)->first())
+                                                <a href="#" class="sub-item" data-id="{{ $womData->id_womac }}">
+                                                    {{ $womData->id_womac }}, {{ $womData->date_womac }}
+                                                </a>
+                                            @endif
                                         @endforeach
                                     </div>
                                 @endforeach

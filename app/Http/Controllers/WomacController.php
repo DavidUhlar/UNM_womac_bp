@@ -26,10 +26,10 @@ class WomacController extends Controller
 //            $operacie = Operacia::where('id_pac', $pacient->id)->get();
 
 
-            foreach ($operacie as $operacia) {
+//            foreach ($operacie as $operacia) {
                 $operacie->pacient()->associate($pacient);
                 $operacie->save();
-            }
+//            }
         }
 
 
@@ -38,9 +38,10 @@ class WomacController extends Controller
             ->whereNull('deleted_at')
             ->whereNull('locked_at')->get();
 
+        $womacOperations = WomacOperation::all();
 //        dd($womac);
 
-        return view('home.womac', compact('dataPacient', 'womac'));
+        return view('home.womac', compact('dataPacient', 'womac', 'womacOperations'));
 
     }
     public function getWomacData($id_womac)
