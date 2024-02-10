@@ -119,13 +119,15 @@ class WomacController extends Controller
 
         if ($exists) {
 
+//            dd($request->all());
             $womacUpdate = Womac::where('id_womac', $request->id_womac)
                 ->whereNull('closed_at')
                 ->whereNull('deleted_at')
                 ->whereNull('locked_at')
                 ->first();
 
-//            $womacOp = WomacOperation::where('id_womac', $womacUpdate->id_womac);
+
+
 //            $womacOp->womac()->dissociate($womacUpdate);
 //            $womacOp->womac()->associate($womacUpdate);
             $newRecord = Womac::make($womacUpdate->toArray());
@@ -171,14 +173,23 @@ class WomacController extends Controller
             $womacResult = WomacResult::where('id_womac', $request->id_womac)->first();
 //            dd($request->all());
 
-            if ($request->input('hhs') !== null) {
-                $womacResult->update(['result_value' => $request->input('hhs')]);
-            } elseif ($request->input('kks') !== null) {
-                $womacResult->update(['result_value' => $request->input('kks')]);
-            } else {
-                $womacResult->update(['result_value' => null]);
-            }
+//            if ($request->input('hhs') !== null) {
+//                $womacResult->update(['result_value' => $request->input('hhs')]);
+//            } elseif ($request->input('kks') !== null) {
+//                $womacResult->update(['result_value' => $request->input('kks')]);
+//            } else {
+//                $womacResult->update(['result_value' => null]);
+//            }
 
+            $womacOp = Operacia::where('id', $request->id_operation)->first();
+//            dd($womacOp);
+            if ($womacOp->typ == 0) {
+//                $typResult = "hhs";
+                $womacResult->update(['result_value' => $request->input('hhs')]);
+            } else {
+//                $typResult = "kks";
+                $womacResult->update(['result_value' => $request->input('kks')]);
+            }
 
 
 

@@ -250,11 +250,19 @@
                                     $('.inputAndLabel #kks').hide();
                                     $('.inputAndLabel label[for="kks"]').hide();
                                     $('.inputAndLabel label[for="hhs"]').show();
+                                    $('input[name="kks"]').val(null);
                                 } else {
                                     $('.inputAndLabel #kks').show();
                                     $('.inputAndLabel #hhs').hide();
                                     $('.inputAndLabel label[for="kks"]').show();
                                     $('.inputAndLabel label[for="hhs"]').hide();
+                                    $('input[name="hhs"]').val(null);
+                                }
+                                // Set values for specific fields based on the condition
+                                if (typ === 'bedro') {
+                                    $('input[name="kks"]').val(data.resultWomac);
+                                } else {
+                                    $('input[name="hhs"]').val(data.resultWomac);
                                 }
                             },
                             error: function (error) {
@@ -266,6 +274,8 @@
                         $('input[type="text"]').val('');
                         $('input[type="date"]').val('');
                         document.getElementById('id_womac').value = 0;
+                        $('input[name="hhs"]').val(null);
+                        $('input[name="kks"]').val(null);
                     }
                     updateMode = !updateMode;
                 });
