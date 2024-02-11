@@ -72,6 +72,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
         Route::get('/womac-data/{id_womac}', 'WomacController@getWomacData')->name('womac.getWomac');
 //        Route::get('/fetch-womac-data/{id}', [YourController::class, 'fetchWomacData']);
+
+        Route::delete('/delete/{id_womac}', 'WomacController@deleteWomac')->name('womac.delete');
+
+        Route::get('/filter', 'WomacController@filter')->name('womac.filter');
     });
 
 

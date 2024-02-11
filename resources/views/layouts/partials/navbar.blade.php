@@ -24,7 +24,7 @@
                 </li>
                 @auth
                     <li class="nav-item">
-                        <a class="nav-link @if($routeName == 'home.womac') active @endif"
+                        <a class="nav-link @if($routeName == 'home.womac' || Str::startsWith($routeName, 'womac.')) active @endif"
                            href="{{ route('home.womac') }}">Womac</a>
                     </li>
                 @endauth

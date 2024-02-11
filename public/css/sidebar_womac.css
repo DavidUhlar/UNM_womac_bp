@@ -103,3 +103,25 @@ a.operacie {
 }
 
 
+#filter_input {
+    width: 90%;
+}
+
+.flex-container-womac-delete {
+    display: flex;
+    /*align-items: center;*/
+}
+
+.delete-button-womac {
+    height: 100%;
+}
+
+#deleteForm {
+    /*height: 100%;*/
+    margin: 0;
+}
+
+a.sub-item {
+    padding-right: 1%;
+    width: 100%;
+}

@@ -42,24 +42,73 @@ class WomacController extends Controller
         $womacOperations = WomacOperation::all();
 //        dd($womac);
 
-        return view('home.womac', compact('dataPacient', 'womac', 'womacOperations'));
+        $filter = "";
+        return view('home.womac', compact('dataPacient', 'womac', 'filter'));
+//        return view('home.womac', compact('dataPacient', 'womac', 'womacOperations'));
 
     }
+
+    public function filter(Request $request)
+    {
+        $filter = $request->input('filter_criteria');
+
+        $dataPacient = Pacient::where('rc', 'like', "%$filter%")
+            ->orWhere('meno', 'like', "%$filter%")
+            ->orWhere('priezvisko', 'like', "%$filter%")
+            ->get();
+
+        foreach ($dataPacient as $pacient) {
+            $operacie = Operacia::where('id_pac', $pacient->id)->get();
+
+            foreach ($operacie as $operacia) {
+                $operacia->pacient()->associate($pacient);
+                $operacia->save();
+            }
+        }
+        $womac = Womac::whereNull('closed_at')
+            ->whereNull('deleted_at')
+            ->whereNull('locked_at')->get();
+//        dd($dataPacient, $operacie);
+
+    return view('home.womac', compact('dataPacient', 'womac', 'filter'));
+}
     public function getWomacData($id_womac)
     {
 
-        $womacData = Womac::where('id_womac', $id_womac)->firstOrFail();
+        $womacData = Womac::where('id_womac', $id_womac)
+            ->whereNull('closed_at')
+            ->whereNull('deleted_at')
+            ->whereNull('locked_at')->firstOrFail();
 
 
-            $womacResult = WomacResult::where('id_womac', $id_womac)->firstOrFail();
-            $resultValue = $womacResult->result_value;
+//            $womacResult = WomacResult::where('id_womac', $id_womac)->firstOrFail();
+//            $resultValue = $womacResult->result_value;
+
+        $localWomacOp = WomacOperation::where('id_womac', $id_womac)->first();
+        $womacOp = Operacia::where('id', $localWomacOp->id_operation)->first();
+
+        $hhsResult = null;
+        $kss1Result = null;
+        $kss2Result = null;
+        if ($womacOp->typ == 0) {
+//                $typResult = "hhs";
+            $womacResult = WomacResult::where('id_womac', $id_womac)
+                ->where('result_name', 'hhs')
+                ->first();
+            $hhsResult = $womacResult->result_value;
+        } else {
+//                $typResult = "kss";
+            $womacResult = WomacResult::where('id_womac', $id_womac)
+                ->where('result_name', 'kss1')
+                ->first();
+            $kss1Result = $womacResult->result_value;
 
 
-//            $resultValue = null;
-
-
-
-
+            $womacResult = WomacResult::where('id_womac', $id_womac)
+                ->where('result_name', 'kss2')
+                ->first();
+            $kss2Result = $womacResult->result_value;
+        }
 
         return response()->json(['id_womac' => $womacData->id_womac,
             'date_womac' => $womacData->date_womac,
@@ -88,7 +137,9 @@ class WomacController extends Controller
             'answer_22' => $womacData->answer_22,
             'answer_23' => $womacData->answer_23,
             'answer_24' => $womacData->answer_24,
-            'resultWomac' => $resultValue,
+            'hhs' => $hhsResult,
+            'kss1' => $kss1Result,
+            'kss2' => $kss2Result,
             ]);
 
     }
@@ -97,12 +148,12 @@ class WomacController extends Controller
     public function create(Request $request)
     {
 
+//        dd($request);
         $request->validate([
+            'date_womac' => 'required',
+            'date_visit' => 'required',
 
         ]);
-        //dd($request);
-
-
 
         $request->merge([
             'filled'=>'all',
@@ -170,27 +221,32 @@ class WomacController extends Controller
 
             ]);
 
-            $womacResult = WomacResult::where('id_womac', $request->id_womac)->first();
-//            dd($request->all());
+//            $womacResult = WomacResult::where('id_womac', $request->id_womac);
 
-//            if ($request->input('hhs') !== null) {
-//                $womacResult->update(['result_value' => $request->input('hhs')]);
-//            } elseif ($request->input('kks') !== null) {
-//                $womacResult->update(['result_value' => $request->input('kks')]);
-//            } else {
-//                $womacResult->update(['result_value' => null]);
-//            }
 
             $womacOp = Operacia::where('id', $request->id_operation)->first();
-//            dd($womacOp);
+
             if ($womacOp->typ == 0) {
 //                $typResult = "hhs";
+                $womacResult = WomacResult::where('id_womac', $request->id_womac)
+                    ->where('result_name', 'hhs')
+                    ->first();
                 $womacResult->update(['result_value' => $request->input('hhs')]);
             } else {
-//                $typResult = "kks";
-                $womacResult->update(['result_value' => $request->input('kks')]);
+//                $typResult = "kss";
+                $womacResult = WomacResult::where('id_womac', $request->id_womac)
+                    ->where('result_name', 'kss1')
+                    ->first();
+                $womacResult->update(['result_value' => $request->input('kss1')]);
+
+
+                $womacResult = WomacResult::where('id_womac', $request->id_womac)
+                    ->where('result_name', 'kss2')
+                    ->first();
+                $womacResult->update(['result_value' => $request->input('kss2')]);
             }
 
+//            dd($request->input());
 
 
         } else {
@@ -225,33 +281,70 @@ class WomacController extends Controller
             $womacOperation->id_visit = 1;
 
 
-
+//            dd($request->all());
 
             if ($operacia->typ == 0) {
                 $typResult = "hhs";
+                $resValue = $request->input('hhs');
+                $resultWomac = WomacResult::create([
+                    'id_womac' => $womac->id_womac,
+                    'result_name' => $typResult,
+                    'result_value' => $resValue,
+                ]);
+                $resultWomac->save();
             } else {
-                $typResult = "kks";
+                $typResult1 = "kss1";
+                $typResult2 = "kss2";
+                $resValue1 = $request->input('kss1');
+                $resValue2 = $request->input('kss2');
+                $resultWomac1 = WomacResult::create([
+                    'id_womac' => $womac->id_womac,
+                    'result_name' => $typResult1,
+                    'result_value' => $resValue1,
+                ]);
+                $resultWomac2 = WomacResult::create([
+                    'id_womac' => $womac->id_womac,
+                    'result_name' => $typResult2,
+                    'result_value' => $resValue2,
+                ]);
+                $resultWomac1->save();
+                $resultWomac2->save();
             }
 
-//            dd($womac);
-            $resultWomac = WomacResult::create([
-                'id_womac' => $womac->id_womac,
-                'result_name' => $typResult,
 
-            ]);
+
+
+
+//            dd($womac);
+
 //            $womac->result()->associate($resultWomac);
 
-            $resultWomac->save();
+
             $womacOperation->save();
         }
-
-
         return redirect()->route('home.womac');
-
-
     }
 
+    public function deleteWomac($id_womac)
+    {
+//        $womac = Womac::find($id_womac);
+        $womac = Womac::where('id_womac', $id_womac)
+            ->whereNull('closed_at')
+            ->whereNull('deleted_at')
+            ->whereNull('locked_at')
+            ->first();
 
 
+        $womac->update([
+            'deleted_at' => now(),
+            'deleted_by' => auth()->user()->id,
+            ]);
 
+        $womacResult = WomacResult::where('id_womac', $id_womac);
+        $womacResult->delete();
+        $womacOperation = WomacOperation::where('id_womac', $id_womac);
+        $womacOperation->delete();
+
+        return redirect()->route('home.womac');
+    }
 }

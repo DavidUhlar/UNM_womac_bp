@@ -1,4 +1,6 @@
-<form class="vpisovanieDat" method="post">
+
+
+<form class="vpisovanieDat" method="post" style="display: none;">
     @csrf
     <input type="hidden" id="hiddenOperationIdInput" name="id_operation" value="">
 
@@ -7,8 +9,8 @@
 
 
     <div class="inputAndLabel">
-        <label class="nazovWomacInput" for="date_visit">Dátum vizity</label>
-        <input type="date" id="date_womac" name="date_visit" value="">
+        <label class="nazovWomacInput" for="date_visit">Dátum vyšetrenia</label>
+        <input type="date" id="date_visit" name="date_visit" value="">
     </div>
     <div class="inputAndLabel">
         <label class="nazovWomacInput" for="date_womac">Dátum womac</label>
@@ -118,9 +120,13 @@
         <label class="nazovWomacInput" for="hhs">HHS</label>
         <input type="text" class="womacInput" name="hhs" id="hhs" maxlength="2">
     </div>
-    <div id="kks" class="inputAndLabel">
-        <label class="nazovWomacInput" for="kks">KKS</label>
-        <input type="text" class="womacInput" name="kks" id="kks" maxlength="2">
+    <div id="kss" class="inputAndLabel">
+        <label class="nazovWomacInput" for="kss1">KSS1</label>
+        <input type="text" class="womacInput" name="kss1" id="kss1" maxlength="2">
+    </div>
+    <div id="kss" class="inputAndLabel">
+        <label class="nazovWomacInput" for="kss2">KSS2</label>
+        <input type="text" class="womacInput" name="kss2" id="kss2" maxlength="2">
     </div>
 
     <button class="buttonSubmit">Potvrdiť</button>

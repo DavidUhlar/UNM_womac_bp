@@ -68,6 +68,11 @@
     border-radius: 4px;
     padding: 5px 13px;
     text-align: center;
+
+    transition: box-shadow 0.3s ease;
+}
+.womacInput:focus {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
 }
 
 .vpisovanieDat {
@@ -86,6 +91,7 @@
     padding: 5px;
     border: 2px solid black;
     border-bottom: none;
+
 
 
 }
@@ -118,6 +124,11 @@
 }
 
 #date_womac {
+    height: 100%;
+    border: 2px solid black;
+    padding-left: 5%;
+}
+#date_visit {
     height: 100%;
     border: 2px solid black;
     padding-left: 5%;
