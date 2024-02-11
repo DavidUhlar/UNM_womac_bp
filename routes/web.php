@@ -22,7 +22,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/', 'HomeController@index')->name('home.index');
 
 
-    Route::get('/womac', 'WomacController@show')->name('home.womac');
+
     Route::get('o_nas', 'O_nasController@show')->name('home.o_nas');
 
 
@@ -66,18 +66,17 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
 
     Route::group(['prefix' => 'womac'], function (){
-//        Route::post('/create', 'WomacController@create')->name('womac.create');
+        Route::get('/', 'WomacController@show')->name('home.womac');
         Route::post('/create/{id_operation}', 'WomacController@create')->name('womac.create');
-//        Route::post('/womac/update/{id_operation}', 'WomacController@update')->name('womac.update');
-
         Route::get('/womac-data/{id_womac}', 'WomacController@getWomacData')->name('womac.getWomac');
-//        Route::get('/fetch-womac-data/{id}', [YourController::class, 'fetchWomacData']);
-
         Route::delete('/delete/{id_womac}', 'WomacController@deleteWomac')->name('womac.delete');
-
         Route::get('/filter', 'WomacController@filter')->name('womac.filter');
     });
 
+    Route::group(['prefix' => 'export'], function (){
+        Route::get('/', 'ExportController@show')->name('export.export');
+
+    });
 
 
 
@@ -111,28 +110,28 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         /**
          * User Routes
          */
-//        Route::group(['prefix' => 'users'], function() {
-//            Route::get('/', 'UsersController@index')->name('users.index');
-//            Route::get('/create', 'UsersController@create')->name('users.create');
-//            Route::post('/create', 'UsersController@store')->name('users.store');
-//            Route::get('/{user}/show', 'UsersController@show')->name('users.show');
-//            Route::get('/{user}/edit', 'UsersController@edit')->name('users.edit');
-//            Route::patch('/{user}/update', 'UsersController@update')->name('users.update');
-//            Route::delete('/{user}/delete', 'UsersController@destroy')->name('users.destroy');
-//        });
+        Route::group(['prefix' => 'users'], function() {
+            Route::get('/', 'UsersController@index')->name('users.index');
+            Route::get('/create', 'UsersController@create')->name('users.create');
+            Route::post('/create', 'UsersController@store')->name('users.store');
+            Route::get('/{user}/show', 'UsersController@show')->name('users.show');
+            Route::get('/{user}/edit', 'UsersController@edit')->name('users.edit');
+            Route::patch('/{user}/update', 'UsersController@update')->name('users.update');
+            Route::delete('/{user}/delete', 'UsersController@destroy')->name('users.destroy');
+        });
 
         /**
          * User Routes
          */
-//        Route::group(['prefix' => 'posts'], function() {
-//            Route::get('/', 'PostsController@index')->name('posts.index');
-//            Route::get('/create', 'PostsController@create')->name('posts.create');
-//            Route::post('/create', 'PostsController@store')->name('posts.store');
-//            Route::get('/{post}/show', 'PostsController@show')->name('posts.show');
-//            Route::get('/{post}/edit', 'PostsController@edit')->name('posts.edit');
-//            Route::patch('/{post}/update', 'PostsController@update')->name('posts.update');
-//            Route::delete('/{post}/delete', 'PostsController@destroy')->name('posts.destroy');
-//        });
+        Route::group(['prefix' => 'posts'], function() {
+            Route::get('/', 'PostsController@index')->name('posts.index');
+            Route::get('/create', 'PostsController@create')->name('posts.create');
+            Route::post('/create', 'PostsController@store')->name('posts.store');
+            Route::get('/{post}/show', 'PostsController@show')->name('posts.show');
+            Route::get('/{post}/edit', 'PostsController@edit')->name('posts.edit');
+            Route::patch('/{post}/update', 'PostsController@update')->name('posts.update');
+            Route::delete('/{post}/delete', 'PostsController@destroy')->name('posts.destroy');
+        });
 
         Route::resource('roles', RolesController::class);
         Route::resource('permissions', PermissionsController::class);

@@ -75,6 +75,14 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
 }
 
+.womacInputDate {
+    transition: box-shadow 0.3s ease;
+    text-align: center;
+}
+.womacInputDate:focus {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+}
+
 .vpisovanieDat {
     display: flex;
     flex-wrap: wrap;

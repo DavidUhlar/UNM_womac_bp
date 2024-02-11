@@ -10,11 +10,11 @@
 
     <div class="inputAndLabel">
         <label class="nazovWomacInput" for="date_visit">Dátum vyšetrenia</label>
-        <input type="date" id="date_visit" name="date_visit" value="">
+        <input type="date" class="womacInputDate" id="date_visit" name="date_visit" value="">
     </div>
     <div class="inputAndLabel">
         <label class="nazovWomacInput" for="date_womac">Dátum womac</label>
-        <input type="date" id="date_womac" name="date_womac" value="">
+        <input type="date" class="womacInputDate" id="date_womac" name="date_womac" value="">
     </div>
 
 
@@ -116,15 +116,15 @@
     </div>
 
 
-    <div id="hhs" class="inputAndLabel">
+    <div id="hhs-div" class="inputAndLabel">
         <label class="nazovWomacInput" for="hhs">HHS</label>
         <input type="text" class="womacInput" name="hhs" id="hhs" maxlength="2">
     </div>
-    <div id="kss" class="inputAndLabel">
+    <div id="kss1-div" class="inputAndLabel">
         <label class="nazovWomacInput" for="kss1">KSS1</label>
         <input type="text" class="womacInput" name="kss1" id="kss1" maxlength="2">
     </div>
-    <div id="kss" class="inputAndLabel">
+    <div id="kss2-div" class="inputAndLabel">
         <label class="nazovWomacInput" for="kss2">KSS2</label>
         <input type="text" class="womacInput" name="kss2" id="kss2" maxlength="2">
     </div>

@@ -27,6 +27,10 @@
                         <a class="nav-link @if($routeName == 'home.womac' || Str::startsWith($routeName, 'womac.')) active @endif"
                            href="{{ route('home.womac') }}">Womac</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link @if($routeName == 'export.export' || Str::startsWith($routeName, 'export.')) active @endif"
+                           href="{{ route('export.export') }}">Export</a>
+                    </li>
                 @endauth
                 <li class="nav-item">
                     <a class="nav-link @if($routeName == 'home.o_nas') active @endif" href="{{route('home.o_nas')}}">O
