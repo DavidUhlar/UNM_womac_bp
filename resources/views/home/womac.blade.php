@@ -11,7 +11,7 @@
         <div class="side-bar">
             <form action="{{ route('womac.filter') }}" method="get">
                 @csrf
-                @method('POST')
+                @method('GET')
                 <div class="flex-container-womac-delete">
                 <input type="text" id="filter_input" name="filter_criteria" placeholder="Zadaj Rodné číslo alebo meno" value="{{ $filter }}">
                 <button type="submit">Filter</button>
