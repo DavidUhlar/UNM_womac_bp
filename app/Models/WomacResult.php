@@ -32,8 +32,8 @@ class WomacResult extends Model
     public $timestamps = false;
 
 
-//    public function womac()
-//    {
-//        return $this->belongsTo(Womac::class, 'id_womac', 'id_womac')->whereNull('closed_at');
-//    }
+    public function womac()
+    {
+        return $this->belongsTo(Womac::class, 'id_womac', 'id_womac');
+    }
 }

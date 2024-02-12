@@ -1,0 +1,59 @@
+.womac-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.womac-table {
+    display: flex;
+    flex-direction: row;
+
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.womac-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.womac-cell {
+    border: 1px solid #000;
+    padding: 8px;
+    min-width: 2rem;
+    /*width: 25px;*/
+
+}
+
+.womac-header {
+    background-color: #eee;
+    font-weight: bold;
+}
+
+.womac-value {
+    flex-grow: 1;
+}
+
+
+.exportZaznam {
+    border: 1px solid #000;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 70%;
+}
+
+.pacient-info {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.info-label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.info-value {
+    flex-grow: 1;
+}
