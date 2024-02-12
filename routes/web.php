@@ -75,6 +75,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::group(['prefix' => 'export'], function (){
         Route::get('/', 'ExportController@show')->name('export.export');
+        Route::get('/operacia/{id_operacie}', 'ExportController@showOperacia')->name('export.operacia');
 
     });
 

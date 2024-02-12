@@ -33,6 +33,7 @@ class WomacController extends Controller
 //            }
         }
 
+//        dd($dataPacient);
 
 //        $womacData = WomacOperation::all();
         $womac = Womac::whereNull('closed_at')

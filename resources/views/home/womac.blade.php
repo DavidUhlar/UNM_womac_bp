@@ -8,7 +8,7 @@
         <script>
             var createRoute = '{{ url('/') }}' + '/womac/create/'
             var getWomacRoute = '{{ url('/') }}' + '/womac/womac-data/'
-            var filterValue = {{ $filter }}
+            var filterValue = '{{ $filter }}'
         </script>
         <script src="{{ asset("js/womacOperationCreateMenu.js") }}"></script>
         <script src="{{ asset("js/womacMenu.js") }}"></script>
@@ -40,6 +40,7 @@
 
                             @php
 
+//                                dd($pacient->operacie);
                                 $operacieKoleno = $pacient->operacie->where('typ', 1);
                                 $operacieBedro = $pacient->operacie->where('typ', 0);
 
