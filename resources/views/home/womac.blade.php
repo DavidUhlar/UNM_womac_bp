@@ -33,6 +33,7 @@
                             {{ $pacient['id'] }}.
                             {{ $pacient['meno'] }}
                             {{ $pacient['priezvisko'] }}
+                            {{ $pacient['rc'] }}
                         </a>
 
 

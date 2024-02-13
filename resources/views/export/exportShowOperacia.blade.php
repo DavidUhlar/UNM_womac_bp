@@ -5,12 +5,46 @@
 @section('content')
     @auth
 {{--        @dd($womacOperation->isEmpty())--}}
+        <a href="{{ url()->previous() }}">Návrat</a>
+        <br>
         hopa operacia<br>
-        {{ $operation->sar_id  }}
-        {{ $operation->typ  }}
-        {{ $operation->subtyp  }}
-        {{ $operation->datum  }}
-        {{ $operation->id_prac  }}
+        <div class="womac-container">
+            <div class="womac-table">
+                <div class="womac-row">
+                    <div class="womac-cell womac-header">SAR ID</div>
+                    <div class="womac-cell womac-value">{{ $operation->sar_id  }}</div>
+                </div>
+                <div class="womac-row">
+                    <div class="womac-cell womac-header">Typ</div>
+                    <div class="womac-cell womac-value">
+{{--                        {{ $operation->typ  }}--}}
+                        @if($operation->typ == 0)
+                            Bedro
+                        @elseif($operation->typ == 1)
+                            Koleno
+                        @endif
+                    </div>
+                </div>
+                <div class="womac-row">
+                    <div class="womac-cell womac-header">Subtyp</div>
+                    <div class="womac-cell womac-value">{{ $operation->subtyp  }}</div>
+                </div>
+                <div class="womac-row">
+                    <div class="womac-cell womac-header">Dátum</div>
+                    <div class="womac-cell womac-value">{{ \Carbon\Carbon::createFromFormat('Ymd', $operation->datum)->format('d.m.Y') }}</div>
+                </div>
+                <div class="womac-row">
+                    <div class="womac-cell womac-header">ID pracoviska</div>
+                    <div class="womac-cell womac-value">{{ $operation->id_prac  }}</div>
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
 
         <br>
         WOMACS
@@ -22,11 +56,11 @@
                     <div class="womac-table">
                         <div class="womac-row">
                             <div class="womac-cell womac-header">Dátum womac</div>
-                            <div class="womac-cell womac-value">{{ $womacOperationLocal->womac->date_womac }}</div>
+                            <div class="womac-cell womac-value">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $womacOperationLocal->womac->date_womac)->format('d.m.Y') }}</div>
                         </div>
                         <div class="womac-row">
                             <div class="womac-cell womac-header">Dátum kontroly</div>
-                            <div class="womac-cell womac-value">{{ $womacOperationLocal->womac->date_visit }}</div>
+                            <div class="womac-cell womac-value">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $womacOperationLocal->womac->date_visit)->format('d.m.Y') }}</div>
                         </div>
 
                         @for($i = 1; $i <= 24; $i++)

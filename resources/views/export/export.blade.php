@@ -5,58 +5,58 @@
 @section('content')
     @auth
 
-
-
-
-
 {{--hopa--}}
 
-
-
-
-<div class="womac-container">
-    @foreach($pacientiData as $pacient)
-        <div class="exportZaznam">
-            <div class="pacient-info">
-                <div class="info-label">Meno:</div>
-                <div class="info-value">{{ $pacient->meno }}</div>
-            </div>
-            <div class="pacient-info">
-                <div class="info-label">Priezvisko:</div>
-                <div class="info-value">{{ $pacient->priezvisko }}</div>
-            </div>
-            <div class="pacient-info">
-                <div class="info-label">Rodné číslo:</div>
-                <div class="info-value">{{ $pacient->rc }}</div>
-            </div>
-
-
-
-
-            @foreach($pacient->operacie as $operacia)
-                <div class="womac-table">
-                    <div class="womac-row">
-                            <div class="womac-cell womac-header">SAR_ID</div>
-                            <div class="womac-cell womac-value">{{ $operacia->sar_id }}</div>
+        <div class="womac-container">
+            @foreach($pacientiData as $pacient)
+                <div class="exportZaznam">
+                    <div class="pacient-info">
+                        <div class="info-label">Meno:</div>
+                        <div class="info-value">{{ $pacient->meno }}</div>
                     </div>
-                    <div class="womac-row">
-                            <div class="womac-cell womac-header">typ</div>
-                            <div class="womac-cell womac-value">{{ $operacia->typ }}</div>
+                    <div class="pacient-info">
+                        <div class="info-label">Priezvisko:</div>
+                        <div class="info-value">{{ $pacient->priezvisko }}</div>
                     </div>
-                    <div class="womac-row">
-                            <div class="womac-cell womac-header">subtyp</div>
-                            <div class="womac-cell womac-value">{{ $operacia->subtyp }}</div>
+                    <div class="pacient-info">
+                        <div class="info-label">Rodné číslo:</div>
+                        <div class="info-value">{{ $pacient->rc }}</div>
                     </div>
-                    <div class="womac-row">
-                            <div class="womac-cell womac-header">zobraziť</div>
-                            <div class="womac-cell womac-value"><a href="{{ route('export.operacia', $operacia->id) }}">Zobraz</a></div>
-                    </div>
+
+
+
+
+                    @foreach($pacient->operacie as $operacia)
+                        <div class="womac-table">
+                            <div class="womac-row">
+                                    <div class="womac-cell womac-header">SAR_ID</div>
+                                    <div class="womac-cell womac-value">{{ $operacia->sar_id }}</div>
+                            </div>
+                            <div class="womac-row">
+                                    <div class="womac-cell womac-header">typ</div>
+                                    <div class="womac-cell womac-value">
+        {{--                                {{ $operacia->typ }}--}}
+                                        @if($operacia->typ == 0)
+                                            Bedro
+                                        @elseif($operacia->typ == 1)
+                                            Koleno
+                                        @endif
+                                    </div>
+                            </div>
+                            <div class="womac-row">
+                                    <div class="womac-cell womac-header">subtyp</div>
+                                    <div class="womac-cell womac-value">{{ $operacia->subtyp }}</div>
+                            </div>
+                            <div class="womac-row">
+                                    <div class="womac-cell womac-header">zobraziť</div>
+                                    <div class="womac-cell womac-value"><a href="{{ route('export.operacia', $operacia->id) }}">Zobraz</a></div>
+                            </div>
+                        </div>
+                    @endforeach
+
                 </div>
             @endforeach
-
         </div>
-    @endforeach
-</div>
 
     @endauth
 @endsection

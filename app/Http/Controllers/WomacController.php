@@ -157,7 +157,7 @@ class WomacController extends Controller
         ]);
 
         $request->merge([
-            'filled'=>'all',
+            'filled'=>'',
             'created_by'=>auth()->user()->id,
             'updated_by'=>auth()->user()->id,
         ]);
@@ -222,7 +222,28 @@ class WomacController extends Controller
 
             ]);
 
-//            $womacResult = WomacResult::where('id_womac', $request->id_womac);
+            $answerCount = 0;
+
+            for ($i = 1; $i <= 24; $i++) {
+                $answerKey = 'answer_' . str_pad($i, 2, '0', STR_PAD_LEFT);
+                $answerValue = $request->input($answerKey);
+
+                if (!empty($answerValue)) {
+                    $answerCount++;
+                }
+            }
+
+            if ($answerCount == 24) {
+                // TU BUDE RATANIE PRIEMERU
+
+                $priemer = 0;
+                $womacResult = WomacResult::where('id_womac', $request->id_womac)
+                    ->where('result_name', 'avg')
+                    ->first();
+                $womacResult->update(['result_value' => $request->input($priemer)]);
+
+            }
+
 
 
             $womacOp = Operacia::where('id', $request->id_operation)->first();
@@ -233,19 +254,38 @@ class WomacController extends Controller
                     ->where('result_name', 'hhs')
                     ->first();
                 $womacResult->update(['result_value' => $request->input('hhs')]);
+
+//                if (!empty($womacResult->result_value)) {
+//                    $answerCount++;
+//                }
+
             } else {
 //                $typResult = "kss";
                 $womacResult = WomacResult::where('id_womac', $request->id_womac)
                     ->where('result_name', 'kss1')
                     ->first();
                 $womacResult->update(['result_value' => $request->input('kss1')]);
+//                if (!empty($womacResult->result_value)) {
+//                    $answerCount++;
+//                }
 
 
                 $womacResult = WomacResult::where('id_womac', $request->id_womac)
                     ->where('result_name', 'kss2')
                     ->first();
                 $womacResult->update(['result_value' => $request->input('kss2')]);
+
+//                if (!empty($womacResult->result_value)) {
+//                    $answerCount++;
+//                }
+
+
             }
+
+            $womacUpdate->update([
+
+                'filled' => $answerCount
+            ]);
 
 //            dd($request->input());
 
@@ -283,6 +323,37 @@ class WomacController extends Controller
 
 
 //            dd($request->all());
+            $answerCount = 0;
+
+            for ($i = 1; $i <= 24; $i++) {
+                $answerKey = 'answer_' . str_pad($i, 2, '0', STR_PAD_LEFT);
+                $answerValue = $request->input($answerKey);
+                if (!empty($answerValue)) {
+                    $answerCount++;
+                }
+
+            }
+
+
+            $resultWomac = WomacResult::create([
+                'id_womac' => $womac->id_womac,
+                'result_name' => 'avg',
+                'result_value' => null,
+            ]);
+            $resultWomac->save();
+
+            if ($answerCount == 24) {
+                $priemer = 0;
+
+                //TU SA BUDE RATAT PRIEMER
+
+                $womacResult = WomacResult::where('id_womac', $womac->id_womac)
+                    ->where('result_name', 'avg')
+                    ->first();
+                $womacResult->update(['result_value' => $request->input($priemer)]);
+            }
+
+
 
             if ($operacia->typ == 0) {
                 $typResult = "hhs";
@@ -293,6 +364,13 @@ class WomacController extends Controller
                     'result_value' => $resValue,
                 ]);
                 $resultWomac->save();
+
+//                if (!empty($resValue)) {
+//                    $answerCount++;
+//                }
+
+
+
             } else {
                 $typResult1 = "kss1";
                 $typResult2 = "kss2";
@@ -310,6 +388,14 @@ class WomacController extends Controller
                 ]);
                 $resultWomac1->save();
                 $resultWomac2->save();
+
+//                if (!empty($resValue1)) {
+//                    $answerCount++;
+//                }
+//
+//                if (!empty($resValue2)) {
+//                    $answerCount++;
+//                }
             }
 
 
@@ -322,6 +408,12 @@ class WomacController extends Controller
 
 
             $womacOperation->save();
+
+            $womacOperation->womac->update([
+
+                'filled' => $answerCount
+            ]);
+//            dd($womacOperation->womac);
         }
         return redirect()->route('home.womac');
     }
