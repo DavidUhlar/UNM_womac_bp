@@ -236,11 +236,30 @@ class WomacController extends Controller
             if ($answerCount == 24) {
                 // TU BUDE RATANIE PRIEMERU
 
-                $priemer = 0;
+                $percenta = [];
+
+                for ($i = 1; $i <= 24; $i++) {
+                    $answerKey = 'answer_' . str_pad($i, 2, '0', STR_PAD_LEFT);
+                    $answerValue = $request->input($answerKey);
+
+
+                    $percenta[$i] = (5 - $answerValue) * 25;
+
+
+                }
+
+
+                //TU SA BUDE RATAT PRIEMER
+                $priemer = array_sum($percenta) / 24;
+
+
+
+
+
                 $womacResult = WomacResult::where('id_womac', $request->id_womac)
                     ->where('result_name', 'avg')
                     ->first();
-                $womacResult->update(['result_value' => $request->input($priemer)]);
+                $womacResult->update(['result_value' => $priemer]);
 
             }
 
@@ -343,14 +362,27 @@ class WomacController extends Controller
             $resultWomac->save();
 
             if ($answerCount == 24) {
-                $priemer = 0;
+
+                $percenta = [];
+
+                for ($i = 1; $i <= 24; $i++) {
+                    $answerKey = 'answer_' . str_pad($i, 2, '0', STR_PAD_LEFT);
+                    $answerValue = $request->input($answerKey);
+
+
+                    $percenta[$i] = (5 - $answerValue) * 25;
+
+
+                }
+
 
                 //TU SA BUDE RATAT PRIEMER
+                $priemer = array_sum($percenta) / 24;
 
                 $womacResult = WomacResult::where('id_womac', $womac->id_womac)
                     ->where('result_name', 'avg')
                     ->first();
-                $womacResult->update(['result_value' => $request->input($priemer)]);
+                $womacResult->update(['result_value' => $priemer]);
             }
 
 
