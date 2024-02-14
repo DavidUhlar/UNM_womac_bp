@@ -249,7 +249,7 @@ class WomacController extends Controller
                 }
 
 
-                //TU SA BUDE RATAT PRIEMER
+                //TU SA RATA PRIEMER
                 $priemer = array_sum($percenta) / 24;
 
 
@@ -376,7 +376,7 @@ class WomacController extends Controller
                 }
 
 
-                //TU SA BUDE RATAT PRIEMER
+                //TU SA RATA PRIEMER
                 $priemer = array_sum($percenta) / 24;
 
                 $womacResult = WomacResult::where('id_womac', $womac->id_womac)
