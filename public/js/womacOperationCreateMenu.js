@@ -61,8 +61,7 @@ $(document).ready(function () {
         $('input[name="kss1"]').val(null);
         $('input[name="kss2"]').val(null);
 
-        $('input[id="filter_input"]').val(filterValue);
-        console.log(filterValue);
+
         updateMode = !updateMode;
         updateContent();
     });
@@ -70,5 +69,7 @@ $(document).ready(function () {
     function updateContent() {
         document.getElementById('sarIdSpan').innerText = operationIdFromJavaScript;
         document.getElementById('womacIdSpan').innerText = "";
+        $('input[id="filter_input"]').val(filterValue);
+        console.log(filterValue);
     }
 });

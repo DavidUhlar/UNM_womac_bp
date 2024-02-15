@@ -27,7 +27,14 @@
                 </div>
                 <div class="womac-row">
                     <div class="womac-cell womac-header">Subtyp</div>
-                    <div class="womac-cell womac-value">{{ $operation->subtyp  }}</div>
+                    <div class="womac-cell womac-value">
+{{--                        {{ $operation->subtyp  }}--}}
+                        @if($operation->subtyp == 0)
+                            Primárne
+                        @elseif($operation->subtyp == 1)
+                            Revízne
+                        @endif
+                    </div>
                 </div>
                 <div class="womac-row">
                     <div class="womac-cell womac-header">Dátum</div>

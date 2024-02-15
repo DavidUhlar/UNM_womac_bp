@@ -21,7 +21,7 @@
                 @csrf
                 @method('GET')
                 <div class="flex-container-womac-delete">
-                <input type="text" id="filter_input" name="filter_criteria" placeholder="Zadaj Rodné číslo alebo meno" value= "{{ $filter }}">
+                <input type="text" id="filter_input" name="filter_criteria" placeholder="Zadaj Rodné číslo alebo meno" value= "{{ old('filter', $filter) }}">
                 <button type="submit">Filter</button>
                 </div>
             </form>
