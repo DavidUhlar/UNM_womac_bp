@@ -42,26 +42,6 @@ class ExportController extends Controller
 
     }
 
-//    public function filter(Request $request)
-//    {
-//        $filterOperacia_SAR_ID = $request->input('filter_operacia_SAR_ID');
-//        $filter_pacient_rc = $request->input('filter_pacient_rc');
-//
-////        $operacia = Operacia::where('sar_id', 'like', "%$filterOperacia_SAR_ID%")->get();
-//
-//
-//
-//        $pacientiData = Pacient::where('rc', 'like', "%$filter_pacient_rc%")->get();
-//        foreach ($pacientiData as $pacient) {
-//
-//
-//
-//
-//        }
-//        $filter = "";
-//
-//        return view('export.export', compact('pacientiData', 'filter'));
-//    }
     public function filter(Request $request)
     {
         $filter_operacia_SAR_ID = $request->input('filter_operacia_SAR_ID');
