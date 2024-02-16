@@ -77,6 +77,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/', 'ExportController@show')->name('export.export');
         Route::get('/operacia/{id_operacie}', 'ExportController@showOperacia')->name('export.operacia');
         Route::get('/filter', 'ExportController@filter')->name('export.filter');
+        Route::post('/export-data', 'ExportController@exportToExcel')->name('export.toExcel');
     });
 
 

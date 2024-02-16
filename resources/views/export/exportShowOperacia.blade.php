@@ -5,10 +5,12 @@
 @section('content')
     @auth
 {{--        @dd($womacOperation->isEmpty())--}}
-        <a href="{{ url()->previous() }}">Návrat</a>
-        <br>
-        hopa operacia<br>
+
+
+
         <div class="womac-container">
+            <a href="{{ url()->previous() }}">Návrat</a>
+            <h4>Operacia</h4>
             <div class="womac-table">
                 <div class="womac-row">
                     <div class="womac-cell womac-header">SAR ID</div>
@@ -53,12 +55,13 @@
             </div>
         </div>
 
-        <br>
-        WOMACS
-        <br>
 
+
+{{--@dd($womacOperation)--}}
         @if(!$womacOperation->isEmpty())
             <div class="womac-container">
+                <h4>WOMAC</h4>
+
                 @foreach($womacOperation as $womacOperationLocal)
                     <div class="womac-table">
                         <div class="womac-row">

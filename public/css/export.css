@@ -62,4 +62,16 @@
 .pacient-info-container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.pagination-operation {
+    max-width: 50%;
+    /*max-height: 50px;*/
+    /*margin: auto;*/
+    padding: 2%;
+}
+
+.flex-container-womac-delete {
+    margin-bottom: 2%;
 }

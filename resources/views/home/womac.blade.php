@@ -74,7 +74,7 @@
 
                                         {{--                                        {{$womacOperations}}--}}
                                         @foreach($uniqueIdWomacValues as $idWomac)
-                                            @if($womData = $womac->where('id_womac', $idWomac)->first())
+                                            @if($womData = $womac->where('id', $idWomac)->first())
                                                 <div class="flex-container-womac-delete">
                                                     <a href="#" class="sub-item" data-typ="koleno" data-id="{{ $womData->id_womac }}">
                                                         Womac {{ $womData->id_womac }}, {{ $womData->date_womac }}
@@ -115,7 +115,7 @@
 
 {{--                                        {{$womacOperations}}--}}
                                         @foreach($uniqueIdWomacValues as $idWomac)
-                                            @if($womData = $womac->where('id_womac', $idWomac)->first())
+                                            @if($womData = $womac->where('id', $idWomac)->first())
                                                 <div class="flex-container-womac-delete">
                                                     <a href="#" class="sub-item" data-typ="bedro" data-id="{{ $womData->id_womac }}">
                                                         Womac {{ $womData->id_womac }}, {{ $womData->date_womac }}

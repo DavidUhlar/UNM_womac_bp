@@ -85,7 +85,7 @@ class WomacController extends Controller
 //            $womacResult = WomacResult::where('id_womac', $id_womac)->firstOrFail();
 //            $resultValue = $womacResult->result_value;
 
-        $localWomacOp = WomacOperation::where('id_womac', $id_womac)->first();
+        $localWomacOp = WomacOperation::where('id_womac', $womacData->id)->first();
         $womacOp = Operacia::where('id', $localWomacOp->id_operation)->first();
 
         $hhsResult = null;
@@ -323,7 +323,11 @@ class WomacController extends Controller
 
 
             $womacOperation = new WomacOperation();
-            $womac = Womac::where('id_womac', $record->id_womac)->first();
+            $womac = Womac::where('id_womac', $record->id_womac)
+                ->whereNull('closed_at')
+                ->whereNull('deleted_at')
+                ->whereNull('locked_at')
+                ->first();
 
 
 
@@ -336,7 +340,8 @@ class WomacController extends Controller
 
 
             $womacOperation->id_patient = $pacient->id;
-            $womacOperation->id_womac = $record->id_womac;
+//            $womacOperation->id_womac = $record->id_womac;
+            $womacOperation->id_womac = $womac->id;
             $womacOperation->id_operation = $operationID;
             $womacOperation->id_visit = 1;
 
@@ -467,7 +472,8 @@ class WomacController extends Controller
 
         $womacResult = WomacResult::where('id_womac', $id_womac);
         $womacResult->delete();
-        $womacOperation = WomacOperation::where('id_womac', $id_womac);
+//        $womacOperation = WomacOperation::where('id_womac', $id_womac);
+        $womacOperation = WomacOperation::where('id_womac', $womac->id);
         $womacOperation->delete();
 
         return redirect()->route('home.womac');

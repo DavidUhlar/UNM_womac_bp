@@ -20,7 +20,7 @@ return new class extends Migration
 //            $table->unsignedBigInteger('id_womac')->nullable(false);
 //            $table->unsignedBigInteger('id_patient')->nullable(false);
 //            $table->unsignedBigInteger('id_operation')->nullable(false);
-//            $table->primary(['id_patient', 'id_operation']);
+//            $table->primary(['id_patient', 'id_operation','id_womac']);
 
 
             $table->unsignedBigInteger('id_visit')->nullable(false);
@@ -36,7 +36,7 @@ return new class extends Migration
 
             // Womac ID
             $table->unsignedBigInteger('id_womac')->nullable(false);
-//            $table->foreign('id_womac')->references('id_womac')->on('womac')->onDelete('cascade');
+            $table->foreign('id_womac')->references('id')->on('womac')->onDelete('cascade');
 
         });
 

@@ -8,11 +8,17 @@
 {{--hopa--}}
 
         <div class="womac-container">
+{{--            @dd($filteredOperacie)--}}
+            <form action="{{ route('export.toExcel', ['operations' => $filteredOperacie]) }}" method="post">
+                @csrf
+                <button type="submit">Export</button>
+            </form>
             <form action="{{ route('export.filter') }}" method="get">
                 @csrf
                 @method('GET')
-                <h3>Filter</h3>
+
                 <div class="flex-container-womac-delete">
+                    <h3>Filter</h3>
                     <label for="filter_operacia_SAR_ID">SAR ID</label>
                     <input type="text" id="filter_operacia_SAR_ID" name="filter_operacia_SAR_ID" placeholder="Zadaj SAR ID" value= "{{ old('filter_operacia_SAR_ID', $filter_operacia_SAR_ID) }}">
 
@@ -42,6 +48,8 @@
                     <button type="submit">Filter</button>
                 </div>
             </form>
+
+
             @foreach($filteredOperacie as $operacia)
                 <div class="exportZaznam">
                     <div class="pacient-info-container">
@@ -104,6 +112,12 @@
 
                 </div>
             @endforeach
+{{--            <div class="pagination-operation">--}}
+{{--                {{ $filteredOperacie->links('pagination::bootstrap-5') }}--}}
+{{--            </div>--}}
+
+
+
         </div>
 
     @endauth

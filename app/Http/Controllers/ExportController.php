@@ -8,12 +8,17 @@ use App\Models\Womac;
 use App\Models\WomacOperation;
 use App\Models\WomacResult;
 use Illuminate\Http\Request;
+use App\Exports\FilteredOperacieExport;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ExportController extends Controller
 {
     public function show()
     {
 
+//        $filteredOperacie = Operacia::paginate(10);
         $filteredOperacie = Operacia::all();
 
         $filter_operacia_SAR_ID = '';
@@ -47,16 +52,25 @@ class ExportController extends Controller
             ->get();
         $filteredOperacie = collect();
 
+
+//        DB::enableQueryLog();
         foreach ($pacientiData as $pacient) {
-            $operacie = Operacia::where('id_pac', $pacient->id);
 
-
-            $operacie->where('sar_id', 'like', "%$filter_operacia_SAR_ID%")
+            $operacie = Operacia::where('id_pac', $pacient->id)
+                ->where('sar_id', 'like', "%$filter_operacia_SAR_ID%")
                 ->where('typ', 'like', "%$filter_operacia_typ%")
-                ->where('subtyp', 'like', "%$filter_operacia_subtyp%");
+                ->where('subtyp', 'like', "%$filter_operacia_subtyp%")
+                ->with('womac');
+//                ->get();
 
             $filteredOperacie = $filteredOperacie->merge($operacie->get());
+
         }
+
+        Session::put('filteredOperacie', $filteredOperacie);
+//        dd($filteredOperacie);
+
+
 
         return view('export.export', compact('filteredOperacie',
             'filter_operacia_SAR_ID',
@@ -74,10 +88,11 @@ class ExportController extends Controller
         $womacOperation = WomacOperation::where('id_operation', $id_operacie)->get();
         $operation = Operacia::where('id', $id_operacie)->first();
 
+
         foreach ($womacOperation as $womOp) {
 
     //        dd($womacOperation);
-            $womac = Womac::where('id_womac', $womOp->id_womac)
+            $womac = Womac::where('id', $womOp->id_womac)
                 ->whereNull('closed_at')
                 ->whereNull('deleted_at')
                 ->whereNull('locked_at')->first();
@@ -92,6 +107,7 @@ class ExportController extends Controller
 
 
         }
+//        dd($womacOperation);
 
 
 //        dd($womacOperation->get(0)->womac()->first()->id_womac);
@@ -99,6 +115,15 @@ class ExportController extends Controller
         return view('export.exportShowOperacia', compact('womacOperation', 'operation'));
 
 
+    }
+
+
+    public function exportToExcel()
+    {
+        $filteredOperacie = Session::get('filteredOperacie');
+//        dd($filteredOperacie);
+
+        return Excel::download(new FilteredOperacieExport($filteredOperacie), 'filtered_operacie.xlsx');
     }
 
 
