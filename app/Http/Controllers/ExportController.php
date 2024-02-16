@@ -14,14 +14,6 @@ class ExportController extends Controller
     public function show()
     {
 
-//        $pacientiData = Pacient::all();
-//        foreach ($pacientiData as $pacient) {
-//
-////            $operacie = Operacia::where('id_pac', $pacient->id)->firstOrFail();
-//            $operacie = Operacia::where('id_pac', $pacient->id)->get();
-//
-//
-//        }
         $filteredOperacie = Operacia::all();
 
         $filter_operacia_SAR_ID = '';
@@ -59,12 +51,6 @@ class ExportController extends Controller
             $operacie = Operacia::where('id_pac', $pacient->id);
 
 
-//            if ($filterOperacia_SAR_ID) {
-//                $operacie->where('sar_id', 'like', "%$filterOperacia_SAR_ID%");
-//            } elseif ($filter_operacia_typ) {
-//
-//            }
-
             $operacie->where('sar_id', 'like', "%$filter_operacia_SAR_ID%")
                 ->where('typ', 'like', "%$filter_operacia_typ%")
                 ->where('subtyp', 'like', "%$filter_operacia_subtyp%");
@@ -72,9 +58,6 @@ class ExportController extends Controller
             $filteredOperacie = $filteredOperacie->merge($operacie->get());
         }
 
-        $filter = "";
-
-//        dd($filteredOperacie->get(0)->pacient);
         return view('export.export', compact('filteredOperacie',
             'filter_operacia_SAR_ID',
             'filter_pacient_rc',
@@ -108,10 +91,6 @@ class ExportController extends Controller
             $womOp->womac()->associate($womac);
 
 
-//            dd($womacOperation, $womOp->womac->result);
-//            if ($womOp->id_operation == $id_operacie) {
-//                $womOp->operacia()->associate($operation);
-//            }
         }
 
 
