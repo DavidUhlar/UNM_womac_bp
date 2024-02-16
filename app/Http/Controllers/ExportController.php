@@ -9,6 +9,8 @@ use App\Models\WomacOperation;
 use App\Models\WomacResult;
 use Illuminate\Http\Request;
 use App\Exports\FilteredOperacieExport;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
@@ -18,8 +20,8 @@ class ExportController extends Controller
     public function show()
     {
 
-//        $filteredOperacie = Operacia::paginate(10);
-        $filteredOperacie = Operacia::all();
+        $filteredOperacie = Operacia::paginate(10);
+//        $filteredOperacie = Operacia::all();
 
         $filter_operacia_SAR_ID = '';
         $filter_pacient_rc = '';
@@ -70,9 +72,30 @@ class ExportController extends Controller
         Session::put('filteredOperacie', $filteredOperacie);
 //        dd($filteredOperacie);
 
+        //https://laracasts.com/discuss/channels/laravel/how-to-paginate-laravel-collection
+//        $perPage = 1;
+//        $currentPage = Paginator::resolveCurrentPage() ?: 1;
+//        $currentPageItems = $filteredOperacie->slice(($currentPage - 1) * $perPage, $perPage)->all();
+//        $filteredOperaciePaginate = new LengthAwarePaginator($currentPageItems, count($filteredOperacie), $perPage, $currentPage, [
+//            'path' => Paginator::resolveCurrentPath(),
+//        ]);
+        $pageSize = $request->input('page_size', 10);
+        $totalOperacie = $filteredOperacie->count();
+        $currentPage = $request->input('page', 1);
 
 
-        return view('export.export', compact('filteredOperacie',
+        $pageSize = max(1, $pageSize);
+
+        $filteredOperaciePaginate = new LengthAwarePaginator(
+            $filteredOperacie->forPage($currentPage, $pageSize)->values(),
+            $totalOperacie,
+            $pageSize,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+//        $filteredOperaciePaginate = $filteredOperacie;
+
+        return view('export.exportFilter', compact('filteredOperaciePaginate',
             'filter_operacia_SAR_ID',
             'filter_pacient_rc',
             'filter_operacia_typ',

@@ -9,7 +9,7 @@
 
         <div class="womac-container">
 {{--            @dd($filteredOperacie)--}}
-            <form action="{{ route('export.toExcel', ['operations' => $filteredOperacie]) }}" method="post">
+            <form action="{{ route('export.toExcel') }}" method="post">
                 @csrf
                 <button type="submit">Export</button>
             </form>
@@ -50,7 +50,7 @@
             </form>
 
 
-            @foreach($filteredOperacie as $operacia)
+            @foreach($filteredOperaciePaginate as $operacia)
                 <div class="exportZaznam">
                     <div class="pacient-info-container">
                         <div class="pacient-info">
@@ -113,7 +113,15 @@
                 </div>
             @endforeach
             <div class="pagination-operation">
-                {{ $filteredOperacie->links('pagination::bootstrap-5') }}
+                @if ($filteredOperaciePaginate instanceof \Illuminate\Pagination\AbstractPaginator)
+                    {{ $filteredOperaciePaginate->appends([
+                        'filter_operacia_SAR_ID' => $filter_operacia_SAR_ID,
+                        'filter_pacient_rc' => $filter_pacient_rc,
+                        'filter_operacia_typ' => $filter_operacia_typ,
+                        'filter_operacia_subtyp' => $filter_operacia_subtyp,
+                        'filter_pacient_priezvisko' => $filter_pacient_priezvisko,
+                    ])->links('pagination::bootstrap-5') }}
+                @endif
             </div>
 
 
