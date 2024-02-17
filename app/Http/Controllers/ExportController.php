@@ -20,7 +20,7 @@ class ExportController extends Controller
     public function show()
     {
 
-        $filteredOperacie = Operacia::paginate(10);
+        $filteredOperaciePaginate = Operacia::paginate(10);
 //        $filteredOperacie = Operacia::all();
 
         $filter_operacia_SAR_ID = '';
@@ -30,7 +30,7 @@ class ExportController extends Controller
         $filter_pacient_priezvisko = '';
 
 //        dd($operacie);
-        return view('export.export', compact('filteredOperacie',
+        return view('export.export', compact('filteredOperaciePaginate',
             'filter_operacia_SAR_ID',
             'filter_pacient_rc',
             'filter_operacia_typ',
@@ -82,8 +82,6 @@ class ExportController extends Controller
         $pageSize = $request->input('page_size', 10);
         $totalOperacie = $filteredOperacie->count();
         $currentPage = $request->input('page', 1);
-
-
         $pageSize = max(1, $pageSize);
 
         $filteredOperaciePaginate = new LengthAwarePaginator(
@@ -95,7 +93,7 @@ class ExportController extends Controller
         );
 //        $filteredOperaciePaginate = $filteredOperacie;
 
-        return view('export.exportFilter', compact('filteredOperaciePaginate',
+        return view('export.export', compact('filteredOperaciePaginate',
             'filter_operacia_SAR_ID',
             'filter_pacient_rc',
             'filter_operacia_typ',

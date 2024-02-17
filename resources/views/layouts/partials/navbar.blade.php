@@ -53,9 +53,35 @@
                             </li>
                         @endguest
                         @auth
-                            <li class="nav-item">
-                                <div class="nav-link account-navbar">{{auth()->user()->username}}</div>
-                            </li>
+
+
+{{--                            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">--}}
+{{--                                <ul class="navbar-nav">--}}
+                                    <li class="nav-item dropdown">
+                                        <button class="btn btn-dark dropdown-toggle account-navbar" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {{auth()->user()->username}}
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-dark">
+                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                                            <li><a class="dropdown-item" href="#">Something</a></li>
+                                        </ul>
+                                    </li>
+{{--                                </ul>--}}
+{{--                            </div>--}}
+
+
+{{--                            <li class="nav-item">--}}
+{{--                                <div class="nav-link account-navbar" data-bs-toggle="dropdown">--}}
+{{--                                    {{auth()->user()->username}}--}}
+{{--                                    <ul class="dropdown-menu">--}}
+{{--                                        <li><a class="dropdown-item" href="#">Action</a></li>--}}
+{{--                                        <li><a class="dropdown-item" href="#">Another action</a></li>--}}
+{{--                                        <li><a class="dropdown-item" href="#">Something else here</a></li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </li>--}}
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('logout.perform') }}">Logout</a>
                             </li>

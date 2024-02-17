@@ -91,6 +91,8 @@ a.operacie {
 
 .sub-item {
     padding: 5px 8.5vh;
+    background-color: #3b3b3b;
+    border-bottom: black 2px solid;
 }
 
 .activeMenu {

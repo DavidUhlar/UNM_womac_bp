@@ -1,6 +1,7 @@
 var updateMode = false;
 $(document).ready(function () {
 
+    // var lastClickedSubMenuId = null;
 
     $('.sub-item').click(function (e) {
         e.preventDefault();
@@ -10,7 +11,19 @@ $(document).ready(function () {
         console.log(idWomac);
         console.log(getWomacRoute + idWomac);
 
+        // if (lastClickedSubMenuId === idWomac) {
+        //     // updateMode = !updateMode;
+        //     updateMode = false;
+        // } else {
+        //     updateMode = true;
+        // }
+        //
+        // lastClickedSubMenuId = idWomac;
+
         womacIdFromJavaScript = idWomac;
+
+        // updateContentWomac(updateMode);
+
 
         if (updateMode) {
             $.ajax({

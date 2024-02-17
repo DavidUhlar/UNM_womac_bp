@@ -79,11 +79,13 @@
                                                     <a href="#" class="sub-item" data-typ="koleno" data-id="{{ $womData->id_womac }}">
                                                         Womac {{ $womData->id_womac }}, {{ $womData->date_womac }}
                                                     </a>
-                                                    <form id="deleteForm" action="{{ route('womac.delete', $womData->id_womac) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" title="Delete" class="delete-button-womac" data-id="{{ $womData->id_womac }}">Delete</button>
-                                                    </form>
+                                                    @if(auth()->user()->is_admin == true)
+                                                        <form id="deleteForm" action="{{ route('womac.delete', $womData->id_womac) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" title="Delete" class="delete-button-womac" data-id="{{ $womData->id_womac }}">Delete</button>
+                                                        </form>
+                                                    @endif
                                                 </div>
 
                                             @endif
@@ -120,11 +122,13 @@
                                                     <a href="#" class="sub-item" data-typ="bedro" data-id="{{ $womData->id_womac }}">
                                                         Womac {{ $womData->id_womac }}, {{ $womData->date_womac }}
                                                     </a>
-                                                    <form id="deleteForm" action="{{ route('womac.delete', $womData->id_womac) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" title="Delete" class="delete-button-womac" data-id="{{ $womData->id_womac }}">Delete</button>
-                                                    </form>
+                                                    @if(auth()->user()->is_admin && auth()->user()->is_admin == true)
+                                                        <form id="deleteForm" action="{{ route('womac.delete', $womData->id_womac) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" title="Delete" class="delete-button-womac" data-id="{{ $womData->id_womac }}">Delete</button>
+                                                        </form>
+                                                    @endif
                                                 </div>
                                             @endif
                                         @endforeach

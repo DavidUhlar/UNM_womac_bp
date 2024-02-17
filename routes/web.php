@@ -69,7 +69,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/', 'WomacController@show')->name('home.womac');
         Route::post('/create/{id_operation}', 'WomacController@create')->name('womac.create');
         Route::get('/womac-data/{id_womac}', 'WomacController@getWomacData')->name('womac.getWomac');
-        Route::delete('/delete/{id_womac}', 'WomacController@deleteWomac')->name('womac.delete');
+        Route::delete('/delete/{id_womac}', 'WomacController@deleteWomac')->name('womac.delete')->middleware('admin');;
         Route::get('/filter', 'WomacController@filter')->name('womac.filter');
     });
 
