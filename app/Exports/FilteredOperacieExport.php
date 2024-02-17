@@ -29,55 +29,76 @@ class FilteredOperacieExport implements FromCollection, WithHeadings, ShouldAuto
         foreach ($this->filteredOperacie as $operacia) {
             $pacient = $operacia->pacient;
 
-            foreach ($operacia->womac as $womac) {
-//                dd($womac->result);
-                $rowData = [
+            if ($operacia->womac->isEmpty()) {
+                $data->push([
                     'Operacia SAR ID' => $operacia->sar_id,
-                    'typ' =>  ($operacia->typ === 0) ? "bedro" : "koleno",
+                    'typ' => ($operacia->typ === 0) ? "bedro" : "koleno",
                     'subtyp' => ($operacia->subtyp === 0) ? "primárne" : "revízne",
-                    'dátum operácie' =>  \Carbon\Carbon::createFromFormat('Ymd', $operacia->datum)->format('Y-m-d'),
+                    'dátum operácie' => \Carbon\Carbon::createFromFormat('Ymd', $operacia->datum)->format('Y-m-d'),
                     'Meno pacienta' => $pacient->meno,
                     'Priezvisko pacienta' => $pacient->priezvisko,
                     'Rod. číslo pacienta' => $pacient->rc,
-                    'Womac id' => $womac->id_womac,
-                    'Womac dátum' => $womac->date_womac,
-                    'Dátum kontroly' => $womac->date_visit,
-
-                ];
-
-
-                for ($i = 1; $i <= 24; $i++) {
-                    $answerKey = str_pad($i, 2, '0', STR_PAD_LEFT);
-                    $rowData[$answerKey] = $womac->{'answer_' . $answerKey};
-                }
-
-                $results = [
-                    'hhs' => "-",
-                    'kss1' => "-",
-                    'kss2' => "-",
+                    'Womac id' => "",
+                    'Womac dátum' => "",
+                    'Dátum kontroly' => "",
+                    'hhs' => "",
+                    'kss1' => "",
+                    'kss2' => "",
                     'avg' => "",
-                ];
-//                dd($womac->result);
-                foreach ($womac->result as $resultLocal) {
-                    switch ($resultLocal->result_name) {
-                        case 'hhs':
-                            $results['hhs'] = $resultLocal->result_value;
-                            break;
-                        case 'kss1':
-                            $results['kss1'] = $resultLocal->result_value;
-                            break;
-                        case 'kss2':
-                            $results['kss2'] = $resultLocal->result_value;
-                            break;
-                        case 'avg':
-                            $results['avg'] = $resultLocal->result_value;
-                            break;
+                ]);
+
+            } else {
+                foreach ($operacia->womac as $womac) {
+    //                dd($womac->result);
+                    $rowData = [
+                        'Operacia SAR ID' => $operacia->sar_id,
+                        'typ' =>  ($operacia->typ === 0) ? "bedro" : "koleno",
+                        'subtyp' => ($operacia->subtyp === 0) ? "primárne" : "revízne",
+                        'dátum operácie' =>  \Carbon\Carbon::createFromFormat('Ymd', $operacia->datum)->format('Y-m-d'),
+                        'Meno pacienta' => $pacient->meno,
+                        'Priezvisko pacienta' => $pacient->priezvisko,
+                        'Rod. číslo pacienta' => $pacient->rc,
+                        'Womac id' => $womac->id_womac,
+                        'Womac dátum' => $womac->date_womac,
+                        'Dátum kontroly' => $womac->date_visit,
+
+                    ];
+
+
+                    for ($i = 1; $i <= 24; $i++) {
+                        $answerKey = str_pad($i, 2, '0', STR_PAD_LEFT);
+                        $rowData[$answerKey] = $womac->{'answer_' . $answerKey};
                     }
+
+                    $results = [
+                        'hhs' => "-",
+                        'kss1' => "-",
+                        'kss2' => "-",
+                        'avg' => "",
+                    ];
+
+    //                dd($womac->result);
+                    foreach ($womac->result as $resultLocal) {
+                        switch ($resultLocal->result_name) {
+                            case 'hhs':
+                                $results['hhs'] = $resultLocal->result_value;
+                                break;
+                            case 'kss1':
+                                $results['kss1'] = $resultLocal->result_value;
+                                break;
+                            case 'kss2':
+                                $results['kss2'] = $resultLocal->result_value;
+                                break;
+                            case 'avg':
+                                $results['avg'] = $resultLocal->result_value;
+                                break;
+                        }
+                    }
+
+                    $rowData = array_merge($rowData, $results);
+
+                    $data->push($rowData);
                 }
-
-                $rowData = array_merge($rowData, $results);
-
-                $data->push($rowData);
             }
         }
 
