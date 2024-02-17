@@ -20,40 +20,23 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
      * Home Routes
      */
     Route::get('/', 'HomeController@index')->name('home.index');
-
-
-
     Route::get('o_nas', 'O_nasController@show')->name('home.o_nas');
-
-
-
-
 
     Route::group(['prefix' => 'oznam_index'], function (){
         Route::get('/', 'OznamController@index')->name('oznam.oznam');
-
-
 
         //ajax
         Route::get('/load-more-posts', 'OznamController@loadMorePosts')->name('oznam.load-more-posts');
         Route::get('/oznam/{id}/load-more-comments', 'OznamController@loadMoreComments')->name('oznam.load-more-comments');
 
-
-
         Route::get('/oznam/create', 'OznamController@create')->name('oznam.create');
-
         Route::post('/oznam/create', 'OznamController@store')->name('oznam.store');
-
         Route::get('/oznam/{id}', 'OznamController@show')->name('oznam.oznamShow');
-
         Route::get('/oznam/edit/{id}', 'OznamController@edit')->name('oznam.oznamEdit');
-
         Route::put('/oznam/edit/{id}', 'OznamController@update')->name('oznam.update');
-
         Route::delete('/oznam/{id}', 'OznamController@destroy')->name('oznam.destroy');
 
         Route::post('/oznam/{id}/like', 'OznamController@likeOznam')->name('oznam.like');
-
 
         Route::get('/oznam/tag/{id}', 'TagController@indexTag')->name('oznam.tag');
         Route::post('/oznam/tag/{id}', 'TagController@associateTag')->name('oznam.associateTag');
@@ -99,7 +82,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     });
 
     Route::get('/loginSuccess', 'HomeController@loginSuccess')->name('home.loginSuccess');
-
+    Route::get('/password-change/show', 'UsersController@passwordChangeShow')->name('passwordChange.show');
+    Route::post('/password-change/update', 'UsersController@passwordChange')->name('passwordChange.change');
 
     /**
      * Logout Routes
