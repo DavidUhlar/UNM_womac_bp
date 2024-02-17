@@ -149,7 +149,7 @@ class WomacController extends Controller
     public function create(Request $request)
     {
 
-//        dd($request);
+//        dd($request->all());
         $request->validate([
             'date_womac' => 'required',
             'date_visit' => 'required',
@@ -267,6 +267,7 @@ class WomacController extends Controller
 
             $womacOp = Operacia::where('id', $request->id_operation)->first();
 
+//            dd($womacOp, $request->all());
             if ($womacOp->typ == 0) {
 //                $typResult = "hhs";
                 $womacResult = WomacResult::where('id_womac', $request->id_womac)
@@ -278,7 +279,7 @@ class WomacController extends Controller
 //                    $answerCount++;
 //                }
 
-            } else {
+            } else if ($womacOp->typ == 1){
 //                $typResult = "kss";
                 $womacResult = WomacResult::where('id_womac', $request->id_womac)
                     ->where('result_name', 'kss1')

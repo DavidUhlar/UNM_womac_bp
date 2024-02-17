@@ -9,6 +9,8 @@
             var createRoute = '{{ url('/') }}' + '/womac/create/'
             var getWomacRoute = '{{ url('/') }}' + '/womac/womac-data/'
             var filterValue = '{{ $filter }}'
+            var operationID = 0;
+            var sarID = '';
         </script>
         <script src="{{ asset("js/womacOperationCreateMenu.js") }}"></script>
         <script src="{{ asset("js/womacMenu.js") }}"></script>
@@ -76,7 +78,7 @@
                                         @foreach($uniqueIdWomacValues as $idWomac)
                                             @if($womData = $womac->where('id', $idWomac)->first())
                                                 <div class="flex-container-womac-delete">
-                                                    <a href="#" class="sub-item" data-typ="koleno" data-id="{{ $womData->id_womac }}">
+                                                    <a href="#" class="sub-item" data-typ="koleno" data-id="{{ $womData->id_womac }}" data-id-operation="{{ $operaciaPacientaK['id'] }}" data-operation="{{ $operaciaPacientaK['sar_id'] }}">
                                                         Womac {{ $womData->id_womac }}, {{ $womData->date_womac }}
                                                     </a>
                                                     @if(auth()->user()->is_admin == true)
@@ -119,7 +121,7 @@
                                         @foreach($uniqueIdWomacValues as $idWomac)
                                             @if($womData = $womac->where('id', $idWomac)->first())
                                                 <div class="flex-container-womac-delete">
-                                                    <a href="#" class="sub-item" data-typ="bedro" data-id="{{ $womData->id_womac }}">
+                                                    <a href="#" class="sub-item" data-typ="bedro" data-id="{{ $womData->id_womac }}" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }}">
                                                         Womac {{ $womData->id_womac }}, {{ $womData->date_womac }}
                                                     </a>
                                                     @if(auth()->user()->is_admin && auth()->user()->is_admin == true)

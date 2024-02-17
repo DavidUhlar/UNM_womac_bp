@@ -3,12 +3,15 @@
 $(document).ready(function () {
     $('.sub-btn.operacie').click(function () {
         console.log('Click event triggered');
-        var sarID = $(this).data('operation');
-        var operationID = $(this).data('id-operation');
+        sarID = $(this).data('operation');
+        operationID = $(this).data('id-operation');
         var typOperacie = $(this).data('typ');
 
         console.log('Clicked operation:', sarID);
         console.log('Clicked operation id:', operationID);
+
+
+
 
         operationIdFromJavaScript = sarID;
 
@@ -48,9 +51,12 @@ $(document).ready(function () {
         console.log(createRoute + operationID);
         // var formAction = '/unm_womac_bp/public/womac/create/' + operationID;
 
-        var formAction = createRoute + operationID;
 
-        $('.vpisovanieDat').attr('action', formAction);
+        updateFormAction(operationID);
+
+        // var formAction = createRoute + operationID;
+        //
+        // $('.vpisovanieDat').attr('action', formAction);
 
 
 
@@ -62,10 +68,14 @@ $(document).ready(function () {
         $('input[name="kss2"]').val(null);
 
 
-        updateMode = !updateMode;
+        // updateMode = !updateMode;
         updateContent();
     });
 
+    function updateFormAction(operationID) {
+        var formAction = createRoute + operationID;
+        $('.vpisovanieDat').attr('action', formAction);
+    }
     function updateContent() {
         document.getElementById('sarIdSpan').innerText = operationIdFromJavaScript;
         document.getElementById('womacIdSpan').innerText = "";

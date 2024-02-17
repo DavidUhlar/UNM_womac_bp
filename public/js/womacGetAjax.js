@@ -1,28 +1,38 @@
 var updateMode = false;
+var lastClickedSubMenuId = null;
 $(document).ready(function () {
 
-    // var lastClickedSubMenuId = null;
+
 
     $('.sub-item').click(function (e) {
         e.preventDefault();
 
         var idWomac = $(this).data('id');
         var typ = $(this).data('typ');
+        operationID = $(this).data('id-operation');
+        sarID = $(this).data('operation');
         console.log(idWomac);
         console.log(getWomacRoute + idWomac);
+        console.log(operationID + '    z womacu');
+        console.log(sarID + '    z womacu');
 
-        // if (lastClickedSubMenuId === idWomac) {
-        //     // updateMode = !updateMode;
-        //     updateMode = false;
-        // } else {
-        //     updateMode = true;
-        // }
-        //
-        // lastClickedSubMenuId = idWomac;
+        updateFormAction(operationID);
+
+        if (lastClickedSubMenuId === idWomac) {
+            updateMode = !updateMode;
+            // $('.vpisovanieDat').toggle();
+            lastClickedSubMenuId = -1;
+        } else {
+            updateMode = true;
+            lastClickedSubMenuId = idWomac;
+        }
+
+
 
         womacIdFromJavaScript = idWomac;
 
-        // updateContentWomac(updateMode);
+        updateContentWomac(updateMode);
+
 
 
         if (updateMode) {
@@ -111,8 +121,13 @@ $(document).ready(function () {
             $('input[name="kss2"]').val(null);
             updateContentWomac(true);
         }
-        updateMode = !updateMode;
+        // updateMode = !updateMode;
     });
+
+    function updateFormAction(operationID) {
+        var formAction = createRoute + operationID;
+        $('.vpisovanieDat').attr('action', formAction);
+    }
 
     function updateContentWomac(parameterTrue) {
 
@@ -121,5 +136,7 @@ $(document).ready(function () {
         } else {
             document.getElementById('womacIdSpan').innerText = womacIdFromJavaScript;
         }
+        document.getElementById('sarIdSpan').innerText = sarID;
+        $('input[id="filter_input"]').val(filterValue);
     }
 });
