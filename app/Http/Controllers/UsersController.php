@@ -142,8 +142,9 @@ class UsersController extends Controller
         } else {
             if ($newPassword == $newPasswordConfirmation) {
                 auth()->user()->update([
-                    'password' => bcrypt($newPassword),
+                    'password' => $newPassword,
                 ]);
+//                auth()->user()->setPasswordAttribute($newPassword);
 
             } else {
                 return redirect()->route('passwordChange.show')->with('error', 'Nesprávne zopakované nové heslo.');
