@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PermissionsController;
+use App\Http\Controllers\RolesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OznamController;
 
@@ -85,10 +87,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/password-change/show', 'UsersController@passwordChangeShow')->name('passwordChange.show');
     Route::post('/password-change/update', 'UsersController@passwordChange')->name('passwordChange.change');
 
+
+
     /**
      * Logout Routes
      */
     Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+
+
 
     Route::group(['middleware' => ['auth', 'permission']], function() {
 
@@ -109,15 +115,15 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         /**
          * User Routes
          */
-        Route::group(['prefix' => 'posts'], function() {
-            Route::get('/', 'PostsController@index')->name('posts.index');
-            Route::get('/create', 'PostsController@create')->name('posts.create');
-            Route::post('/create', 'PostsController@store')->name('posts.store');
-            Route::get('/{post}/show', 'PostsController@show')->name('posts.show');
-            Route::get('/{post}/edit', 'PostsController@edit')->name('posts.edit');
-            Route::patch('/{post}/update', 'PostsController@update')->name('posts.update');
-            Route::delete('/{post}/delete', 'PostsController@destroy')->name('posts.destroy');
-        });
+//        Route::group(['prefix' => 'posts'], function() {
+//            Route::get('/', 'PostsController@index')->name('posts.index');
+//            Route::get('/create', 'PostsController@create')->name('posts.create');
+//            Route::post('/create', 'PostsController@store')->name('posts.store');
+//            Route::get('/{post}/show', 'PostsController@show')->name('posts.show');
+//            Route::get('/{post}/edit', 'PostsController@edit')->name('posts.edit');
+//            Route::patch('/{post}/update', 'PostsController@update')->name('posts.update');
+//            Route::delete('/{post}/delete', 'PostsController@destroy')->name('posts.destroy');
+//        });
 
         Route::resource('roles', RolesController::class);
         Route::resource('permissions', PermissionsController::class);

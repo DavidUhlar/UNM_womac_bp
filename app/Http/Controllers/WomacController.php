@@ -146,7 +146,7 @@ class WomacController extends Controller
     }
 
 
-    public function create(Request $request)
+    public function create(Request $request, $id_operation)
     {
 
 //        dd($request->all());
@@ -265,7 +265,7 @@ class WomacController extends Controller
 
 
 
-            $womacOp = Operacia::where('id', $request->id_operation)->first();
+            $womacOp = Operacia::where('id', $id_operation)->first();
 
 //            dd($womacOp, $request->all());
             if ($womacOp->typ == 0) {
@@ -320,7 +320,8 @@ class WomacController extends Controller
             } while (Womac::where('id_womac', $randomWomacId)->exists());
             $record->update(['id_womac' => $randomWomacId]);
 
-            $operationID = $request->id_operation;
+            $operationID = $id_operation;
+//            $operationID = $request->id_operacie;
 
 
             $womacOperation = new WomacOperation();

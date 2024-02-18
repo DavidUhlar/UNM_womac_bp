@@ -1,5 +1,7 @@
 @extends('layouts.app-master')
 @section('content')
+
+    @auth
     <div class="container">
 
         @if (session('error'))
@@ -31,4 +33,6 @@
             <button class="w-100 btn btn-lg btn-primary" type="submit">Zmeniť heslo</button>
         </form>
     </div>
+    @endauth
+
 @endsection
