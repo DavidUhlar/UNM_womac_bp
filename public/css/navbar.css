@@ -25,6 +25,7 @@
 
 .account-navbar {
     font-weight: bold;
+    margin-right: 2rem;
 }
 
 /*@media (min-width : 768px) {*/
@@ -35,6 +36,10 @@
 /*    }*/
 /*}*/
 
+.dropdown-toggle::after {
+    content: none;
 
+
+}
 
 

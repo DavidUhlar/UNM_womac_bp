@@ -8,6 +8,7 @@ use App\Models\WomacOperation;
 use App\Models\WomacResult;
 use Illuminate\Http\Request;
 use App\Models\Womac;
+use Illuminate\Validation\Rule;
 
 class WomacController extends Controller
 {
@@ -35,13 +36,10 @@ class WomacController extends Controller
 
 //        dd($dataPacient);
 
-//        $womacData = WomacOperation::all();
         $womac = Womac::whereNull('closed_at')
             ->whereNull('deleted_at')
             ->whereNull('locked_at')->get();
 
-        $womacOperations = WomacOperation::all();
-//        dd($womac);
 
         $filter = "";
         return view('home.womac', compact('dataPacient', 'womac', 'filter'));
@@ -51,6 +49,13 @@ class WomacController extends Controller
 
     public function filter(Request $request)
     {
+
+        $request->validate([
+
+
+        ]);
+
+
         $filter = $request->input('filter_criteria');
 
         $dataPacient = Pacient::where('rc', 'like', "%$filter%")
@@ -153,8 +158,34 @@ class WomacController extends Controller
         $request->validate([
             'date_womac' => 'required',
             'date_visit' => 'required',
+            'answer_01' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_02' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_03' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_04' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_05' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_06' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_07' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_08' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_09' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_10' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_11' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_12' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_13' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_14' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_15' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_16' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_17' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_18' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_19' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_20' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_21' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_22' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_23' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'answer_24' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
 
         ]);
+
+//        $errors = $validator->errors();
 
         $request->merge([
             'filled'=>'',
@@ -252,17 +283,12 @@ class WomacController extends Controller
                 //TU SA RATA PRIEMER
                 $priemer = array_sum($percenta) / 24;
 
-
-
-
-
                 $womacResult = WomacResult::where('id_womac', $request->id_womac)
                     ->where('result_name', 'avg')
                     ->first();
                 $womacResult->update(['result_value' => $priemer]);
 
             }
-
 
 
             $womacOp = Operacia::where('id', $id_operation)->first();
@@ -275,9 +301,7 @@ class WomacController extends Controller
                     ->first();
                 $womacResult->update(['result_value' => $request->input('hhs')]);
 
-//                if (!empty($womacResult->result_value)) {
-//                    $answerCount++;
-//                }
+
 
             } else if ($womacOp->typ == 1){
 //                $typResult = "kss";
@@ -285,25 +309,15 @@ class WomacController extends Controller
                     ->where('result_name', 'kss1')
                     ->first();
                 $womacResult->update(['result_value' => $request->input('kss1')]);
-//                if (!empty($womacResult->result_value)) {
-//                    $answerCount++;
-//                }
-
 
                 $womacResult = WomacResult::where('id_womac', $request->id_womac)
                     ->where('result_name', 'kss2')
                     ->first();
                 $womacResult->update(['result_value' => $request->input('kss2')]);
 
-//                if (!empty($womacResult->result_value)) {
-//                    $answerCount++;
-//                }
-
-
             }
 
             $womacUpdate->update([
-
                 'filled' => $answerCount
             ]);
 
@@ -330,8 +344,6 @@ class WomacController extends Controller
                 ->whereNull('deleted_at')
                 ->whereNull('locked_at')
                 ->first();
-
-
 
 
             $womacOperation->womac()->associate($womac);
@@ -404,12 +416,6 @@ class WomacController extends Controller
                 ]);
                 $resultWomac->save();
 
-//                if (!empty($resValue)) {
-//                    $answerCount++;
-//                }
-
-
-
             } else {
                 $typResult1 = "kss1";
                 $typResult2 = "kss2";
@@ -428,18 +434,7 @@ class WomacController extends Controller
                 $resultWomac1->save();
                 $resultWomac2->save();
 
-//                if (!empty($resValue1)) {
-//                    $answerCount++;
-//                }
-//
-//                if (!empty($resValue2)) {
-//                    $answerCount++;
-//                }
             }
-
-
-
-
 
 //            dd($womac);
 
