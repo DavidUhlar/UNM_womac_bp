@@ -53,9 +53,9 @@
                         <div class="card-footer">
                             <div class="row">
                                 @auth
-                                    @if($post->autor == auth()->user()->username || auth()->user()->username == 'admin')
+                                    @if($post->autor == auth()->user()->username || auth()->user()->username == 'admin' || auth()->user()->username == 'superuser')
                                         <div class="col-sm tlacitko">
-                                            <a href="{{ route('oznam.oznamEdit', $post->id) }}" class="btn btn-primary btn-sm tlacitko">Edit</a>
+                                            <a href="{{ route('oznam.oznamEdit', $post->id) }}" class="btn btn-primary btn-sm tlacitko">Upraviť</a>
                                         </div>
                                         <div class="col-sm tlacitko">
                                             <form action="{{ route('oznam.destroy', $post->id) }}" method="post">
@@ -70,7 +70,7 @@
                                     @endif
                                 @endauth
                                 <div class="col-sm tlacitko">
-                                    <a href="{{ route('oznam.oznamShow', ['id' => $post->id]) }}" class="btn btn-success btn-sm tlacitko">Show</a>
+                                    <a href="{{ route('oznam.oznamShow', ['id' => $post->id]) }}" class="btn btn-success btn-sm tlacitko">Otvoriť</a>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
             @endforeach
         </div>
         <div class="text-center mt-3">
-            <button class="btn btn-primary" id="load-more-posts">Load More</button>
+            <button class="btn btn-primary" id="load-more-posts">Načítať viac príspevkov</button>
         </div>
     </div>
 

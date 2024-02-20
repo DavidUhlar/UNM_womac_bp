@@ -18,11 +18,13 @@
 
         <div class="navbar-collapse collapse" id="navbarsExample04" style="">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
+
                 <li class="nav-item">
                     <a class="nav-link @if($routeName == 'home.index') active @endif" href="{{ route('home.index') }}">
                         Hlavná stránka
                     </a>
                 </li>
+
                 @auth
 {{--                    @if(auth()->user()->hasRole(['admin', 'superuser', ]))--}}
                     @if(auth()->user()->can('home.womac')))
@@ -38,14 +40,19 @@
                         </li>
                     @endif
                 @endauth
-                <li class="nav-item">
-                    <a class="nav-link @if($routeName == 'home.o_nas') active @endif" href="{{route('home.o_nas')}}">O
-                        nás</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @if(Str::startsWith($routeName, 'oznam.')) active @endif" href="{{route('oznam.oznam')}}">Oznam</a>
-                </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link @if($routeName == 'home.o_nas') active @endif" href="{{route('home.o_nas')}}">O
+                            nás</a>
+                    </li>
+
+                @auth
+                    @if(auth()->user()->can('oznam.oznam')))
+                        <li class="nav-item">
+                            <a class="nav-link @if(Str::startsWith($routeName, 'oznam.')) active @endif" href="{{route('oznam.oznam')}}">Oznam</a>
+                        </li>
+                    @endif
+                @endauth
             </ul>
 
                     <ul class="navbar-nav ms-auto">
@@ -72,13 +79,13 @@
 
 
 
-                                            @if(auth()->user()->hasRole('admin'))
-                                                <div class="dropdown-divider bg-white"></div>
+{{--                                            @if(auth()->user()->hasRole('admin'))--}}
+
                                                 <!-- users roles permissions -->
                                                 @can('users.index')
-
+                                                    <div class="dropdown-divider bg-white"></div>
                                                     <li>
-                                                        <a class="dropdown-item" href="{{ route('users.index') }}">Users</a>
+                                                        <a class="dropdown-item" href="{{ route('users.index') }}">Používatelia</a>
                                                     </li>
                                                 @endcan
 
@@ -89,10 +96,10 @@
                                                 @endcan
                                                 @can('permissions.index')
                                                     <li>
-                                                        <a class="dropdown-item" href="{{ route('permissions.index') }}">Permissions</a>
+                                                        <a class="dropdown-item" href="{{ route('permissions.index') }}">Povolenia</a>
                                                     </li>
                                                 @endcan
-                                            @endif
+{{--                                            @endif--}}
 
                                         </ul>
                                     </li>

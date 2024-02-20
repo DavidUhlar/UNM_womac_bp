@@ -2,16 +2,16 @@
 
 @section('content')
     <div class="bg-light p-4 rounded">
-        <h1>Add new role</h1>
+        <h1>Vytvorenie novej role</h1>
         <div class="lead">
-            Add new role and assign permissions.
+            Vytvorenie novej role a priradenie povolení.
         </div>
 
         <div class="container mt-4">
 
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
-                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                    <strong>Nastal problém so vstupom</strong><br><br>
                     <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -23,27 +23,27 @@
             <form method="POST" action="{{ route('roles.store') }}">
                 @csrf
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input value="{{ old('name') }}" 
-                        type="text" 
-                        class="form-control" 
-                        name="name" 
-                        placeholder="Name" required>
+                    <label for="name" class="form-label">Názov</label>
+                    <input value="{{ old('name') }}"
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        placeholder="Názov" required>
                 </div>
-                
-                <label for="permissions" class="form-label">Assign Permissions</label>
+
+                <label for="permissions" class="form-label">Priradenie povolenia</label>
 
                 <table class="table table-striped">
                     <thead>
                         <th scope="col" width="1%"><input type="checkbox" name="all_permission"></th>
-                        <th scope="col" width="20%">Name</th>
-                        <th scope="col" width="1%">Guard</th> 
+                        <th scope="col" width="20%">Názov</th>
+                        <th scope="col" width="1%">Guard</th>
                     </thead>
 
                     @foreach($permissions as $permission)
                         <tr>
                             <td>
-                                <input type="checkbox" 
+                                <input type="checkbox"
                                 name="permission[{{ $permission->name }}]"
                                 value="{{ $permission->name }}"
                                 class='permission'>
@@ -54,8 +54,8 @@
                     @endforeach
                 </table>
 
-                <button type="submit" class="btn btn-primary">Save user</button>
-                <a href="{{ route('users.index') }}" class="btn btn-default">Back</a>
+                <button type="submit" class="btn btn-primary">Uložiť rolu</button>
+                <a href="{{ route('users.index') }}" class="btn btn-default">Návrat</a>
             </form>
         </div>
 
@@ -76,7 +76,7 @@
                         $(this).prop('checked',false);
                     });
                 }
-                
+
             });
         });
     </script>

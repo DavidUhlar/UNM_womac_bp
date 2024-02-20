@@ -10,7 +10,7 @@
                 data: $('#likeForm').serialize(),
                 success: function (response) {
                     console.log('Like action successful:', response);
-                    $('#likeButton').text(response.liked ? 'Unlike' : 'Like');
+                    $('#likeButton').text(response.liked ? 'Evidované' : 'Neevidované');
                     $('#likeCount').text(response.likeCount);
                 },
                 error: function (error) {

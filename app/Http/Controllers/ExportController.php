@@ -29,6 +29,8 @@ class ExportController extends Controller
         $filter_operacia_subtyp = null;
         $filter_pacient_priezvisko = '';
 
+        Session::put('filteredOperacie', Operacia::all());
+
 //        dd($operacie);
         return view('export.export', compact('filteredOperaciePaginate',
             'filter_operacia_SAR_ID',

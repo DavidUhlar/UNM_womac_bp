@@ -113,7 +113,7 @@ class OznamController extends Controller
     {
 
         $komentar = Komentar::find($id);
-        if($komentar->autor == auth()->user()->username || auth()->user()->username == 'admin') {
+        if($komentar->autor == auth()->user()->username || auth()->user()->username == 'admin' || auth()->user()->username == 'superuser') {
             $komentar->delete();
         }
 
@@ -129,7 +129,7 @@ class OznamController extends Controller
             'editedObsah' => 'required|max:255',
         ]);
 
-        if($comment->autor == auth()->user()->username || auth()->user()->username == 'admin') {
+        if($comment->autor == auth()->user()->username || auth()->user()->username == 'admin' || auth()->user()->username == 'superuser') {
             $comment->obsah = $request->input('editedObsah');
             $comment->save();
         }
@@ -178,7 +178,7 @@ class OznamController extends Controller
 
         $oznam = Oznam::find($id);
 
-        if($oznam->autor == auth()->user()->username || auth()->user()->username == 'admin') {
+        if($oznam->autor == auth()->user()->username || auth()->user()->username == 'admin' || auth()->user()->username == 'superuser') {
             $oznam->update([
                 'nazov' => $request->input('nazov'),
                 'obsah' => $request->input('obsah'),
@@ -214,7 +214,7 @@ class OznamController extends Controller
     {
 
         $oznam = Oznam::find($id);
-        if($oznam->autor == auth()->user()->username || auth()->user()->username == 'admin') {
+        if($oznam->autor == auth()->user()->username || auth()->user()->username == 'admin' || auth()->user()->username == 'superuser') {
             Storage::disk('public')->delete($oznam->image_path);
             $oznam->delete();
         }

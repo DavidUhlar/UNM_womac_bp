@@ -19,7 +19,7 @@
         <h2>{{ $oznam->nazov }}</h2>
 
         <div class="tagy"><h4>Tagy:  @foreach($tagNames as $tag) <span class="badge text-bg-info rounded-pill">{{ $tag }}</span> @endforeach</h4></div>
-        <div class ="autor"> Author: {{ $oznam->autor }}</div>
+        <div class ="autor"> Autor: {{ $oznam->autor }}</div>
         @if($oznam->image_path)
             <div class="image_show">
                 <img src="{{ asset('storage/' . $oznam->image_path) }}" alt="Oznam Image" >
@@ -44,9 +44,9 @@
                         @endphp
 
                         @if ($userReakcia && $userReakcia->reakcia)
-                            Unlike
+                            Evidované
                         @else
-                            Like
+                            Neevidované
                         @endif
 
                     </button>
@@ -59,7 +59,7 @@
 
 
     <div class="oznamNadpis">
-        <h2>Komentáris ({{$oznam->komentare->count()}})</h2>
+        <h2>Diskusia ({{$oznam->komentare->count()}})</h2>
 
         @guest
             <div class="h6">
@@ -75,7 +75,7 @@
 {{--                <span class="textarea form-input" role="textbox" contenteditable></span>--}}
 
             </div>
-            <button class="btn btn-primary pull-right">submit</button>
+            <button class="btn btn-primary pull-right">potvrdiť</button>
 
         </form>
         @endauth
@@ -103,12 +103,12 @@
 
                     <div class="col-sm tlacitko">
 
-                        <button class="btn btn-primary btn-sm tlacitko" onclick="toggleEditForm({{ $koment->id }})">Edit</button>
+                        <button class="btn btn-primary btn-sm tlacitko" onclick="toggleEditForm({{ $koment->id }})">Upraviť</button>
                         <form class="tlacitko" id="editForm_{{ $koment->id }}" action="{{ route('oznam.CommentUpdate', $koment->id) }}" method="post" style="display: none;">
                             @csrf
                             @method('PUT')
                             <textarea name="editedObsah" class="form-input" required>{{ $koment->obsah }}</textarea>
-                            <button type="submit" class="btn btn-success btn-sm tlacitko">Save</button>
+                            <button type="submit" class="btn btn-success btn-sm tlacitko">Uložiť</button>
                         </form>
                     </div>
                 @endif

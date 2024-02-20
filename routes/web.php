@@ -24,33 +24,36 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/', 'HomeController@index')->name('home.index');
     Route::get('o_nas', 'O_nasController@show')->name('home.o_nas');
 
-    Route::group(['prefix' => 'oznam_index'], function (){
-        Route::get('/', 'OznamController@index')->name('oznam.oznam');
 
-        //ajax
-        Route::get('/load-more-posts', 'OznamController@loadMorePosts')->name('oznam.load-more-posts');
-        Route::get('/oznam/{id}/load-more-comments', 'OznamController@loadMoreComments')->name('oznam.load-more-comments');
-
-        Route::get('/oznam/create', 'OznamController@create')->name('oznam.create');
-        Route::post('/oznam/create', 'OznamController@store')->name('oznam.store');
-        Route::get('/oznam/{id}', 'OznamController@show')->name('oznam.oznamShow');
-        Route::get('/oznam/edit/{id}', 'OznamController@edit')->name('oznam.oznamEdit');
-        Route::put('/oznam/edit/{id}', 'OznamController@update')->name('oznam.update');
-        Route::delete('/oznam/{id}', 'OznamController@destroy')->name('oznam.destroy');
-
-        Route::post('/oznam/{id}/like', 'OznamController@likeOznam')->name('oznam.like');
-
-        Route::get('/oznam/tag/{id}', 'TagController@indexTag')->name('oznam.tag');
-        Route::post('/oznam/tag/{id}', 'TagController@associateTag')->name('oznam.associateTag');
-
-        Route::post('/oznam/{id}', 'OznamController@storeComment')->name('oznam.comment');
-        Route::delete('/oznam/comment/{id}', 'OznamController@destroyComment')->name('oznam.CommentDestroy');
-        Route::put('/oznam/comments/{id}', 'OznamController@updateComment')->name('oznam.CommentUpdate');
-
-    });
 
 
     Route::group(['middleware' => ['permission']], function() {
+
+        Route::group(['prefix' => 'oznam_index'], function (){
+            Route::get('/', 'OznamController@index')->name('oznam.oznam');
+
+            //ajax
+            Route::get('/load-more-posts', 'OznamController@loadMorePosts')->name('oznam.load-more-posts');
+            Route::get('/oznam/{id}/load-more-comments', 'OznamController@loadMoreComments')->name('oznam.load-more-comments');
+
+            Route::get('/oznam/create', 'OznamController@create')->name('oznam.create');
+            Route::post('/oznam/create', 'OznamController@store')->name('oznam.store');
+            Route::get('/oznam/{id}', 'OznamController@show')->name('oznam.oznamShow');
+            Route::get('/oznam/edit/{id}', 'OznamController@edit')->name('oznam.oznamEdit');
+            Route::put('/oznam/edit/{id}', 'OznamController@update')->name('oznam.update');
+            Route::delete('/oznam/{id}', 'OznamController@destroy')->name('oznam.destroy');
+
+            Route::post('/oznam/{id}/like', 'OznamController@likeOznam')->name('oznam.like');
+
+            Route::get('/oznam/tag/{id}', 'TagController@indexTag')->name('oznam.tag');
+            Route::post('/oznam/tag/{id}', 'TagController@associateTag')->name('oznam.associateTag');
+
+            Route::post('/oznam/{id}', 'OznamController@storeComment')->name('oznam.comment');
+            Route::delete('/oznam/comment/{id}', 'OznamController@destroyComment')->name('oznam.CommentDestroy');
+            Route::put('/oznam/comments/{id}', 'OznamController@updateComment')->name('oznam.CommentUpdate');
+
+        });
+
         Route::group(['prefix' => 'womac'], function () {
             Route::get('/', 'WomacController@show')->name('home.womac');
             Route::post('/create/{id_operation}', 'WomacController@create')->name('womac.create');
