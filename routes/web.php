@@ -50,21 +50,22 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     });
 
 
-    Route::group(['prefix' => 'womac'], function (){
-        Route::get('/', 'WomacController@show')->name('home.womac');
-        Route::post('/create/{id_operation}', 'WomacController@create')->name('womac.create');
-        Route::get('/womac-data/{id_womac}', 'WomacController@getWomacData')->name('womac.getWomac');
-        Route::delete('/delete/{id_womac}', 'WomacController@deleteWomac')->name('womac.delete')->middleware('admin');;
-        Route::get('/filter', 'WomacController@filter')->name('womac.filter');
-    });
+    Route::group(['middleware' => ['permission']], function() {
+        Route::group(['prefix' => 'womac'], function () {
+            Route::get('/', 'WomacController@show')->name('home.womac');
+            Route::post('/create/{id_operation}', 'WomacController@create')->name('womac.create');
+            Route::get('/womac-data/{id_womac}', 'WomacController@getWomacData')->name('womac.getWomac');
+            Route::delete('/delete/{id_womac}', 'WomacController@deleteWomac')->name('womac.delete');
+            Route::get('/filter', 'WomacController@filter')->name('womac.filter');
+        });
 
-    Route::group(['prefix' => 'export'], function (){
-        Route::get('/', 'ExportController@show')->name('export.export');
-        Route::get('/operacia/{id_operacie}', 'ExportController@showOperacia')->name('export.operacia');
-        Route::get('/filter', 'ExportController@filter')->name('export.filter');
-        Route::post('/export-data', 'ExportController@exportToExcel')->name('export.toExcel');
+        Route::group(['prefix' => 'export'], function () {
+            Route::get('/', 'ExportController@show')->name('export.export');
+            Route::get('/operacia/{id_operacie}', 'ExportController@showOperacia')->name('export.operacia');
+            Route::get('/filter', 'ExportController@filter')->name('export.filter');
+            Route::post('/export-data', 'ExportController@exportToExcel')->name('export.toExcel');
+        });
     });
-
 
 
 
@@ -83,9 +84,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     });
 
-    Route::get('/loginSuccess', 'HomeController@loginSuccess')->name('home.loginSuccess');
-    Route::get('/password-change/show', 'UsersController@passwordChangeShow')->name('passwordChange.show');
-    Route::post('/password-change/update', 'UsersController@passwordChange')->name('passwordChange.change');
+
 
 
 
@@ -94,7 +93,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
      */
     Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
 
-
+    Route::group(['middleware' => ['auth']], function() {
+        Route::get('/loginSuccess', 'HomeController@loginSuccess')->name('home.loginSuccess');
+        Route::get('/password-change/show', 'UsersController@passwordChangeShow')->name('passwordChange.show');
+        Route::post('/password-change/update', 'UsersController@passwordChange')->name('passwordChange.change');
+    });
 
     Route::group(['middleware' => ['auth', 'permission']], function() {
 
@@ -112,18 +115,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::delete('/{user}/delete', 'UsersController@destroy')->name('users.destroy');
         });
 
-        /**
-         * User Routes
-         */
-//        Route::group(['prefix' => 'posts'], function() {
-//            Route::get('/', 'PostsController@index')->name('posts.index');
-//            Route::get('/create', 'PostsController@create')->name('posts.create');
-//            Route::post('/create', 'PostsController@store')->name('posts.store');
-//            Route::get('/{post}/show', 'PostsController@show')->name('posts.show');
-//            Route::get('/{post}/edit', 'PostsController@edit')->name('posts.edit');
-//            Route::patch('/{post}/update', 'PostsController@update')->name('posts.update');
-//            Route::delete('/{post}/delete', 'PostsController@destroy')->name('posts.destroy');
-//        });
 
         Route::resource('roles', RolesController::class);
         Route::resource('permissions', PermissionsController::class);

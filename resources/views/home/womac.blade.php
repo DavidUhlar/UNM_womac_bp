@@ -94,13 +94,16 @@
                                                         Womac {{ $idWomac->id_womac }}, {{ $idWomac->date_womac }}
 
                                                     </a>
-                                                    @if(auth()->user()->is_admin)
+{{--                                                    @can(['admin', 'superuser'])--}}
+{{--                                                    @if(auth()->user()->is_admin)--}}
+                                                        @if(auth()->user()->hasAnyRole(['admin', 'superuser']))
                                                         <form id="deleteForm" action="{{ route('womac.delete', $idWomac->id_womac) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" title="Delete" class="delete-button-womac" data-id="{{ $idWomac->id_womac }}">Delete</button>
                                                         </form>
                                                     @endif
+{{--                                                    @endcan--}}
                                                 </div>
 
 {{--                                            @endif--}}
@@ -138,13 +141,17 @@
                                                     <a href="#" class="sub-item" data-typ="bedro" data-id="{{ $idWomac->id_womac }}" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }}">
                                                         Womac {{ $idWomac->id_womac }}, {{ $idWomac->date_womac }}
                                                     </a>
-                                                    @if(auth()->user()->is_admin)
+{{--                                                    @if(auth()->user()->is_admin)--}}
+{{--                                                    @can(['admin', 'superuser'])--}}
+                                                    @if(auth()->user()->hasAnyRole(['admin', 'superuser']))
                                                         <form id="deleteForm" action="{{ route('womac.delete', $idWomac->id_womac) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" title="Delete" class="delete-button-womac" data-id="{{ $idWomac->id_womac }}">Delete</button>
                                                         </form>
+
                                                     @endif
+{{--                                                    @endcan--}}
                                                 </div>
 {{--                                            @endif--}}
                                         @endforeach

@@ -95,9 +95,13 @@ class UsersController extends Controller
      */
     public function update(User $user, UpdateUserRequest $request)
     {
+//        dd($request->all());
         $user->update($request->validated());
 
-        $user->syncRoles($request->get('role'));
+//        $user->syncRoles($request->get('role'));
+
+        $role = Role::where('id', $request->get('role'))->first();
+        $user->syncRoles($role->name);
 
         return redirect()->route('users.index')
             ->withSuccess(__('User updated successfully.'));
