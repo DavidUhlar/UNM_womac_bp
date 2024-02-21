@@ -61,6 +61,7 @@ $(document).ready(function () {
 
 
         $('input[type="text"]').val('');
+        $('input[type="number"]').val('');
         $('input[type="date"]').val('');
         document.getElementById('id_womac').value = 0;
         $('input[name="hhs"]').val(null);

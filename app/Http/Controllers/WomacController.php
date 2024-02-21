@@ -8,6 +8,7 @@ use App\Models\WomacOperation;
 use App\Models\WomacResult;
 use Illuminate\Http\Request;
 use App\Models\Womac;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Validation\Rule;
 
 class WomacController extends Controller
@@ -19,7 +20,8 @@ class WomacController extends Controller
 //        $womacData = Womac::where('id_womac', 25)->firstOrFail()->toArray();
 //        dd($womacData);
 //        $dataPacient = Pacient::with('operacie.womac')->get();
-        $dataPacient = Pacient::all();
+//        $dataPacient = Pacient::all();
+        $dataPacient = Pacient::paginate(15);
 //        dd($dataPacient, $pacientCount);
 
         foreach ($dataPacient as $pacient) {
@@ -76,7 +78,21 @@ class WomacController extends Controller
             ->whereNull('locked_at')->get();
 //        dd($dataPacient, $operacie);
 
-    return view('home.womac', compact('dataPacient', 'womac', 'filter'));
+        $pageSize = 15;
+        $totalPacient = $dataPacient->count();
+        $currentPage = $request->input('page', 1);
+//        $pageSize = max(1, $pageSize);
+
+        $dataPacient = new LengthAwarePaginator(
+            $dataPacient->forPage($currentPage, $pageSize)->values(),
+            $totalPacient,
+            $pageSize,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
+
+    return view('home.womac', compact('dataPacient',  'filter'));
 }
     public function getWomacData($id_womac)
     {
@@ -449,7 +465,8 @@ class WomacController extends Controller
             ]);
 //            dd($womacOperation->womac);
         }
-        return redirect()->route('home.womac');
+//        return redirect()->route('home.womac');
+        return redirect()->back();
     }
 
     public function deleteWomac($id_womac)
@@ -473,6 +490,7 @@ class WomacController extends Controller
         $womacOperation = WomacOperation::where('id_womac', $womac->id);
         $womacOperation->delete();
 
-        return redirect()->route('home.womac');
+//        return redirect()->route('home.womac');
+        return redirect()->back();
     }
 }
