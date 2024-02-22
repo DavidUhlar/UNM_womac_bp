@@ -118,7 +118,7 @@
 
     <div id="hhs-div" class="inputAndLabel">
         <label class="nazovWomacInput" for="hhs">HHS</label>
-        <input type="text" class="womacInput no-restriction" name="hhs" id="hhs" maxlength="2">
+        <input type="number" class="womacInput no-restriction " name="hhs" id="hhs" maxlength="2" max="100" min="0">
     </div>
     <div id="kss1-div" class="inputAndLabel">
         <label class="nazovWomacInput" for="kss1">KSS1</label>

@@ -166,6 +166,27 @@ class WomacController extends Controller
 
     }
 
+    private function isDataChanged(array $requestData, Womac $existingData, array $fieldsToCompare, array $resultArray)
+    {
+//        dd($requestData, $existingData, $fieldsToCompare, $resultArray);
+        foreach ($fieldsToCompare as $field) {
+
+            if ($existingData->$field != $requestData[$field]) {
+                return true; // zmena
+            }
+        }
+
+        foreach ($resultArray as $fieldName => $expectedValue) {
+            $resultEntry = $existingData->result->where('result_name', $fieldName)->first();
+            if ($resultEntry->result_name == $fieldName) {
+                if ($resultEntry->result_value != $requestData[$fieldName]) {
+                    return true; // zmena
+                }
+            }
+        }
+
+        return false; // No change
+    }
 
     public function create(Request $request, $id_operation)
     {
@@ -198,6 +219,9 @@ class WomacController extends Controller
             'answer_22' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
             'answer_23' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
             'answer_24' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
+            'hhs' => 'nullable|integer|between:0,100',
+            'kss1' => 'nullable|integer|between:0,100',
+            'kss2' => 'nullable|integer|between:0,100',
 
         ]);
 
@@ -216,6 +240,8 @@ class WomacController extends Controller
             ->whereNull('locked_at')
             ->exists();
 
+
+
         if ($exists) {
 
 //            dd($request->all());
@@ -225,8 +251,32 @@ class WomacController extends Controller
                 ->whereNull('locked_at')
                 ->first();
 
+            $op = Operacia::find($id_operation);
+//            dd($op->typ);
+//            dd($womacUpdate->result->where('result_name', 'hhs')->first()->result_value);
+            if ($op->typ == 0) {
+                $resultArray = ['hhs' => $womacUpdate->result->where('result_name', 'hhs')->first()->result_value];
+            } else if ($op->typ == 1) {
+                $resultArray = [
+                    'kss1' => $womacUpdate->result->where('result_name', 'kss1')->first()->result_value,
+                    'kss2' => $womacUpdate->result->where('result_name', 'kss2')->first()->result_value
+                ];
+            }
+//            dd($womacUpdate->result);
 
 
+            $isDataChanged = $this->isDataChanged($request->all(), $womacUpdate, [
+                'date_visit', 'date_womac', 'answer_01', 'answer_02', 'answer_03', 'answer_04', 'answer_05',
+                'answer_06', 'answer_07', 'answer_08', 'answer_09', 'answer_10',
+                'answer_11', 'answer_12', 'answer_13', 'answer_14', 'answer_15',
+                'answer_16', 'answer_17', 'answer_18', 'answer_19', 'answer_20',
+                'answer_21', 'answer_22', 'answer_23', 'answer_24',
+            ], $resultArray);
+//            dd($isDataChanged);
+            if (!$isDataChanged) {
+
+                return redirect()->back();
+            }
 //            $womacOp->womac()->dissociate($womacUpdate);
 //            $womacOp->womac()->associate($womacUpdate);
             $newRecord = Womac::make($womacUpdate->toArray());

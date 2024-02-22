@@ -15,6 +15,7 @@
         <script src="{{ asset("js/womacOperationCreateMenu.js") }}"></script>
         <script src="{{ asset("js/womacMenu.js") }}"></script>
         <script src="{{ asset("js/womacGetAjax.js") }}"></script>
+        <script src="{{ asset("js/womacInputValidacia.js") }}"></script>
 
         @if ($errors->any())
             <div class="alert alert-danger m-3">
