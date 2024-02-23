@@ -32,7 +32,7 @@
                         @auth
                             @if($post->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser']))
                                 <div class="col-sm tlacitko">
-                                    <a href="{{ route('oznam.oznamEdit', $post->id) }}" class="btn btn-primary btn-sm tlacitko">Edit</a>
+                                    <a href="{{ route('oznam.oznamEdit', $post->id) }}" class="btn btn-primary btn-sm tlacitko">Upraviť</a>
                                 </div>
                                 <div class="col-sm tlacitko">
                                     <form action="{{ route('oznam.destroy', $post->id) }}" method="post">
@@ -47,7 +47,7 @@
                             @endif
                         @endauth
                         <div class="col-sm tlacitko">
-                            <a href="{{ route('oznam.oznamShow', ['id' => $post->id]) }}" class="btn btn-success btn-sm tlacitko">Show</a>
+                            <a href="{{ route('oznam.oznamShow', ['id' => $post->id]) }}" class="btn btn-success btn-sm tlacitko">Otvoriť</a>
                         </div>
                     </div>
                 </div>
