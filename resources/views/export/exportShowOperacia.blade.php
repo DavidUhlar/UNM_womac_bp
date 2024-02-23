@@ -47,14 +47,55 @@
                     <div class="womac-cell womac-value">{{ $operation->id_prac  }}</div>
                 </div>
 
+            </div>
+        </div>
+<div class="womac-container">
 
-
-
-
-
+    <h4>Pacient</h4>
+    <div class="womac-table">
+        <div class="womac-row">
+            <div class="womac-cell womac-header">Meno</div>
+            <div class="womac-cell womac-value">{{ $operation->pacient->meno  }}</div>
+        </div>
+        <div class="womac-row">
+            <div class="womac-cell womac-header">Priezvisko</div>
+            <div class="womac-cell womac-value">{{ $operation->pacient->priezvisko  }}</div>
+        </div>
+        <div class="womac-row">
+            <div class="womac-cell womac-header">Rodné číslo</div>
+            <div class="womac-cell womac-value">{{ $operation->pacient->rc  }}</div>
+        </div>
+        <div class="womac-row">
+            <div class="womac-cell womac-header">Adresa ulica</div>
+            <div class="womac-cell womac-value">{{ $operation->pacient->adr_ulica  }}</div>
+        </div>
+        <div class="womac-row">
+            <div class="womac-cell womac-header">Adresa mesto</div>
+            <div class="womac-cell womac-value">{{ $operation->pacient->adr_mesto  }}</div>
+        </div>
+        <div class="womac-row">
+            <div class="womac-cell womac-header">Adresa PSČ</div>
+            <div class="womac-cell womac-value">{{ $operation->pacient->adr_psc  }}</div>
+        </div>
+        <div class="womac-row">
+            <div class="womac-cell womac-header">Telefónne číslo</div>
+            <div class="womac-cell womac-value">{{ $operation->pacient->tel }}</div>
+        </div>
+        <div class="womac-row">
+            <div class="womac-cell womac-header">Pohlavie</div>
+            <div class="womac-cell womac-value">
+                @if($operation->pacient->pohl == 0 && $operation->pacient->pohl)
+                    Žena
+                @elseif($operation->pacient->pohl == 1 && $operation->pacient->pohl)
+                    Muž
+                @else
+                    {{ "" }}
+                @endif
             </div>
         </div>
 
+    </div>
+</div>
 
 
 {{--@dd($womacOperation)--}}

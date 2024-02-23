@@ -4,7 +4,7 @@
     @csrf
     <input type="hidden" id="hiddenOperationIdInput" name="id_operation" value="">
 
-    <input type="hidden" id="id_womac" name="id_womac" value="50">
+    <input type="hidden" id="id_womac" name="id_womac" value="0">
 
 
 
@@ -118,15 +118,15 @@
 
     <div id="hhs-div" class="inputAndLabel">
         <label class="nazovWomacInput" for="hhs">HHS</label>
-        <input type="number" class="womacInput no-restriction " name="hhs" id="hhs" maxlength="2" max="100" min="0">
+        <input type="number" class="womacInput result-restriction " name="hhs" id="hhs" maxlength="2" max="100" min="0">
     </div>
     <div id="kss1-div" class="inputAndLabel">
         <label class="nazovWomacInput" for="kss1">KSS1</label>
-        <input type="text" class="womacInput no-restriction" name="kss1" id="kss1" maxlength="2">
+        <input type="number" class="womacInput result-restriction" name="kss1" id="kss1" maxlength="2" max="100" min="0">
     </div>
     <div id="kss2-div" class="inputAndLabel">
         <label class="nazovWomacInput" for="kss2">KSS2</label>
-        <input type="text" class="womacInput no-restriction" name="kss2" id="kss2" maxlength="2">
+        <input type="number" class="womacInput result-restriction" name="kss2" id="kss2" maxlength="2" max="100" min="0">
     </div>
 
     <button class="buttonSubmit">Potvrdiť</button>
