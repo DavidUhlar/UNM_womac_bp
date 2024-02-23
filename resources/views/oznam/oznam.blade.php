@@ -48,7 +48,7 @@
                         @if($post->image_path)
                         <div class="card-body image-container">
                             <img src="{{ asset('storage/' . $post->image_path) }}" alt="Oznam Image">
-                            @dd(asset('storage/' . $post->image_path))
+{{--                            @dd(asset('storage/' . $post->image_path))--}}
                         </div>
                         @endif
                         <div class="card-footer">
