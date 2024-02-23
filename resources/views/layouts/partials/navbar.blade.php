@@ -27,13 +27,13 @@
 
                 @auth
 {{--                    @if(auth()->user()->hasRole(['admin', 'superuser', ]))--}}
-                    @if(auth()->user()->can('home.womac')))
+                    @if(auth()->user()->can('home.womac'))
                         <li class="nav-item">
                             <a class="nav-link @if($routeName == 'home.womac' || Str::startsWith($routeName, 'womac.')) active @endif"
                                href="{{ route('home.womac') }}">Womac</a>
                         </li>
                     @endif
-                    @if(auth()->user()->can('export.export')))
+                    @if(auth()->user()->can('export.export'))
                         <li class="nav-item">
                             <a class="nav-link @if($routeName == 'export.export' || Str::startsWith($routeName, 'export.')) active @endif"
                                href="{{ route('export.export') }}">Export</a>
@@ -47,7 +47,7 @@
                     </li>
 
                 @auth
-                    @if(auth()->user()->can('oznam.oznam')))
+                    @if(auth()->user()->can('oznam.oznam'))
                         <li class="nav-item">
                             <a class="nav-link @if(Str::startsWith($routeName, 'oznam.')) active @endif" href="{{route('oznam.oznam')}}">Oznam</a>
                         </li>

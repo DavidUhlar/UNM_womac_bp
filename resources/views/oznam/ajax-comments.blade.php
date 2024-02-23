@@ -9,7 +9,7 @@
         </div>
 
         @auth
-            @if($koment->autor == auth()->user()->username)
+            @if($koment->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser']))
                 <div class="col-sm tlacitko">
                     <form action="{{ route('oznam.CommentDestroy', $koment->id) }}" method="post">
                         @csrf
