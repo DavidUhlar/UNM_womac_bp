@@ -16,6 +16,7 @@
                 <label class="tag-label-nadpis">Názov: {{$oznam->nazov}}</label><br><br>
                 <label class="tag-label-nadpis">Tagy:</label><br>
 
+
                 @foreach($tags as $tag)
                     <label class="tag-label">
                         <input type="checkbox" name="tags[]" value="{{ $tag->id }}" {{ in_array($tag->id, $associatedTags) ? 'checked' : '' }}>

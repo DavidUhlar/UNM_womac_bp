@@ -14,9 +14,7 @@ class OznamController extends Controller
 {
     public function show($id) {
         $oznam = Oznam::with('komentare', 'reakcie')->find($id);
-        $tagNames = $oznam->tag ? $oznam->tag->pluck('nazov')->all() : [];
-//       dd($oznam->tag->pluck('nazov')->all());
-        return view('oznam.oznamShow' , compact('oznam', 'tagNames'));
+        return view('oznam.oznamShow' , compact('oznam'));
     }
 
 
@@ -24,13 +22,10 @@ class OznamController extends Controller
     public function index()
     {
 
-        $tagyVsetky = Tag::all();
-
-
         $oznam = Oznam::orderBy('created_at', 'desc')->paginate(6);
         $oznamCount = Oznam::all()->count();
 
-        return view('oznam.oznam', compact('oznam', 'oznamCount', 'tagyVsetky'));
+        return view('oznam.oznam', compact('oznam', 'oznamCount'));
     }
 
 
@@ -58,6 +53,7 @@ class OznamController extends Controller
         $request->validate([
             'nazov' => 'required|min:4|max:255',
             'obsah' => 'required|max:20000',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
 
@@ -113,7 +109,7 @@ class OznamController extends Controller
     {
 
         $komentar = Komentar::find($id);
-        if($komentar->autor == auth()->user()->username || auth()->user()->username == 'admin' || auth()->user()->username == 'superuser') {
+        if($komentar->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
             $komentar->delete();
         }
 
@@ -122,24 +118,26 @@ class OznamController extends Controller
     }
 
     public function updateComment(Request $request, $id) {
-        $comment = Komentar::findOrFail($id);
+        $komentar = Komentar::findOrFail($id);
 
 
         $request->validate([
             'editedObsah' => 'required|max:255',
         ]);
 
-        if($comment->autor == auth()->user()->username || auth()->user()->username == 'admin' || auth()->user()->username == 'superuser') {
-            $comment->obsah = $request->input('editedObsah');
-            $comment->save();
+        if($komentar->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
+            $komentar->obsah = $request->input('editedObsah');
+            $komentar->save();
         }
         return redirect()->back()->with('success', 'Comment updated successfully');
     }
 
 
-    public function likeOznam(Request $request, $id) {
+    public function likeOznam($id) {
         $oznam = Oznam::find($id);
+//        dd($request->all());
 
+//        return response()->json(['success' => $request->all()]);
         $reakcie = Reakcia::where('id_prispevku', $oznam->id)->get();
         $userReaction = $reakcie->where('autor_reakcie', auth()->user()->username)->first();
 
@@ -153,7 +151,9 @@ class OznamController extends Controller
                 'reakcia' => true,
             ]);
             $reakcia->save();
+            $userReaction = $reakcia;
         }
+
 
         $liked = ($userReaction && $userReaction->reakcia) ? true : false;
         $likeCount = $oznam->reakcie->where('reakcia', true)->count();
@@ -178,7 +178,7 @@ class OznamController extends Controller
 
         $oznam = Oznam::find($id);
 
-        if($oznam->autor == auth()->user()->username || auth()->user()->username == 'admin' || auth()->user()->username == 'superuser') {
+        if($oznam->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
             $oznam->update([
                 'nazov' => $request->input('nazov'),
                 'obsah' => $request->input('obsah'),
@@ -214,8 +214,11 @@ class OznamController extends Controller
     {
 
         $oznam = Oznam::find($id);
-        if($oznam->autor == auth()->user()->username || auth()->user()->username == 'admin' || auth()->user()->username == 'superuser') {
-            Storage::disk('public')->delete($oznam->image_path);
+        if($oznam->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
+            if ($oznam->image_path) {
+                Storage::disk('public')->delete($oznam->image_path);
+            }
+
             $oznam->delete();
         }
 

@@ -34,14 +34,11 @@
                             <p class="card-text">Autor: {{ $post->autor }}</p>
 
                         </div>
-                        @php
-//                            $tags = $post->tags->pluck('nazov')->all()
-                            $tags = $post->tag ? $post->tag->pluck('nazov')->all() : [];
-                        @endphp
 
-                        @if($tags)
+
+                        @if($post->tag && count($post->tag) > 0)
                         <div class="card-body">
-                            <p class="card-text">Tagy: @foreach($tags as $tag) <span class="badge text-bg-info rounded-pill">{{ $tag }}</span> @endforeach</p>
+                            <p class="card-text">Tagy: @foreach($post->tag as $tag) <span class="badge text-bg-info rounded-pill">{{ $tag->nazov }}</span> @endforeach</p>
 
                         </div>
                         @endif

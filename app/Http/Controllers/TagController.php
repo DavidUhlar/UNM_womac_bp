@@ -21,11 +21,9 @@ class TagController extends Controller
     public function associateTag(Request $request, $oznamId)
     {
 
-
         $tagId = $request->input('tags');
         $oznam = Oznam::find($oznamId);
         $oznam->tag()->sync($tagId);
-
 
         return redirect()->route('oznam.oznam');
     }
