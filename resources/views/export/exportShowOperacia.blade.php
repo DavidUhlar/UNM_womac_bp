@@ -9,7 +9,7 @@
 
 
         <div class="womac-container">
-            <a href="{{ url()->previous() }}">Návrat</a>
+            <a href="{{ url()->previous() }}" class="zobrazOperaciu">Návrat</a>
             <h4>Operacia</h4>
             <div class="womac-table">
                 <div class="womac-row">

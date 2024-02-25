@@ -11,6 +11,7 @@ $(document).ready(function () {
         console.log('Clicked operation id:', operationID);
 
 
+        lastClickedSubMenuId = null;
 
 
         operationIdFromJavaScript = sarID;

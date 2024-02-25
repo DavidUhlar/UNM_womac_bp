@@ -3,7 +3,7 @@
 <?php $routeName = Route::currentRouteName() ?>
 <link rel="stylesheet" href=" {{ asset('css/navbar.css')}}">
 
-<nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" aria-label="Fourth navbar example">
     <div class="container-fluid">
 
         <a class="navbar-brand">
@@ -103,20 +103,7 @@
 
                                         </ul>
                                     </li>
-{{--                                </ul>--}}
-{{--                            </div>--}}
 
-
-{{--                            <li class="nav-item">--}}
-{{--                                <div class="nav-link account-navbar" data-bs-toggle="dropdown">--}}
-{{--                                    {{auth()->user()->username}}--}}
-{{--                                    <ul class="dropdown-menu">--}}
-{{--                                        <li><a class="dropdown-item" href="#">Action</a></li>--}}
-{{--                                        <li><a class="dropdown-item" href="#">Another action</a></li>--}}
-{{--                                        <li><a class="dropdown-item" href="#">Something else here</a></li>--}}
-{{--                                    </ul>--}}
-{{--                                </div>--}}
-{{--                            </li>--}}
 
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('logout.perform') }}">Logout</a>

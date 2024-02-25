@@ -40,7 +40,23 @@
     border: 1px solid #000;
     padding: 10px;
     margin-bottom: 20px;
-    width: 70%;
+    /*width: 70%;*/
+    /*width: 86vw;*/
+
+}
+
+@media screen and (max-width: 1262px) {
+    .exportZaznam {
+
+        /*width: 70%;*/
+        width: 86vw;
+
+    }
+}
+@media screen and (min-width: 1263px) {
+    .exportZaznam {
+        width: 70%;
+    }
 }
 
 .pacient-info {
@@ -74,4 +90,55 @@
 
 .flex-container-womac-delete {
     margin-bottom: 2%;
+}
+
+.zobrazOperaciu {
+    text-decoration: none;
+
+    font-weight: bold;
+    color: cornflowerblue;
+    font-size: 15px;
+    transition: color 0.5s, text-shadow 0.5s, font-size 0.5s;
+}
+
+.zobrazOperaciu:hover {
+    /*box-shadow: 0 0 5px red;*/
+    color: black;
+    text-shadow: cornflowerblue 2px 0 10px;
+    font-size: 16px;
+}
+
+.flex-container-filter {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+@media screen and (max-width: 732px) {
+    .flex-container-filter {
+        flex-direction: column;
+
+    }
+
+    .filter_export {
+        /*flex-basis: 100%;*/
+        margin-bottom: 0.5rem;
+        margin-left: 1rem;
+    }
+}
+@media screen and (min-width: 733px) {
+    .flex-container-filter {
+        /*display: flex;*/
+        flex-direction: row;
+        /*flex-wrap: wrap;*/
+    }
+
+    .filter_export {
+        /*flex-basis: 100%;*/
+        margin-bottom: 0.5rem;
+        margin-left: 1rem;
+    }
+}
+
+.filter_export label {
+    font-weight: bold;
 }

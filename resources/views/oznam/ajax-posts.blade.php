@@ -42,7 +42,7 @@
                                     </form>
                                 </div>
                                 <div class="col-sm tlacitko">
-                                    <a href="{{ route('oznam.tag', $post->id) }}" class="btn btn-primary btn-sm tlacitko">Tag</a>
+                                    <a href="{{ route('oznam.tag', $post->id) }}" class="btn btn-secondary btn-sm tlacitko">Tag</a>
                                 </div>
                             @endif
                         @endauth

@@ -14,7 +14,7 @@
     <div class="container mt-5">
         @auth
         <div class="col-sm create">
-            <a href="{{ route('oznam.create') }}" class="btn btn-primary btn-sm">Create</a>
+            <a href="{{ route('oznam.create') }}" class="btn btn-primary btn-sm">Vytvoriť oznam</a>
         </div>
         @endauth
         <div>
@@ -63,7 +63,7 @@
                                             </form>
                                         </div>
                                         <div class="col-sm tlacitko">
-                                            <a href="{{ route('oznam.tag', $post->id) }}" class="btn btn-primary btn-sm tlacitko">Tag</a>
+                                            <a href="{{ route('oznam.tag', $post->id) }}" class="btn btn-secondary btn-sm tlacitko">Tag</a>
                                         </div>
                                     @endif
                                 @endauth
