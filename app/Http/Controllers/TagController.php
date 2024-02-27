@@ -35,7 +35,9 @@ class TagController extends Controller
     }
     public function createTag(Request $request)
     {
-
+        $request->validate([
+            'nazov' => 'required|min:4',
+        ]);
         $tag = Tag::create([
             'nazov' => $request->nazov,
         ]);

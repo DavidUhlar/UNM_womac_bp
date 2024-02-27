@@ -14,7 +14,7 @@ class PermissionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         $permissions = Permission::all();
 
         return view('permissions.index', [
@@ -24,11 +24,11 @@ class PermissionsController extends Controller
 
     /**
      * Show form for creating permissions
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
-    public function create() 
-    {   
+    public function create()
+    {
         return view('permissions.create');
     }
 
@@ -39,7 +39,7 @@ class PermissionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $request->validate([
             'name' => 'required|unique:users,name'
         ]);
@@ -47,7 +47,7 @@ class PermissionsController extends Controller
         Permission::create($request->only('name'));
 
         return redirect()->route('permissions.index')
-            ->withSuccess(__('Permission created successfully.'));
+            ->withSuccess(__('Povolenie úspešne vytvorené.'));
     }
 
     /**
@@ -79,7 +79,7 @@ class PermissionsController extends Controller
         $permission->update($request->only('name'));
 
         return redirect()->route('permissions.index')
-            ->withSuccess(__('Permission updated successfully.'));
+            ->withSuccess(__('Povolenie úspešne upravené.'));
     }
 
     /**
@@ -93,6 +93,6 @@ class PermissionsController extends Controller
         $permission->delete();
 
         return redirect()->route('permissions.index')
-            ->withSuccess(__('Permission deleted successfully.'));
+            ->withSuccess(__('Povolenie úspešne vymazané.'));
     }
 }

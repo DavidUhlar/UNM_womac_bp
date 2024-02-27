@@ -52,7 +52,7 @@ class UsersController extends Controller
         ]));
 
         return redirect()->route('users.index')
-            ->withSuccess(__('User created successfully.'));
+            ->withSuccess(__('Používateľ bol vytvorený úspešne'));
     }
 
     /**
@@ -104,7 +104,7 @@ class UsersController extends Controller
         $user->syncRoles($role->name);
 
         return redirect()->route('users.index')
-            ->withSuccess(__('User updated successfully.'));
+            ->withSuccess(__('Používateľ bol upravený úspešne'));
     }
 
     /**
@@ -119,7 +119,7 @@ class UsersController extends Controller
         $user->delete();
 
         return redirect()->route('users.index')
-            ->withSuccess(__('User deleted successfully.'));
+            ->withSuccess(__('Používateľ bol vymazaný úspešne'));
     }
 
 
