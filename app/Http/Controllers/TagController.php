@@ -30,6 +30,7 @@ class TagController extends Controller
 
     public function tagMenu()
     {
+
         return view('oznam.oznamTagCreate');
     }
     public function createTag(Request $request)
@@ -41,6 +42,28 @@ class TagController extends Controller
         $tag->save();
 
         return redirect()->route('oznam.oznam');
+    }
+
+    public function tagMenuDelete()
+    {
+        $tags = Tag::all();
+        return view('oznam.oznamTagDelete', compact( 'tags'));
+    }
+    public function deleteTag(Request $request)
+    {
+
+        $tagIds = $request->input('tags', []);
+
+        if (empty($tagIds)) {
+            return redirect()->route('oznam.oznam');
+        }
+
+
+        Tag::destroy($tagIds);
+        return redirect()->route('oznam.oznam');
+
+
+
     }
 
 }

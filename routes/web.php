@@ -50,6 +50,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
             Route::get('/tag/create', 'TagController@tagMenu')->name('oznam.tagMenu');
             Route::post('/tag/create', 'TagController@createTag')->name('oznam.createTag');
+            Route::get('/tag/delete', 'TagController@tagMenuDelete')->name('oznam.tagMenuDelete');
+            Route::delete('/tag/delete', 'TagController@deleteTag')->name('oznam.deleteTag');
 
             Route::post('/oznam/{id}', 'OznamController@storeComment')->name('oznam.comment');
             Route::delete('/oznam/comment/{id}', 'OznamController@destroyComment')->name('oznam.CommentDestroy');

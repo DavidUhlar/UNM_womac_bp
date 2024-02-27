@@ -14,22 +14,25 @@
             </ul>
         </div>
     @endif
+
     <div class="container h-100 mt-5">
         <div class="row h-100 justify-content-center align-items-center">
             <div class="col-10 col-md-8 col-lg-6">
-                <h3>Vytvor tag</h3>
-                <form action="{{ route('oznam.createTag') }}" method="post">
+                <h3>Vymaž tag</h3>
+                <form action="{{route('oznam.deleteTag')}}" method="post" class="tag-formular">
                     @csrf
-                    @method('POST')
-                    <div class="form-group">
-                        <label for="nazov">Názov</label>
-                        <input type="text" class="form-control @if($errors->has('nazov')) is-invalid @endif" id="nazov" name="nazov" value="" required onblur="checkLength(this, 3, 'nazov musi mat 3 znaky.');" {{ old('nazov') }}>
-                    </div>
+                    @method('DELETE')
 
-                    <button type="submit" class="btn mt-3 btn-primary">Vytvor tag</button>
+                    @foreach($tags as $tag)
+                        <label class="tag-label">
+                            <input type="checkbox" name="tags[]" value="{{ $tag->id }}" >
+                            {{ $tag->nazov }}
+                        </label><br>
+                    @endforeach
+
+                    <input type="submit" value="Potrvrdiť tagy" class="tag-button">
                 </form>
             </div>
         </div>
     </div>
-
 @endsection

@@ -15,9 +15,12 @@
         @auth
         <div class="col-sm create">
             <a href="{{ route('oznam.create') }}" class="btn btn-primary btn-sm">Vytvoriť oznam</a>
-        </div>
-        <div class="col-sm create">
-            <a href="{{ route('oznam.tagMenu') }}" class="btn btn-primary btn-sm">Vytvoriť tag</a>
+            @can('oznam.tagMenu')
+                <a href="{{ route('oznam.tagMenu') }}" class="btn btn-primary btn-sm">Vytvoriť tag</a>
+            @endcan
+            @can('oznam.tagMenuDelete')
+                <a href="{{ route('oznam.tagMenuDelete') }}" class="btn btn-primary btn-sm">Vymazať tag</a>
+            @endcan
         </div>
         @endauth
         <div>

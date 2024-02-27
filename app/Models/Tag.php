@@ -15,7 +15,8 @@ class Tag extends Model
     public $timestamps = false;
     public function oznam()
     {
-        return $this->belongsToMany(Oznam::class, 'has_tag', 'id_tagu', 'id');
+        return $this->belongsToMany(Oznam::class, 'has_tag', 'id_tagu', 'id')
+            ->withPivot('id_tagu', 'id_prispevku');
     }
 
 }
