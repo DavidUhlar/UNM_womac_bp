@@ -27,4 +27,20 @@ class TagController extends Controller
 
         return redirect()->route('oznam.oznam');
     }
+
+    public function tagMenu()
+    {
+        return view('oznam.oznamTagCreate');
+    }
+    public function createTag(Request $request)
+    {
+
+        $tag = Tag::create([
+            'nazov' => $request->nazov,
+        ]);
+        $tag->save();
+
+        return redirect()->route('oznam.oznam');
+    }
+
 }

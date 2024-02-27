@@ -48,6 +48,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/oznam/tag/{id}', 'TagController@indexTag')->name('oznam.tag');
             Route::post('/oznam/tag/{id}', 'TagController@associateTag')->name('oznam.associateTag');
 
+            Route::get('/tag/create', 'TagController@tagMenu')->name('oznam.tagMenu');
+            Route::post('/tag/create', 'TagController@createTag')->name('oznam.createTag');
+
             Route::post('/oznam/{id}', 'OznamController@storeComment')->name('oznam.comment');
             Route::delete('/oznam/comment/{id}', 'OznamController@destroyComment')->name('oznam.CommentDestroy');
             Route::put('/oznam/comments/{id}', 'OznamController@updateComment')->name('oznam.CommentUpdate');

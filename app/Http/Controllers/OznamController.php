@@ -14,6 +14,9 @@ class OznamController extends Controller
 {
     public function show($id) {
         $oznam = Oznam::with('komentare', 'reakcie')->find($id);
+
+//        dd($oznam->tag->first()->nazov);
+//        dd($oznam = Oznam::orderBy('created_at', 'desc')->paginate(6)->where('tag', 'Chyba'));
         return view('oznam.oznamShow' , compact('oznam'));
     }
 

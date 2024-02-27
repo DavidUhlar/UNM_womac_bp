@@ -16,6 +16,9 @@
         <div class="col-sm create">
             <a href="{{ route('oznam.create') }}" class="btn btn-primary btn-sm">Vytvoriť oznam</a>
         </div>
+        <div class="col-sm create">
+            <a href="{{ route('oznam.tagMenu') }}" class="btn btn-primary btn-sm">Vytvoriť tag</a>
+        </div>
         @endauth
         <div>
             <h2> Počet oznamov: {{$oznamCount}}</h2>
@@ -34,7 +37,21 @@
                             <p class="card-text">Autor: {{ $post->autor }}</p>
 
                         </div>
+                        <div class="card-body">
 
+                            @php
+                                $created_at = \Carbon\Carbon::parse($post->created_at)->setTimezone('Europe/Berlin');
+                                $updated_at = \Carbon\Carbon::parse($post->updated_at)->setTimezone('Europe/Berlin');
+                            @endphp
+                            <p class="card-text">
+                                @if ($created_at == $updated_at)
+                                    Vytvorené: {{ $created_at->format('d.m.Y H:i') }}
+                                @else
+                                    Vytvorené: {{ $created_at->format('d.m.Y H:i') }}<br>
+                                    Upravené: {{ $updated_at->format('d.m.Y H:i') }}
+                                @endif
+                            </p>
+                        </div>
 
                         @if($post->tag && count($post->tag) > 0)
                         <div class="card-body">

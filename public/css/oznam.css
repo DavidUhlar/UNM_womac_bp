@@ -90,4 +90,20 @@
 
 }
 
+.komentarDatum {
+    text-align: right;
+    margin-right: 5%;
+}
 
+/*.tlacitkoContainer {*/
+/*    display: flex;*/
+/*    width: 25%;*/
+/*}*/
+
+@media (min-width : 500px) {
+
+    .tlacitkoContainer {
+        display: flex;
+        width: 0%;
+    }
+}

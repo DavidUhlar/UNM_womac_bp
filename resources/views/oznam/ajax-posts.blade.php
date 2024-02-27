@@ -1,5 +1,4 @@
-<link rel="stylesheet" href="{{ asset("css/oznamPicture.css") }}">
-<div class="row" id="oznam-container">
+{{--<link rel="stylesheet" href="{{ asset("css/oznamPicture.css") }}">--}}
     @foreach ($oznam as $post)
         <div class="col-sm-6 mb-3">
             <div class="card h-100">
@@ -10,6 +9,22 @@
                 <div class="card-body">
                     <p class="card-text">Autor: {{ $post->autor }}</p>
 
+                </div>
+
+                <div class="card-body">
+
+                    @php
+                        $created_at = \Carbon\Carbon::parse($post->created_at)->setTimezone('Europe/Berlin');
+                        $updated_at = \Carbon\Carbon::parse($post->updated_at)->setTimezone('Europe/Berlin');
+                    @endphp
+                    <p class="card-text">
+                        @if ($created_at == $updated_at)
+                            Vytvorené: {{ $created_at->format('d.m.Y H:i') }}
+                        @else
+                            Vytvorené: {{ $created_at->format('d.m.Y H:i') }}<br>
+                            Upravené: {{ $updated_at->format('d.m.Y H:i') }}
+                        @endif
+                    </p>
                 </div>
                 @php
 //                    $tags = $post->tags->pluck('nazov')->all()
@@ -54,4 +69,4 @@
             </div>
         </div>
     @endforeach
-</div>
+
