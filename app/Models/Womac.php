@@ -81,6 +81,6 @@ class Womac extends Model
 
     public function result()
     {
-        return $this->hasMany(WomacResult::class, 'id_womac', 'id_womac');
+        return $this->hasMany(WomacResult::class, 'id_womac', 'id');
     }
 }

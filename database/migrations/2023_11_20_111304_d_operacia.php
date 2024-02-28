@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('sar_id', 11)->nullable(false);
             $table->unsignedTinyInteger('typ')->nullable(false);
             $table->unsignedTinyInteger('subtyp')->nullable(false);
+            $table->unsignedTinyInteger('strana')->nullable(false);
+            $table->unsignedBigInteger('group_id')->nullable(false);
+            $table->unsignedSmallInteger('op_no')->nullable(false);
             $table->string('datum', 14)->nullable(false);
             $table->unsignedTinyInteger('id_prac')->nullable(false);
             $table->unsignedTinyInteger('id_pac')->nullable(false);

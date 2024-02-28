@@ -114,19 +114,19 @@ class WomacController extends Controller
         $kss2Result = null;
         if ($womacOp->typ == 0) {
 //                $typResult = "hhs";
-            $womacResult = WomacResult::where('id_womac', $id_womac)
+            $womacResult = WomacResult::where('id_womac', $womacData->id)
                 ->where('result_name', 'hhs')
                 ->first();
             $hhsResult = $womacResult->result_value;
         } else {
 //                $typResult = "kss";
-            $womacResult = WomacResult::where('id_womac', $id_womac)
+            $womacResult = WomacResult::where('id_womac', $womacData->id)
                 ->where('result_name', 'kss1')
                 ->first();
             $kss1Result = $womacResult->result_value;
 
 
-            $womacResult = WomacResult::where('id_womac', $id_womac)
+            $womacResult = WomacResult::where('id_womac', $womacData->id)
                 ->where('result_name', 'kss2')
                 ->first();
             $kss2Result = $womacResult->result_value;
@@ -349,7 +349,7 @@ class WomacController extends Controller
                 //TU SA RATA PRIEMER
                 $priemer = array_sum($percenta) / 24;
 
-                $womacResult = WomacResult::where('id_womac', $request->id_womac)
+                $womacResult = WomacResult::where('id_womac', $womacUpdate->id)
                     ->where('result_name', 'avg')
                     ->first();
                 $womacResult->update(['result_value' => $priemer]);
@@ -362,7 +362,7 @@ class WomacController extends Controller
 //            dd($womacOp, $request->all());
             if ($womacOp->typ == 0) {
 //                $typResult = "hhs";
-                $womacResult = WomacResult::where('id_womac', $request->id_womac)
+                $womacResult = WomacResult::where('id_womac', $womacUpdate->id)
                     ->where('result_name', 'hhs')
                     ->first();
                 $womacResult->update(['result_value' => $request->input('hhs')]);
@@ -371,12 +371,12 @@ class WomacController extends Controller
 
             } else if ($womacOp->typ == 1){
 //                $typResult = "kss";
-                $womacResult = WomacResult::where('id_womac', $request->id_womac)
+                $womacResult = WomacResult::where('id_womac', $womacUpdate->id)
                     ->where('result_name', 'kss1')
                     ->first();
                 $womacResult->update(['result_value' => $request->input('kss1')]);
 
-                $womacResult = WomacResult::where('id_womac', $request->id_womac)
+                $womacResult = WomacResult::where('id_womac', $womacUpdate->id)
                     ->where('result_name', 'kss2')
                     ->first();
                 $womacResult->update(['result_value' => $request->input('kss2')]);
@@ -440,7 +440,7 @@ class WomacController extends Controller
 
 
             $resultWomac = WomacResult::create([
-                'id_womac' => $womac->id_womac,
+                'id_womac' => $womac->id,
                 'result_name' => 'avg',
                 'result_value' => null,
             ]);
@@ -464,7 +464,7 @@ class WomacController extends Controller
                 //TU SA RATA PRIEMER
                 $priemer = array_sum($percenta) / 24;
 
-                $womacResult = WomacResult::where('id_womac', $womac->id_womac)
+                $womacResult = WomacResult::where('id_womac', $womac->id)
                     ->where('result_name', 'avg')
                     ->first();
                 $womacResult->update(['result_value' => $priemer]);
@@ -476,7 +476,7 @@ class WomacController extends Controller
                 $typResult = "hhs";
                 $resValue = $request->input('hhs');
                 $resultWomac = WomacResult::create([
-                    'id_womac' => $womac->id_womac,
+                    'id_womac' => $womac->id,
                     'result_name' => $typResult,
                     'result_value' => $resValue,
                 ]);
@@ -488,12 +488,12 @@ class WomacController extends Controller
                 $resValue1 = $request->input('kss1');
                 $resValue2 = $request->input('kss2');
                 $resultWomac1 = WomacResult::create([
-                    'id_womac' => $womac->id_womac,
+                    'id_womac' => $womac->id,
                     'result_name' => $typResult1,
                     'result_value' => $resValue1,
                 ]);
                 $resultWomac2 = WomacResult::create([
-                    'id_womac' => $womac->id_womac,
+                    'id_womac' => $womac->id,
                     'result_name' => $typResult2,
                     'result_value' => $resValue2,
                 ]);
@@ -534,9 +534,9 @@ class WomacController extends Controller
             'deleted_by' => auth()->user()->id,
             ]);
 
-        $womacResult = WomacResult::where('id_womac', $id_womac);
+        $womacResult = WomacResult::where('id_womac', $womac->id);
         $womacResult->delete();
-//        $womacOperation = WomacOperation::where('id_womac', $id_womac);
+
         $womacOperation = WomacOperation::where('id_womac', $womac->id);
         $womacOperation->delete();
 
