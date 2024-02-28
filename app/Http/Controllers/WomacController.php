@@ -24,17 +24,17 @@ class WomacController extends Controller
         $dataPacient = Pacient::paginate(15);
 //        dd($dataPacient, $pacientCount);
 
-        foreach ($dataPacient as $pacient) {
-
-            $operacie = Operacia::where('id_pac', $pacient->id)->firstOrFail();
-//            $operacie = Operacia::where('id_pac', $pacient->id)->get();
-
-
-//            foreach ($operacie as $operacia) {
-                $operacie->pacient()->associate($pacient);
-                $operacie->save();
-//            }
-        }
+//        foreach ($dataPacient as $pacient) {
+//
+//            $operacie = Operacia::where('id_pac', $pacient->id)->firstOrFail();
+////            $operacie = Operacia::where('id_pac', $pacient->id)->get();
+//
+//
+////            foreach ($operacie as $operacia) {
+//                $operacie->pacient()->associate($pacient);
+//                $operacie->save();
+////            }
+//        }
 
 //        dd($dataPacient);
 
@@ -65,14 +65,14 @@ class WomacController extends Controller
             ->orWhere('priezvisko', 'like', "%$filter%")
             ->get();
 
-        foreach ($dataPacient as $pacient) {
-            $operacie = Operacia::where('id_pac', $pacient->id)->get();
-
-            foreach ($operacie as $operacia) {
-                $operacia->pacient()->associate($pacient);
-                $operacia->save();
-            }
-        }
+//        foreach ($dataPacient as $pacient) {
+//            $operacie = Operacia::where('id_pac', $pacient->id)->get();
+//
+//            foreach ($operacie as $operacia) {
+//                $operacia->pacient()->associate($pacient);
+//                $operacia->save();
+//            }
+//        }
         $womac = Womac::whereNull('closed_at')
             ->whereNull('deleted_at')
             ->whereNull('locked_at')->get();
@@ -396,7 +396,7 @@ class WomacController extends Controller
 
 
             do {
-                $randomWomacId = mt_rand(1, 999999999);
+                $randomWomacId = mt_rand(1, 999999999999);
             } while (Womac::where('id_womac', $randomWomacId)->exists());
             $record->update(['id_womac' => $randomWomacId]);
 

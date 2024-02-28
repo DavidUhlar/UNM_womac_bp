@@ -48,6 +48,15 @@
                     </div>
 
                     <div class="filter_export">
+                        <label for="filter_operacia_strana">Strana operácie:</label>
+                        <select name="filter_operacia_strana" id="filter_operacia_strana">
+                            <option value="" @if($filter_operacia_strana === null) selected @endif></option>
+                            <option value="0" @if($filter_operacia_strana === '0') selected @endif>Ľavá</option>
+                            <option value="1" @if($filter_operacia_strana === '1') selected @endif>Pravá</option>
+                        </select>
+                    </div>
+
+                    <div class="filter_export">
                         <label for="filter_pacient_rc">Pacient rodné číslo</label>
                         <input type="text" id="filter_pacient_rc" name="filter_pacient_rc" placeholder="Zadaj rodné číslo" value= "{{ old('filter_pacient_rc', $filter_pacient_rc) }}">
                     </div>
@@ -111,6 +120,17 @@
                                             Revízne
                                         @endif
                                     </div>
+                            </div>
+                            <div class="womac-row">
+                                <div class="womac-cell womac-header">strana</div>
+                                <div class="womac-cell womac-value">
+                                    {{--                                        {{ $operacia->subtyp }}--}}
+                                    @if($operacia->strana == 0)
+                                        Ľavá
+                                    @elseif($operacia->strana == 1)
+                                        Pravá
+                                    @endif
+                                </div>
                             </div>
                             <div class="womac-row">
                                 <div class="womac-cell womac-header">Dátum</div>

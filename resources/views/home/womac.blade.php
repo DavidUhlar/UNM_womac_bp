@@ -55,95 +55,169 @@
                             @php
 
 //                                dd($pacient->operacie);
-                                $operacieKoleno = $pacient->operacie->where('typ', 1);
-                                $operacieBedro = $pacient->operacie->where('typ', 0);
+                                $operacieKoleno = $pacient->operacie->where('typ', 1)->sortBy(['subtyp', 'strana', 'group_id', 'op_no']);
+                                $operacieBedro = $pacient->operacie->where('typ', 0)->sortBy(['subtyp', 'strana', 'group_id', 'op_no']);
 
 //                                    $operacieBedro = $pacient[0] ?? [];
 //                                    $operacieKoleno = $pacient[1] ?? [];
                             @endphp
 
                             @if(count($operacieKoleno) > 0)
+                                @php
+                                    $operacieKolenoPrave = $operacieKoleno->where('strana', 1);
+                                    $operacieKolenoLave = $operacieKoleno->where('strana', 0);
+//                                    $operacieBedro = $pacient->operacie->where('typ', 0)->sortBy(['strana', 'group_id', 'op_no']);
+                                @endphp
 
                                 <div class="sidebarHeading">
                                     Koleno
                                 </div>
-                                @foreach($operacieKoleno as $operaciaPacientaK)
-                                    <a href="#" class="sub-btn operacie" data-typ="koleno" data-id-operation="{{ $operaciaPacientaK['id'] }}" data-operation="{{ $operaciaPacientaK['sar_id'] }}" data-pacient-id="{{ $pacient['id'] }}">
-                                        Operácia {{ $operaciaPacientaK['sar_id'] }} {{ \Carbon\Carbon::createFromFormat('Ymd', $operaciaPacientaK['datum'])->format('Y-m-d') }}
-                                    </a>
-                                    <div class="sub-menu">
+                                @if(count($operacieKolenoPrave) > 0)
+                                    <div class="sidebarSubHeading">
+                                        Pravé
+                                    </div>
+                                    @foreach($operacieKolenoPrave as $operaciaPacientaK)
+                                        <a href="#" class="sub-btn operacie" data-typ="koleno" data-id-operation="{{ $operaciaPacientaK['id'] }}" data-operation="{{ $operaciaPacientaK['sar_id'] }}" data-pacient-id="{{ $pacient['id'] }}">
+                                            Operácia {{ $operaciaPacientaK['sar_id'] }} {{ \Carbon\Carbon::createFromFormat('Ymd', $operaciaPacientaK['datum'])->format('Y-m-d') }} {{ $operaciaPacientaK['strana'] }}
+                                        </a>
 
-{{--                                        @php--}}
-{{--                                            $womacOperations = App\Models\WomacOperation::all();--}}
-{{--                                            $uniqueIdWomacValues = $womacOperations--}}
-{{--                                                    ->where('id_patient', $pacient->id)--}}
-{{--                                                    ->where('id_operation', $operaciaPacientaK->id)--}}
-{{--                                                    ->pluck('id_womac')--}}
-{{--                                                    ->unique();--}}
 
-{{--                                        @endphp--}}
+                                        <div class="sub-menu">
 
-                                        {{--                                        {{$womacOperations}}--}}
-{{--                                        {{$uniqueIdWomacValues}}--}}
-{{--                                        {{$operaciaPacientaK->womac}}--}}
-{{--                                        @foreach($uniqueIdWomacValues as $idWomac)--}}
-                                        @foreach($operaciaPacientaK->womac as $idWomac)
-{{--                                            @if($womData = $womac->where('id', $idWomac->id)->first())--}}
+                                            @foreach($operaciaPacientaK->womac as $idWomac)
+    {{--                                            @if($womData = $womac->where('id', $idWomac->id)->first())--}}
+                                                    <div class="flex-container-womac-delete">
+
+                                                        <a href="#" class="sub-item" data-typ="koleno" data-id="{{ $idWomac->id_womac }}" data-id-operation="{{ $operaciaPacientaK['id'] }}" data-operation="{{ $operaciaPacientaK['sar_id'] }}">
+                                                            Womac {{ $idWomac->id_womac }}, {{ $idWomac->date_womac }}
+
+                                                        </a>
+    {{--                                                    @can(['admin', 'superuser'])--}}
+    {{--                                                    @if(auth()->user()->is_admin)--}}
+                                                            @if(auth()->user()->hasAnyRole(['admin', 'superuser']))
+                                                            <form id="deleteForm" action="{{ route('womac.delete', $idWomac->id_womac) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" title="Delete" class="delete-button-womac" data-id="{{ $idWomac->id_womac }}">Delete</button>
+                                                            </form>
+                                                        @endif
+    {{--                                                    @endcan--}}
+                                                    </div>
+
+    {{--                                            @endif--}}
+                                            @endforeach
+                                        </div>
+                                    @endforeach
+                                @endif
+{{--                                <div class="sidebarHeading">--}}
+{{--                                    Koleno--}}
+
+{{--                                </div>--}}
+                                @if(count($operacieKolenoLave) > 0)
+                                    <div class="sidebarSubHeading">
+                                        Ľavé
+                                    </div>
+
+                                    @foreach($operacieKolenoLave as $operaciaPacientaK)
+                                        <a href="#" class="sub-btn operacie" data-typ="koleno" data-id-operation="{{ $operaciaPacientaK['id'] }}" data-operation="{{ $operaciaPacientaK['sar_id'] }}" data-pacient-id="{{ $pacient['id'] }}">
+                                            Operácia {{ $operaciaPacientaK['sar_id'] }} {{ \Carbon\Carbon::createFromFormat('Ymd', $operaciaPacientaK['datum'])->format('Y-m-d') }} {{ $operaciaPacientaK['strana'] }}
+                                        </a>
+
+
+                                        <div class="sub-menu">
+
+                                            @foreach($operaciaPacientaK->womac as $idWomac)
+                                                {{--                                            @if($womData = $womac->where('id', $idWomac->id)->first())--}}
                                                 <div class="flex-container-womac-delete">
 
                                                     <a href="#" class="sub-item" data-typ="koleno" data-id="{{ $idWomac->id_womac }}" data-id-operation="{{ $operaciaPacientaK['id'] }}" data-operation="{{ $operaciaPacientaK['sar_id'] }}">
                                                         Womac {{ $idWomac->id_womac }}, {{ $idWomac->date_womac }}
 
                                                     </a>
-{{--                                                    @can(['admin', 'superuser'])--}}
-{{--                                                    @if(auth()->user()->is_admin)--}}
-                                                        @if(auth()->user()->hasAnyRole(['admin', 'superuser']))
+                                                    {{--                                                    @can(['admin', 'superuser'])--}}
+                                                    {{--                                                    @if(auth()->user()->is_admin)--}}
+                                                    @if(auth()->user()->hasAnyRole(['admin', 'superuser']))
                                                         <form id="deleteForm" action="{{ route('womac.delete', $idWomac->id_womac) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" title="Delete" class="delete-button-womac" data-id="{{ $idWomac->id_womac }}">Delete</button>
                                                         </form>
                                                     @endif
-{{--                                                    @endcan--}}
+                                                    {{--                                                    @endcan--}}
                                                 </div>
 
-{{--                                            @endif--}}
-                                        @endforeach
-                                    </div>
-                                @endforeach
+                                                {{--                                            @endif--}}
+                                            @endforeach
+                                        </div>
+                                    @endforeach
+                                @endif
                             @endif
 
 
+
                             @if(count($operacieBedro) > 0)
+                                @php
+                                    $operacieBedroPrave = $operacieBedro->where('strana', 1);
+                                    $operacieBedroLave = $operacieBedro->where('strana', 0);
+//                                    $operacieBedro = $pacient->operacie->where('typ', 0)->sortBy(['strana', 'group_id', 'op_no']);
+                                @endphp
                                 <div class="sidebarHeading">
                                     Bedro
                                 </div>
-                                @foreach($operacieBedro as $operaciaPacientaB)
-                                    <a href="#" class="sub-btn operacie" data-typ="bedro" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }} " data-pacient-id="{{ $pacient['id'] }}">
-                                        Operácia {{ $operaciaPacientaB['sar_id'] }} {{ \Carbon\Carbon::createFromFormat('Ymd', $operaciaPacientaB['datum'])->format('Y-m-d') }}
-                                    </a>
+                                @if(count($operacieBedroPrave) > 0)
+                                    <div class="sidebarSubHeading">
+                                        Pravé
+                                    </div>
+                                    @foreach($operacieBedroPrave as $operaciaPacientaB)
+                                        <a href="#" class="sub-btn operacie" data-typ="bedro" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }} " data-pacient-id="{{ $pacient['id'] }}">
+                                            Operácia {{ $operaciaPacientaB['sar_id'] }} {{ \Carbon\Carbon::createFromFormat('Ymd', $operaciaPacientaB['datum'])->format('Y-m-d') }}
+                                        </a>
 
-                                    <div class="sub-menu">
+                                        <div class="sub-menu">
 
-{{--                                        @php--}}
-{{--                                            $womacOperations = App\Models\WomacOperation::all();--}}
-{{--                                            $uniqueIdWomacValues = $womacOperations--}}
-{{--                                                    ->where('id_patient', $pacient->id)--}}
-{{--                                                    ->where('id_operation', $operaciaPacientaB->id)--}}
-{{--                                                    ->pluck('id_womac')--}}
-{{--                                                    ->unique()--}}
-{{--                                        @endphp--}}
+                                            @foreach($operaciaPacientaB->womac as $idWomac)
+    {{--                                            @if($womData = $womac->where('id', $idWomac)->first())--}}
+                                                    <div class="flex-container-womac-delete">
+                                                        <a href="#" class="sub-item" data-typ="bedro" data-id="{{ $idWomac->id_womac }}" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }}">
+                                                            Womac {{ $idWomac->id_womac }}, {{ $idWomac->date_womac }}
+                                                        </a>
+    {{--                                                    @if(auth()->user()->is_admin)--}}
+    {{--                                                    @can(['admin', 'superuser'])--}}
+                                                        @if(auth()->user()->hasAnyRole(['admin', 'superuser']))
+                                                            <form id="deleteForm" action="{{ route('womac.delete', $idWomac->id_womac) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" title="Delete" class="delete-button-womac" data-id="{{ $idWomac->id_womac }}">Delete</button>
+                                                            </form>
 
-{{--                                        {{$womacOperations}}--}}
-{{--                                        @foreach($uniqueIdWomacValues as $idWomac)--}}
-                                        @foreach($operaciaPacientaB->womac as $idWomac)
-{{--                                            @if($womData = $womac->where('id', $idWomac)->first())--}}
+                                                        @endif
+    {{--                                                    @endcan--}}
+                                                    </div>
+    {{--                                            @endif--}}
+                                            @endforeach
+                                        </div>
+                                    @endforeach
+                                @endif
+
+                                @if(count($operacieBedroLave) > 0)
+                                    <div class="sidebarSubHeading">
+                                        Ľavé
+                                    </div>
+                                    @foreach($operacieBedroLave as $operaciaPacientaB)
+                                        <a href="#" class="sub-btn operacie" data-typ="bedro" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }} " data-pacient-id="{{ $pacient['id'] }}">
+                                            Operácia {{ $operaciaPacientaB['sar_id'] }} {{ \Carbon\Carbon::createFromFormat('Ymd', $operaciaPacientaB['datum'])->format('Y-m-d') }}
+                                        </a>
+
+                                        <div class="sub-menu">
+
+                                            @foreach($operaciaPacientaB->womac as $idWomac)
+                                                {{--                                            @if($womData = $womac->where('id', $idWomac)->first())--}}
                                                 <div class="flex-container-womac-delete">
                                                     <a href="#" class="sub-item" data-typ="bedro" data-id="{{ $idWomac->id_womac }}" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }}">
                                                         Womac {{ $idWomac->id_womac }}, {{ $idWomac->date_womac }}
                                                     </a>
-{{--                                                    @if(auth()->user()->is_admin)--}}
-{{--                                                    @can(['admin', 'superuser'])--}}
+                                                    {{--                                                    @if(auth()->user()->is_admin)--}}
+                                                    {{--                                                    @can(['admin', 'superuser'])--}}
                                                     @if(auth()->user()->hasAnyRole(['admin', 'superuser']))
                                                         <form id="deleteForm" action="{{ route('womac.delete', $idWomac->id_womac) }}" method="POST">
                                                             @csrf
@@ -152,13 +226,13 @@
                                                         </form>
 
                                                     @endif
-{{--                                                    @endcan--}}
+                                                    {{--                                                    @endcan--}}
                                                 </div>
-{{--                                            @endif--}}
-                                        @endforeach
-                                    </div>
-                                @endforeach
-
+                                                {{--                                            @endif--}}
+                                            @endforeach
+                                        </div>
+                                    @endforeach
+                                @endif
                             @endif
                         </div>
 

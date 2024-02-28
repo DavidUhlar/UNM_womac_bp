@@ -27,6 +27,7 @@ class ExportController extends Controller
         $filter_pacient_rc = '';
         $filter_operacia_typ = null;
         $filter_operacia_subtyp = null;
+        $filter_operacia_strana = null;
         $filter_pacient_priezvisko = '';
 
         Session::put('filteredOperacie', Operacia::all());
@@ -37,6 +38,7 @@ class ExportController extends Controller
             'filter_pacient_rc',
             'filter_operacia_typ',
             'filter_operacia_subtyp',
+            'filter_operacia_strana',
             'filter_pacient_priezvisko',
         ));
 
@@ -49,6 +51,7 @@ class ExportController extends Controller
         $filter_pacient_rc = $request->input('filter_pacient_rc');
         $filter_operacia_typ = $request->input('filter_operacia_typ');
         $filter_operacia_subtyp = $request->input('filter_operacia_subtyp');
+        $filter_operacia_strana = $request->input('filter_operacia_strana');
         $filter_pacient_priezvisko = $request->input('filter_pacient_priezvisko');
 
         $pacientiData = Pacient::where('rc', 'like', "%$filter_pacient_rc%")
@@ -64,6 +67,7 @@ class ExportController extends Controller
                 ->where('sar_id', 'like', "%$filter_operacia_SAR_ID%")
                 ->where('typ', 'like', "%$filter_operacia_typ%")
                 ->where('subtyp', 'like', "%$filter_operacia_subtyp%")
+                ->where('strana', 'like', "%$filter_operacia_strana%")
                 ->with('womac');
 //                ->get();
 
@@ -100,6 +104,7 @@ class ExportController extends Controller
             'filter_pacient_rc',
             'filter_operacia_typ',
             'filter_operacia_subtyp',
+            'filter_operacia_strana',
             'filter_pacient_priezvisko',
         ));
     }

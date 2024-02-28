@@ -39,6 +39,17 @@
                     </div>
                 </div>
                 <div class="womac-row">
+                    <div class="womac-cell womac-header">strana</div>
+                    <div class="womac-cell womac-value">
+                        {{--                        {{ $operation->subtyp  }}--}}
+                        @if($operation->strana == 0)
+                            Ľavá
+                        @elseif($operation->strana == 1)
+                            Pravá
+                        @endif
+                    </div>
+                </div>
+                <div class="womac-row">
                     <div class="womac-cell womac-header">Dátum</div>
                     <div class="womac-cell womac-value">{{ \Carbon\Carbon::createFromFormat('Ymd', $operation->datum)->format('d.m.Y') }}</div>
                 </div>

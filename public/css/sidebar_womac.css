@@ -82,11 +82,20 @@
     font-weight: bold;
     padding: 5px 5.6vh;
     font-size: 20px;
+    border-top: darkred solid 0.5px;
+}
+
+.sidebarSubHeading {
+    background: #262627;
+    color: white;
+    font-weight: bold;
+    padding: 5px 7.5vh;
+    font-size: 18px;
 }
 
 a.operacie {
 
-    padding: 5px 5.6vh;
+    padding: 5px 8vh;
 }
 
 .sub-item {
