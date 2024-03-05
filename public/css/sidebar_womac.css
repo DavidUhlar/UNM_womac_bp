@@ -93,6 +93,17 @@
     font-size: 18px;
 }
 
+.sidebarPageHeading {
+    /*background-color: #262627;*/
+    /*color: white;*/
+    font-weight: bold;
+    padding-top: 3%;
+    padding-left: 2%;
+
+    /*font-size: 20px;*/
+    border-top: black solid 2px;
+}
+
 a.operacie {
 
     padding: 5px 8vh;

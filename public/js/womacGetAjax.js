@@ -73,6 +73,7 @@ $(document).ready(function () {
                     $('input[name="kss1"]').val(data.kss1);
                     $('input[name="kss2"]').val(data.kss2);
                     $('input[name="hhs"]').val(data.hhs);
+                    $('select[name="id_visit"]').val(data.id_visit);
 
                     if (typ === 'bedro') {
 
@@ -116,6 +117,7 @@ $(document).ready(function () {
             $('input[type="text"]').val('');
             $('input[type="number"]').val('');
             $('input[type="date"]').val('');
+            $('select[name="id_visit"]').val('');
             document.getElementById('id_womac').value = 0;
             $('input[name="hhs"]').val(null);
             $('input[name="kss1"]').val(null);

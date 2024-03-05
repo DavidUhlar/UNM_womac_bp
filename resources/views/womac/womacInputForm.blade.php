@@ -7,7 +7,17 @@
     <input type="hidden" id="id_womac" name="id_womac" value="0">
 
 
-
+    <div class="inputAndLabel">
+        <label class="nazovWomacInput" for="id_visit">ID vyšetrenia</label>
+        <select name="id_visit" class="womacInputDate" id="id_visit">
+            <option value=""></option>
+            <option value="1">Pooperačné</option>
+            <option value="2">3 - mesačné</option>
+            <option value="3">6 - mesačné</option>
+            <option value="4">9 - mesačné</option>
+            <option value="5">12 - mesačné</option>
+        </select>
+    </div>
     <div class="inputAndLabel">
         <label class="nazovWomacInput" for="date_visit">Dátum vyšetrenia</label>
         <input type="date" class="womacInputDate" id="date_visit" name="date_visit" value="">

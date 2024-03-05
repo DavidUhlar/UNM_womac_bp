@@ -21,7 +21,7 @@ class WomacController extends Controller
 //        dd($womacData);
 //        $dataPacient = Pacient::with('operacie.womac')->get();
 //        $dataPacient = Pacient::all();
-        $dataPacient = Pacient::paginate(15);
+        $dataPacient = Pacient::paginate(10);
 //        dd($dataPacient, $pacientCount);
 
 //        foreach ($dataPacient as $pacient) {
@@ -78,7 +78,7 @@ class WomacController extends Controller
             ->whereNull('locked_at')->get();
 //        dd($dataPacient, $operacie);
 
-        $pageSize = 15;
+        $pageSize = 10;
         $totalPacient = $dataPacient->count();
         $currentPage = $request->input('page', 1);
 //        $pageSize = max(1, $pageSize);
@@ -162,6 +162,7 @@ class WomacController extends Controller
             'hhs' => $hhsResult,
             'kss1' => $kss1Result,
             'kss2' => $kss2Result,
+            'id_visit' => $localWomacOp->id_visit,
             ]);
 
     }
@@ -195,6 +196,7 @@ class WomacController extends Controller
         $request->validate([
             'date_womac' => 'required',
             'date_visit' => 'required',
+            'id_visit' => 'required',
             'answer_01' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
             'answer_02' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
             'answer_03' => ['nullable', Rule::in([1, 2, 3, 4, 5])],
@@ -252,6 +254,7 @@ class WomacController extends Controller
                 ->first();
 
             $op = Operacia::find($id_operation);
+            $womacOperationUpdate = WomacOperation::where('id_womac', $womacUpdate->id);
 //            dd($op->typ);
 //            dd($womacUpdate->result->where('result_name', 'hhs')->first()->result_value);
             if ($op->typ == 0) {
@@ -273,6 +276,10 @@ class WomacController extends Controller
                 'answer_21', 'answer_22', 'answer_23', 'answer_24',
             ], $resultArray);
 //            dd($isDataChanged);
+
+            $womacOperationUpdate->update([
+                'id_visit' => $request->input('id_visit'),
+            ]);
             if (!$isDataChanged) {
 
                 return redirect()->back();
@@ -419,11 +426,12 @@ class WomacController extends Controller
             $pacient = $operacia->pacient()->first();
 
 
+
             $womacOperation->id_patient = $pacient->id;
 //            $womacOperation->id_womac = $record->id_womac;
             $womacOperation->id_womac = $womac->id;
             $womacOperation->id_operation = $operationID;
-            $womacOperation->id_visit = 1;
+            $womacOperation->id_visit = $request->input('id_visit');
 
 
 //            dd($request->all());

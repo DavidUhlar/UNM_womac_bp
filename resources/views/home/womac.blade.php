@@ -242,10 +242,18 @@
 
 
 
-                {{ $dataPacient->links('pagination::bootstrap-5') }}
+{{--                <div class="sidebarSubHeading">--}}
+
+{{--                </div>--}}
+                <div class="sidebarPageHeading">
+                    <div class="paginationPacient">
+                        {{ $dataPacient->onEachSide(2)->links('pagination::bootstrap-5') }}
+                    </div>
+                </div>
 
             </div>
         </div>
+
 
 
 

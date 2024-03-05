@@ -157,3 +157,14 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+select {
+    word-wrap: normal;
+    height: 100%;
+    border: 2px solid black;
+}
+
+
+/*.paginationPacient {*/
+/*    max-width: 300px;*/
+/*}*/
+
