@@ -114,9 +114,22 @@ $(document).ready(function () {
             });
         } else {
 
+            function getCurrentDate() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+
+
+
+
             $('input[type="text"]').val('');
             $('input[type="number"]').val('');
             $('input[type="date"]').val('');
+            // $('input[name="date_womac"]').val('');
+            document.getElementById('date_womac').value = getCurrentDate();
             $('select[name="id_visit"]').val('');
             document.getElementById('id_womac').value = 0;
             $('input[name="hhs"]').val(null);

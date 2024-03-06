@@ -45,10 +45,9 @@ class UsersController extends Controller
      */
     public function store(User $user, StoreUserRequest $request)
     {
-        //For demo purposes only. When creating user or inviting a user
-        // you should create a generated random password and email it to the user
+
         $user->create(array_merge($request->validated(), [
-            'password' => 'test'
+            'password' => 'password312!'
         ]));
 
         return redirect()->route('users.index')
@@ -99,10 +98,12 @@ class UsersController extends Controller
         $user->update($request->validated());
 
 //        $user->syncRoles($request->get('role'));
-
-        $role = Role::where('id', $request->get('role'))->first();
-        $user->syncRoles($role->name);
-
+        if ($request->filled('role')) {
+            $role = Role::where('id', $request->get('role'))->first();
+            $user->syncRoles($role->name);
+        } else {
+            $user->syncRoles([]);
+        }
         return redirect()->route('users.index')
             ->withSuccess(__('Používateľ bol upravený úspešne'));
     }

@@ -48,8 +48,8 @@
                 <div class="mb-3">
                     <label for="role" class="form-label">Role</label>
                     <select class="form-control"
-                        name="role" required>
-                        <option value="">Výber role</option>
+                        name="role" >
+                        <option value="">Žiadna rola</option>
                         @foreach($roles as $role)
                             <option value="{{ $role->id }}"
                                 {{ in_array($role->name, $userRole)

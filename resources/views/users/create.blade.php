@@ -7,7 +7,9 @@
             Pridanie používateľa
         </div>
 
+        *Vytvorený používateľ bude mať heslo password312!
         <div class="container mt-4">
+
             <form method="POST" action="">
                 @csrf
                 <div class="mb-3">
