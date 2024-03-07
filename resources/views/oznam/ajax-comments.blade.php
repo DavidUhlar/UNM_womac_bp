@@ -1,7 +1,7 @@
 @foreach($comments as $koment)
     <div class="komentarObsah" id="comments-container">
         <div class="komentarAutor">
-            {{ $koment->autor }}
+            {{ $koment->user->username }}
         </div>
 
         <div class="komentarText">
@@ -21,7 +21,7 @@
             @endif
         </div>
         @auth
-            @if($koment->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser']))
+            @if($koment->user->id == auth()->user()->id || auth()->user()->hasAnyRole(['admin', 'superuser']))
                 <div class="tlacitkoContainer">
                     <div class="col-sm tlacitko">
                         <form action="{{ route('oznam.CommentDestroy', $koment->id) }}" method="post">

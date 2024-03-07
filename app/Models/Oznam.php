@@ -31,4 +31,8 @@ class Oznam extends Model
     {
         return $this->belongsToMany(Tag::class, 'has_tag', 'id_prispevku', 'id_tagu');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'autor', 'id');
+    }
 }

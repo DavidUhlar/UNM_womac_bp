@@ -18,10 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('id_prispevku');
             $table->text('obsah');
             $table->timestamps();
-            $table->string('autor');
+            $table->unsignedBigInteger('autor');
 
 
             $table->foreign('id_prispevku')->references('id')->on('oznam')->onDelete('cascade');
+            $table->foreign('autor')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

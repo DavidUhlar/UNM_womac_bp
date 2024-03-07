@@ -72,7 +72,7 @@ class OznamController extends Controller
         $oznam = new Oznam([
             'nazov' => $request->input('nazov'),
             'obsah' => $request->input('obsah'),
-            'autor' => $user->username,
+            'autor' => $user->id,
 
         ]);
 
@@ -99,7 +99,7 @@ class OznamController extends Controller
         $komentar = new Komentar([
             'id_prispevku' => $request->id,
             'obsah' => $request->input('obsah'),
-            'autor' => $user->username,
+            'autor' => $user->id,
         ]);
 
 
@@ -112,7 +112,7 @@ class OznamController extends Controller
     {
 
         $komentar = Komentar::find($id);
-        if($komentar->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
+        if($komentar->user->id == auth()->user()->id || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
             $komentar->delete();
         }
 
@@ -128,7 +128,8 @@ class OznamController extends Controller
             'editedObsah' => 'required|max:255',
         ]);
 
-        if($komentar->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
+//        dd($komentar->user->id);
+        if($komentar->user->id == auth()->user()->id || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
             $komentar->obsah = $request->input('editedObsah');
             $komentar->save();
         }
@@ -141,16 +142,17 @@ class OznamController extends Controller
 //        dd($request->all());
 
 //        return response()->json(['success' => $request->all()]);
-        $reakcie = Reakcia::where('id_prispevku', $oznam->id)->get();
-        $userReaction = $reakcie->where('autor_reakcie', auth()->user()->username)->first();
+//        $reakcie = Reakcia::where('id_prispevku', $oznam->id)->get();
+//        $userReaction = $reakcie->where('autor_reakcie', auth()->user()->id)->first();
 
+        $userReaction = $oznam->reakcie->where('autor_reakcie', auth()->user()->id)->first();
         if ($userReaction) {
             $userReaction->reakcia = !$userReaction->reakcia;
             $userReaction->save();
         } else {
             $reakcia = Reakcia::create([
                 'id_prispevku' => $oznam->id,
-                'autor_reakcie' => auth()->user()->username,
+                'autor_reakcie' => auth()->user()->id,
                 'reakcia' => true,
             ]);
             $reakcia->save();
@@ -158,8 +160,10 @@ class OznamController extends Controller
         }
 
 
+
         $liked = ($userReaction && $userReaction->reakcia) ? true : false;
-        $likeCount = $oznam->reakcie->where('reakcia', true)->count();
+//        $likeCount = $oznam->reakcie->where('reakcia', true)->count();
+        $likeCount = Reakcia::where('id_prispevku', $oznam->id)->where('reakcia', true)->count();
 
 
         return response()->json(['success' => 'Reakcia created', 'liked' => $liked, 'likeCount' => $likeCount,]);
@@ -181,7 +185,8 @@ class OznamController extends Controller
 
         $oznam = Oznam::find($id);
 
-        if($oznam->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
+//        dd($oznam->user->id);
+        if($oznam->user->id == auth()->user()->id || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
             $oznam->update([
                 'nazov' => $request->input('nazov'),
                 'obsah' => $request->input('obsah'),
@@ -217,7 +222,7 @@ class OznamController extends Controller
     {
 
         $oznam = Oznam::find($id);
-        if($oznam->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
+        if($oznam->user->id == auth()->user()->id || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
             if ($oznam->image_path) {
                 Storage::disk('public')->delete($oznam->image_path);
             }

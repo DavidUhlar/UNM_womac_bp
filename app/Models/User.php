@@ -61,4 +61,13 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+    public function oznam()
+    {
+        return $this->hasMany(Oznam::class, 'autor');
+    }
+    public function komentare()
+    {
+        return $this->hasMany(Komentar::class, 'autor');
+    }
 }

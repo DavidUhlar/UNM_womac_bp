@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('reakcia', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_prispevku');
-            $table->string('autor_reakcie');
+            $table->unsignedBigInteger('autor_reakcie');
             $table->boolean('reakcia')->default(false);
             $table->timestamps();
 
             $table->foreign('id_prispevku')->references('id')->on('oznam')->onDelete('cascade');
+            $table->foreign('autor_reakcie')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

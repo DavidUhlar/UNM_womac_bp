@@ -37,7 +37,7 @@
 
                         </div>
                         <div class="card-body">
-                            <p class="card-text">Autor: {{ $post->autor }}</p>
+                            <p class="card-text">Autor: {{ $post->user->username }}</p>
 
                         </div>
                         <div class="card-body">
@@ -71,7 +71,7 @@
                         <div class="card-footer">
                             <div class="row">
                                 @auth
-                                    @if($post->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser']))
+                                    @if($post->user->id == auth()->user()->id || auth()->user()->hasAnyRole(['admin', 'superuser']))
                                         <div class="col-sm tlacitko">
                                             <a href="{{ route('oznam.oznamEdit', $post->id) }}" class="btn btn-primary btn-sm tlacitko">Upraviť</a>
                                         </div>

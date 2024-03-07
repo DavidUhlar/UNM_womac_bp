@@ -21,4 +21,9 @@ class Komentar extends Model
         return $this->belongsTo(Oznam::class, 'id_prispevku', 'id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'autor', 'id');
+    }
+
 }

@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('nazov');
             $table->text('obsah');
             $table->timestamps();
-            $table->string('autor');
+            $table->unsignedBigInteger('autor');
+            $table->foreign('autor')->references('id')->on('users')->onDelete('cascade');
             $table->string('image_path')->nullable();
         });
     }

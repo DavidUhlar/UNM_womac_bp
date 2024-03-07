@@ -21,7 +21,7 @@
 
 {{--        <div class="tagy"><h4>Tagy:  @foreach($tagNames as $tag) <span class="badge text-bg-info rounded-pill">{{ $tag }}</span> @endforeach</h4></div>--}}
         <div class="tagy"><h4>Tagy:  @foreach($oznam->tag as $tag) <span class="badge text-bg-info rounded-pill">{{ $tag->nazov }}</span> @endforeach</h4></div>
-        <div class ="autor"> Autor: {{ $oznam->autor }}</div>
+        <div class ="autor"> Autor: {{ $oznam->user->username }}</div>
         <div class="komentarDatum">
             @php
                 $created_at = \Carbon\Carbon::parse($oznam->created_at)->setTimezone('Europe/Berlin');
@@ -55,9 +55,11 @@
                     @method('POST')
 
                     @php
-                        $userReakcia = $oznam->reakcie->where('autor_reakcie', auth()->user()->username)->first();
-
+//                        $userReakcia = $oznam->reakcie->where('autor_reakcie', auth()->user()->username)->first();
+//                        dd($oznam->reakcie->where('autor_reakcie', auth()->user()->id)->first());
+                        $userReakcia = $oznam->reakcie->where('autor_reakcie', auth()->user()->id)->first()
                     @endphp
+
                     <button type="button" class="btn btn-primary" id="likeButton">
                         {{-- like/unlike text --}}
 
@@ -104,7 +106,7 @@
             @foreach($oznam->komentare->reverse()->take(5) as $koment)
             <div class="komentarObsah" >
                 <div class="komentarAutor">
-                    {{ $koment->autor }}
+                    {{ $koment->user->username }}
                 </div>
 
                 <div class="komentarText">
@@ -124,7 +126,7 @@
                     @endif
                 </div>
                 @auth
-                    @if($koment->autor == auth()->user()->username || auth()->user()->hasAnyRole(['admin', 'superuser']))
+                    @if($koment->user->id == auth()->user()->id || auth()->user()->hasAnyRole(['admin', 'superuser']))
                         <div class="tlacitkoContainer">
                             <div class="col-sm tlacitko">
                                 <form action="{{ route('oznam.CommentDestroy', $koment->id) }}" method="post">
