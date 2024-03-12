@@ -18,15 +18,15 @@
             @csrf
             <h1 class="h3 mb-3 mt-4 fw-normal ">Zmena hesla</h1>
             <div class="form-group mb-3">
-                <label for="form-password-change-old" class="form-label">Pôvodné heslo</label>
+                <label for="form-password-change-old" class="oznamFormLabel">Pôvodné heslo</label>
                 <input type="password" class="form-control" id="form-password-change-old" name="old_password" placeholder="Pôvodné heslo" required>
             </div>
             <div class="form-group mb-3">
-                <label for="form-password-change-new" class="form-label">Nové heslo</label>
+                <label for="form-password-change-new" class="oznamFormLabel">Nové heslo</label>
                 <input type="password" class="form-control" id="form-password-change-new" name="new_password" placeholder="Nové heslo" required>
             </div>
             <div class="form-group mb-3">
-                <label for="form-password-change-new2" class="form-label">Potvrdenie nového hesla</label>
+                <label for="form-password-change-new2" class="oznamFormLabel">Potvrdenie nového hesla</label>
                 <input type="password" class="form-control" id="form-password-change-new2" name="new_password_confirmation" placeholder="Nové heslo" required>
             </div>
 
