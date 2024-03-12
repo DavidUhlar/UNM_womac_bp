@@ -14,25 +14,24 @@
         var loadMoreCommentsRoute = @json(route("oznam.load-more-comments", $oznam->id));
     </script>
 
-{{--    @dd($oznam->tag)--}}
     <div class="oznamNadpis">
         <h1 class="nadpisko">Oznam {{ $oznam->id }}</h1>
         <h2>{{ $oznam->nazov }}</h2>
 
-{{--        <div class="tagy"><h4>Tagy:  @foreach($tagNames as $tag) <span class="badge text-bg-info rounded-pill">{{ $tag }}</span> @endforeach</h4></div>--}}
+
         <div class="tagy"><h4>Tagy:  @foreach($oznam->tag as $tag) <span class="badge text-bg-info rounded-pill">{{ $tag->nazov }}</span> @endforeach</h4></div>
         <div class ="autor"> Autor: {{ $oznam->user->username }}</div>
         <div class="komentarDatum">
             @php
-                $created_at = \Carbon\Carbon::parse($oznam->created_at)->setTimezone('Europe/Berlin');
-                $updated_at = \Carbon\Carbon::parse($oznam->updated_at)->setTimezone('Europe/Berlin');
+                $created_at_oznam = \Carbon\Carbon::parse($oznam->created_at)->setTimezone('Europe/Berlin');
+                $updated_at_oznam = \Carbon\Carbon::parse($oznam->updated_at)->setTimezone('Europe/Berlin');
             @endphp
 
-            @if ($created_at == $updated_at)
-                Vytvorené: {{ $created_at->format('d.m.Y H:i') }}
+            @if ($created_at_oznam == $updated_at_oznam)
+                Vytvorené: {{ $created_at_oznam->format('d.m.Y H:i') }}
             @else
-                Vytvorené: {{ $created_at->format('d.m.Y H:i') }}<br>
-                Upravené: {{ $updated_at->format('d.m.Y H:i') }}
+                Vytvorené: {{ $created_at_oznam->format('d.m.Y H:i') }}<br>
+                Upravené: {{ $updated_at_oznam->format('d.m.Y H:i') }}
             @endif
         </div>
         @if($oznam->image_path)
@@ -55,16 +54,12 @@
                     @method('POST')
 
                     @php
-//                        $userReakcia = $oznam->reakcie->where('autor_reakcie', auth()->user()->username)->first();
-//                        dd($oznam->reakcie->where('autor_reakcie', auth()->user()->id)->first());
                         $userReakcia = $oznam->reakcie->where('autor_reakcie', auth()->user()->id)->first()
                     @endphp
 
                     <button type="button" class="btn btn-primary" id="likeButton">
                         {{-- like/unlike text --}}
 
-
-{{--                        @dd($userReakcia);--}}
                         @if ($userReakcia && $userReakcia->reakcia)
                             Evidované
                         @else
@@ -100,7 +95,6 @@
 
         </form>
         @endauth
-{{--        @dd($oznam->komentare->count())--}}
         <div id="comments-container">
             @foreach($oznam->komentare->reverse()->take(5) as $koment)
             <div class="komentarObsah" >
@@ -152,13 +146,6 @@
             @endforeach
         </div>
         <div id="loading-message"></div>
-
-
     </div>
-
-
-
-
-
 
 @endsection
