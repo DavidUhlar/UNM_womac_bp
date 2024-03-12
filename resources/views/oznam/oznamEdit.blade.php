@@ -18,9 +18,9 @@
         </div>
     @endif
 
-    <div class="container h-100 mt-5">
-        <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-10 col-md-8 col-lg-6">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
                 <h3>Edit oznamu</h3>
                 <form action="{{ route('oznam.update', $oznam->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -29,10 +29,10 @@
 
                     @if($oznam->image_path)
 
-                        <div class="form-group">
+                        <div class="mb-3">
                             <img src="{{ asset('storage/' . $oznam->image_path) }}" alt="Existing Image" class="obrazok-edit">
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label class="fs-5" for="delete_image">Zmazanie aktuálneho obrázka:</label>
                             <input type="checkbox" name="delete_image" id="delete_image" value="1">
                         </div>
@@ -40,22 +40,23 @@
                     <br>
 
 
-                    <div class="form-group">
-                        <label class="fs-5" for="nazov">Názov</label>
+                    <div class="mb-3">
+                        <label class="oznamFormLabel" for="nazov">Názov</label>
                         <input type="text" class="form-control  @if($errors->has('nazov')) is-invalid @endif" id="nazov" name="nazov"
-                               value="{{ $oznam->nazov }}" required onblur="checkLength(this, 3, 'nazov musi mat 3 znaky.');"{{ old('nazov') }}>
+                               value="{{ $oznam->nazov }}" required onblur="checkLength(this, 4, 'názov musí mať 4 znaky.');"{{ old('nazov') }}>
                     </div>
-                    <div class="form-group">
-                        <label class="fs-5" for="obsah">Obsah</label>
+                    <div class="mb-3">
+                        <label class="oznamFormLabel" for="obsah">Obsah</label>
                         <textarea class="form-control" id="obsah" name="obsah" rows="3" required>{{ $oznam->obsah }}{{ old('obsah') }}</textarea>
                     </div>
                     <br>
-                    <div class="form-group fs-5">
+                    <div class="mb-3">
+                        <label class="oznamFormLabel" for="image">Obrázok</label>
                         <input type="file" name="image" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
                     </div>
 
 
-                    <button type="submit" class="btn mt-3 btn-primary">Edit oznamu</button>
+                    <button type="submit" class="btn mt-3 btn-primary mb-4">Edit oznamu</button>
                 </form>
 
 

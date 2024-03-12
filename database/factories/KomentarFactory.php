@@ -19,7 +19,7 @@ class KomentarFactory extends Factory
         return [
             'id_prispevku' => 1,
             'obsah' => $this->faker->sentence(),
-            'autor' => 'admin',
+            'autor' => 1,
         ];
     }
 }

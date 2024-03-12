@@ -94,7 +94,6 @@
             <div>
 
                 <textarea id="obsah" name="obsah" class="form-input" required="" placeholder="Komentár"></textarea>
-{{--                <span class="textarea form-input" role="textbox" contenteditable></span>--}}
 
             </div>
             <button class="btn btn-primary pull-right">potvrdiť</button>

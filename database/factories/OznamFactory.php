@@ -19,7 +19,7 @@ class OznamFactory extends Factory
         return [
             'nazov' => $this->faker->sentence(),
             'obsah' => $this->faker->text(),
-            'autor' => 'admin',
+            'autor' => 1,
         ];
     }
 }
