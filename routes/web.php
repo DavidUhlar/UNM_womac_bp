@@ -27,7 +27,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
 
 
-    Route::group(['middleware' => ['permission']], function() {
+    Route::group(['middleware' => ['permission', 'auth']], function() {
 
         Route::group(['prefix' => 'oznam_index'], function (){
             Route::get('/', 'OznamController@index')->name('oznam.oznam');
@@ -102,7 +102,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
 
     Route::group(['middleware' => ['auth']], function() {
-        Route::get('/loginSuccess', 'HomeController@loginSuccess')->name('home.loginSuccess');
         Route::get('/password-change/show', 'UsersController@passwordChangeShow')->name('passwordChange.show');
         Route::post('/password-change/update', 'UsersController@passwordChange')->name('passwordChange.change');
     });

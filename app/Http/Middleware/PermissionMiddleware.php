@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class PermissionMiddleware
@@ -34,14 +35,17 @@ class PermissionMiddleware
 
             $permissions = array($permission);
         }
-        
+
 
         foreach ($permissions as $permission) {
             if ($authGuard->user()->can($permission)) {
                 return $next($request);
             }
         }
+        session()->forget('error');
 
-        throw UnauthorizedException::forPermissions($permissions);
+        return Redirect::to('/')->with('error', 'Nedostatočné práva');
+
+//        throw UnauthorizedException::forPermissions($permissions);
     }
 }

@@ -16,15 +16,19 @@
         <script src="{{ asset("js/womacMenu.js") }}"></script>
         <script src="{{ asset("js/womacGetAjax.js") }}"></script>
         <script src="{{ asset("js/womacInputValidacia.js") }}"></script>
+        <script src="{{ asset("js/alert.js") }}"></script>
 
-        @if ($errors->any())
-            <div class="alert alert-danger m-3">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+        @if(session('error'))
+            <div id="error-alert" class="alert alert-danger">
+                {{ session('error') }}
             </div>
+
+        @endif
+        @if(session('success'))
+            <div id="success-alert" class="alert alert-success">
+                {{ session('success') }}
+            </div>
+
         @endif
     <div class="containerWomac">
 

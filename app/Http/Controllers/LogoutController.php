@@ -21,6 +21,6 @@ class LogoutController extends Controller
 
         Auth::logout();
 
-        return redirect('/');
+        return redirect('/')->with('success', 'Úspešné odhlásenie');
     }
 }

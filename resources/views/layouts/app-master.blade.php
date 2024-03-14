@@ -20,6 +20,7 @@
 {{--        <link rel="stylesheet" href=" {{ asset('css/oznamPictures.css')}}"/>--}}
 
         <link rel="stylesheet" href=" {{ asset('css/style.css')}}"/>
+        <link rel="stylesheet" href=" {{ asset('css/alert.css')}}"/>
         <link rel="stylesheet" href=" {{ asset('css/womac.css')}}"/>
         <link rel="stylesheet" href=" {{ asset('css/mapa.css')}}"/>
         <link rel="stylesheet" href=" {{ asset('css/oznam.css')}}"/>

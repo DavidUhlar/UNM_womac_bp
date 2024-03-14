@@ -1,0 +1,33 @@
+
+#error-alert {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 9;
+    margin: 20px;
+    padding: 2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+
+}
+#success-alert {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 9;
+    margin: 20px;
+    padding: 2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+
+}
+#error-alert.show {
+    opacity: 1;
+
+}
+#success-alert.show {
+    opacity: 1;
+
+}

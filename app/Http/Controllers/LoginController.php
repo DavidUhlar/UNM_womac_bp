@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller
 {
@@ -51,6 +52,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        return redirect()->intended('/loginSuccess');
+//        return redirect()->intended('/loginSuccess');
+        return Redirect::to('/')->with('success', 'Úspešné prihlásenie');
     }
 }

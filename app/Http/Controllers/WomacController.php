@@ -601,6 +601,6 @@ class WomacController extends Controller
         ]);
 
 //        return redirect()->route('home.womac');
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Dotazník úspešne odstránený');
     }
 }
