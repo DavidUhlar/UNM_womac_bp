@@ -20,6 +20,10 @@ return new class extends Migration
             $table->foreign('id_womac')->references('id')->on('womac')->onDelete('cascade');
             $table->string('result_name', 16)->nullable(false);
             $table->float('result_value')->nullable(true);
+
+            $table->timestamp('closed_at')->nullable(true);
+            $table->unsignedBigInteger('closed_by')->nullable(true);
+            $table->foreign('closed_by')->references('id')->on('users')->onDelete('cascade');
         });
 
     }

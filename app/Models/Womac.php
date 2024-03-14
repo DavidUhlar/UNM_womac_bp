@@ -28,34 +28,8 @@ class Womac extends Model
         'date_visit',
         'date_womac',
 
-        'answer_01',
-        'answer_02',
-        'answer_03',
-        'answer_04',
-        'answer_05',
-        'answer_06',
-        'answer_07',
-        'answer_08',
-        'answer_09',
-        'answer_10',
-        'answer_11',
-        'answer_12',
-        'answer_13',
-        'answer_14',
-        'answer_15',
-        'answer_16',
-        'answer_17',
-        'answer_18',
-        'answer_19',
-        'answer_20',
-        'answer_21',
-        'answer_22',
-        'answer_23',
-        'answer_24',
 
         'note',
-
-        'filled',
 
         'created_at',
         'updated_at',
@@ -82,5 +56,10 @@ class Womac extends Model
     public function result()
     {
         return $this->hasMany(WomacResult::class, 'id_womac', 'id');
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(WomacAnswers::class, 'id_womac', 'id');
     }
 }

@@ -39,8 +39,10 @@
                 </div>
             </form>
             <div class="menu">
+{{--                @dd($dataPacient->get(0)->operacie->first()->womac->whereNull('closed_at')->whereNull('deleted_at'))--}}
 {{--                {{ dd($dataPacient) }}--}}
                 @foreach($dataPacient as $pacient)
+
                     <div class="item">
                         <a class="sub-btn nadpisko">
                             {{ $pacient['id'] }}.
@@ -84,13 +86,14 @@
 
                                         <div class="sub-menu">
 
-                                            @foreach($operaciaPacientaK->womac as $idWomac)
-    {{--                                            @if($womData = $womac->where('id', $idWomac->id)->first())--}}
+                                            @foreach($operaciaPacientaK->womac->whereNull('closed_at')->whereNull('deleted_at') as $idWomac)
+
+{{--                                                @if($idWomac->closed_at == null)--}}
                                                     <div class="flex-container-womac-delete">
 
                                                         <a href="#" class="sub-item" data-typ="koleno" data-id="{{ $idWomac->id_womac }}" data-id-operation="{{ $operaciaPacientaK['id'] }}" data-operation="{{ $operaciaPacientaK['sar_id'] }}">
                                                             Womac {{ $idWomac->id_womac }}, {{ $idWomac->date_womac }}
-
+{{--                                                            {{ dd($idWomac) }}--}}
                                                         </a>
     {{--                                                    @can(['admin', 'superuser'])--}}
     {{--                                                    @if(auth()->user()->is_admin)--}}
@@ -104,7 +107,7 @@
     {{--                                                    @endcan--}}
                                                     </div>
 
-    {{--                                            @endif--}}
+{{--                                                @endif--}}
                                             @endforeach
                                         </div>
                                     @endforeach
@@ -126,7 +129,7 @@
 
                                         <div class="sub-menu">
 
-                                            @foreach($operaciaPacientaK->womac as $idWomac)
+                                            @foreach($operaciaPacientaK->womac->whereNull('closed_at')->whereNull('deleted_at') as $idWomac)
                                                 {{--                                            @if($womData = $womac->where('id', $idWomac->id)->first())--}}
                                                 <div class="flex-container-womac-delete">
 
@@ -175,7 +178,7 @@
 
                                         <div class="sub-menu">
 
-                                            @foreach($operaciaPacientaB->womac as $idWomac)
+                                            @foreach($operaciaPacientaB->womac->whereNull('closed_at')->whereNull('deleted_at') as $idWomac)
     {{--                                            @if($womData = $womac->where('id', $idWomac)->first())--}}
                                                     <div class="flex-container-womac-delete">
                                                         <a href="#" class="sub-item" data-typ="bedro" data-id="{{ $idWomac->id_womac }}" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }}">
@@ -210,7 +213,7 @@
 
                                         <div class="sub-menu">
 
-                                            @foreach($operaciaPacientaB->womac as $idWomac)
+                                            @foreach($operaciaPacientaB->womac->whereNull('closed_at')->whereNull('deleted_at') as $idWomac)
                                                 {{--                                            @if($womData = $womac->where('id', $idWomac)->first())--}}
                                                 <div class="flex-container-womac-delete">
                                                     <a href="#" class="sub-item" data-typ="bedro" data-id="{{ $idWomac->id_womac }}" data-id-operation="{{ $operaciaPacientaB['id'] }}" data-operation="{{ $operaciaPacientaB['sar_id'] }}">

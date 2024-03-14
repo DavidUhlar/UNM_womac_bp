@@ -38,6 +38,10 @@ return new class extends Migration
             $table->unsignedBigInteger('id_womac')->nullable(false);
             $table->foreign('id_womac')->references('id')->on('womac')->onDelete('cascade');
 
+
+            $table->timestamp('closed_at')->nullable(true);
+            $table->unsignedBigInteger('closed_by')->nullable(true);
+            $table->foreign('closed_by')->references('id')->on('users')->onDelete('cascade');
         });
 
     }
