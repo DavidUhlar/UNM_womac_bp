@@ -15,8 +15,6 @@ class OznamController extends Controller
     public function show($id) {
         $oznam = Oznam::with('komentare', 'reakcie')->find($id);
 
-//        dd($oznam->tag->first()->nazov);
-//        dd($oznam = Oznam::orderBy('created_at', 'desc')->paginate(6)->where('tag', 'Chyba'));
         return view('oznam.oznamShow' , compact('oznam'));
     }
 
@@ -52,7 +50,6 @@ class OznamController extends Controller
 
     public function store(Request $request)
     {
-//        dd($request);
         $request->validate([
             'nazov' => 'required|min:4|max:255',
             'obsah' => 'required|max:20000',
@@ -139,11 +136,6 @@ class OznamController extends Controller
 
     public function likeOznam($id) {
         $oznam = Oznam::find($id);
-//        dd($request->all());
-
-//        return response()->json(['success' => $request->all()]);
-//        $reakcie = Reakcia::where('id_prispevku', $oznam->id)->get();
-//        $userReaction = $reakcie->where('autor_reakcie', auth()->user()->id)->first();
 
         $userReaction = $oznam->reakcie->where('autor_reakcie', auth()->user()->id)->first();
         if ($userReaction) {
@@ -162,7 +154,6 @@ class OznamController extends Controller
 
 
         $liked = ($userReaction && $userReaction->reakcia) ? true : false;
-//        $likeCount = $oznam->reakcie->where('reakcia', true)->count();
         $likeCount = Reakcia::where('id_prispevku', $oznam->id)->where('reakcia', true)->count();
 
 
@@ -176,7 +167,6 @@ class OznamController extends Controller
     public function update(Request $request, $id)
     {
 
-        //dd($request->all());
         $request->validate([
             'nazov' => 'required|min:4|max:255',
             'obsah' => 'required|max:20000',
@@ -184,8 +174,6 @@ class OznamController extends Controller
         ]);
 
         $oznam = Oznam::find($id);
-
-//        dd($oznam->user->id);
         if($oznam->user->id == auth()->user()->id || auth()->user()->hasAnyRole(['admin', 'superuser'])) {
             $oznam->update([
                 'nazov' => $request->input('nazov'),
@@ -196,7 +184,7 @@ class OznamController extends Controller
                 Storage::disk('public')->delete($oznam->image_path);
 
                 $oznam->image_path = null;
-//                $oznam->save();
+
             }
 
             if ($request->hasFile('image')) {

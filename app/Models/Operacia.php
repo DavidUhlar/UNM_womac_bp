@@ -10,7 +10,6 @@ class Operacia extends Model
     public function womac()
     {
         return $this->belongsToMany(Womac::class, 'womac_has_operation', 'id_operation', 'id_womac');
-//        return $this->hasMany(Womac::class, 'id_operation', 'id');
     }
 
 

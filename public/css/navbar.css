@@ -5,13 +5,7 @@
     height: 35px;
 }
 
-/*.login {*/
-/*    overflow: hidden;*/
-/*    right: 10px;*/
-/*    margin-left: auto;*/
 
-
-/*}*/
 .nav-item a:hover {
     color: indianred;
 
@@ -28,13 +22,6 @@
     margin-right: 2rem;
 }
 
-/*@media (min-width : 768px) {*/
-
-/*    .login {*/
-/*        margin-right: auto;*/
-
-/*    }*/
-/*}*/
 
 .dropdown-toggle::after {
     content: none;

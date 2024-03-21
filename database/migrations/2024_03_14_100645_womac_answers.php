@@ -48,7 +48,6 @@ return new class extends Migration
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->timestamp('deleted_at')->nullable(true);
             $table->timestamp('closed_at')->nullable(true);
-//            $table->timestamp('locked_at')->nullable(true);
 
             $table->unsignedBigInteger('created_by')->nullable(false);
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
@@ -58,7 +57,6 @@ return new class extends Migration
             $table->foreign('deleted_by')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('closed_by')->nullable(true);
             $table->foreign('closed_by')->references('id')->on('users')->onDelete('cascade');
-//            $table->unsignedBigInteger('locked_by')->nullable(true);
         });
 
     }
@@ -70,6 +68,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('womac_answers');
     }
 };

@@ -1,24 +1,18 @@
-
-.body {
-
-}
-
 /* hl stranka*/
 .carousel .carousel-item {
     height: 500px;
 }
 
 .carousel-item img {
-
     object-fit: cover;
     object-position: center;
     height: 100%;
-
 }
 
 .obsah_text {
     padding: 5%;
 }
+
 .zoznamWomac {
     margin-left: 8%;
 }
@@ -41,6 +35,8 @@ p {
 .linkText:hover {
     text-decoration: underline;
 }
+
+
 /* o nas*/
 .poznamkaParagraf {
     font-size: small;
@@ -66,21 +62,16 @@ p {
 
 }
 
-
-
 .kontakt > h6{
-
     margin-top: 20%;
 }
 .kontakt {
     padding: 3%;
 }
-
 .centerNadpis {
     text-align: center;
     padding: 10rem;
     margin: auto;
-
 }
 
 

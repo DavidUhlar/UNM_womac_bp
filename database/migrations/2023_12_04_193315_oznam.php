@@ -15,12 +15,14 @@ return new class extends Migration
     {
         Schema::create('oznam', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('autor');
             $table->string('nazov');
             $table->text('obsah');
-            $table->timestamps();
-            $table->unsignedBigInteger('autor');
-            $table->foreign('autor')->references('id')->on('users')->onDelete('cascade');
             $table->string('image_path')->nullable();
+            $table->timestamps();
+
+            $table->foreign('autor')->references('id')->on('users')->onDelete('cascade');
+
         });
     }
 

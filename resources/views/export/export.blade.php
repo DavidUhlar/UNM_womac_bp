@@ -6,10 +6,7 @@
 @section('content')
     @auth
 
-{{--hopa--}}
-
         <div class="womac-container">
-{{--            @dd($filteredOperacie)--}}
             <form action="{{ route('export.toExcel') }}" method="post">
                 @csrf
                 <button class="btn btn-success" type="submit">
@@ -27,7 +24,7 @@
                         <label for="filter_operacia_SAR_ID">SAR ID</label>
                         <input type="text" id="filter_operacia_SAR_ID" name="filter_operacia_SAR_ID" placeholder="Zadaj SAR ID" value= "{{ old('filter_operacia_SAR_ID', $filter_operacia_SAR_ID) }}">
                     </div>
-{{--                    @dd($filter_operacia_typ, (int)$filter_operacia_typ, $filter_operacia_subtyp)--}}
+
                     <div class="filter_export">
                         <label for="filter_operacia_typ">Typ operácie:</label>
                         <select name="filter_operacia_typ" id="filter_operacia_typ">
@@ -37,7 +34,6 @@
                         </select>
                     </div>
 
-{{--                    @dd($filter_operacia_subtyp)--}}
                     <div class="filter_export">
                         <label for="filter_operacia_subtyp">Subtyp operácie:</label>
                         <select name="filter_operacia_subtyp" id="filter_operacia_subtyp">
@@ -102,7 +98,6 @@
                             <div class="womac-row">
                                     <div class="womac-cell womac-header">typ</div>
                                     <div class="womac-cell womac-value">
-        {{--                                {{ $operacia->typ }}--}}
                                         @if($operacia->typ == 0)
                                             Bedro
                                         @elseif($operacia->typ == 1)
@@ -113,7 +108,6 @@
                             <div class="womac-row">
                                     <div class="womac-cell womac-header">subtyp</div>
                                     <div class="womac-cell womac-value">
-{{--                                        {{ $operacia->subtyp }}--}}
                                         @if($operacia->subtyp == 0)
                                             Primárne
                                         @elseif($operacia->subtyp == 1)
@@ -124,7 +118,6 @@
                             <div class="womac-row">
                                 <div class="womac-cell womac-header">strana</div>
                                 <div class="womac-cell womac-value">
-                                    {{--                                        {{ $operacia->subtyp }}--}}
                                     @if($operacia->strana == 0)
                                         Ľavá
                                     @elseif($operacia->strana == 1)
@@ -160,9 +153,6 @@
 
 
             </div>
-
-
-
         </div>
 
     @endauth

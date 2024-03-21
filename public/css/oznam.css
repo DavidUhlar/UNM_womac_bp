@@ -1,7 +1,3 @@
-
-
-
-
 .oznamNadpis {
     padding: 5% 0 0 5%;
 }
@@ -94,11 +90,6 @@
     text-align: right;
     margin-right: 5%;
 }
-
-/*.tlacitkoContainer {*/
-/*    display: flex;*/
-/*    width: 25%;*/
-/*}*/
 
 @media (min-width : 500px) {
 

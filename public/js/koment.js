@@ -16,7 +16,7 @@ function loadMoreComments() {
 
 
     loading = true;
-    $('#loading-message').text('Loading more comments...');
+    $('#loading-message').text('Načítavam ďalšie komentáre...');
     $.ajax({
         url: loadMoreCommentsRoute + '?page=' + page,
         type: 'GET',
@@ -26,7 +26,7 @@ function loadMoreComments() {
             commentsDisplayed += 5;
         },
         error: function (error) {
-            console.error('Error loading more comments:', error);
+            console.error('Error pri načítaví ďalších komentárov:', error);
         },
         complete: function () {
             loading = false;

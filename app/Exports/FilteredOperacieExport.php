@@ -85,7 +85,6 @@ class FilteredOperacieExport implements FromCollection, WithHeadings, ShouldAuto
                         'avg' => "",
                     ];
 
-    //                dd($womac->result);
                     foreach ($womac->result as $resultLocal) {
                         switch ($resultLocal->result_name) {
                             case 'hhs':

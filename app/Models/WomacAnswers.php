@@ -67,12 +67,4 @@ class WomacAnswers extends Model
     public $timestamps = false;
 
 
-
-
-
-
-//    public function womac()
-//    {
-//        return $this->hasMany(WomacResult::class, 'id_womac', 'id');
-//    }
 }

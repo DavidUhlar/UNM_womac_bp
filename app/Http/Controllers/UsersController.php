@@ -149,7 +149,6 @@ class UsersController extends Controller
                 auth()->user()->update([
                     'password' => $newPassword,
                 ]);
-//                auth()->user()->setPasswordAttribute($newPassword);
 
             } else {
                 return redirect()->route('passwordChange.show')->with('error', 'Nesprávne zopakované nové heslo.');

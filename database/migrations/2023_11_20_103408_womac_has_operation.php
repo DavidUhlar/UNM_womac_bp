@@ -17,14 +17,7 @@ return new class extends Migration
 
             $table->id()->unsignedBigInteger()->nullable(false)->unique()->autoIncrement();
 
-//            $table->unsignedBigInteger('id_womac')->nullable(false);
-//            $table->unsignedBigInteger('id_patient')->nullable(false);
-//            $table->unsignedBigInteger('id_operation')->nullable(false);
-//            $table->primary(['id_patient', 'id_operation','id_womac']);
-
-
             $table->unsignedBigInteger('id_visit')->nullable(false);
-
 
             // Pacient ID
             $table->unsignedBigInteger('id_patient')->nullable(false);
@@ -53,6 +46,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('womac_has_operation');
     }
 };

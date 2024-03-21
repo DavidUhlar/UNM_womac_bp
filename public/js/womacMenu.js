@@ -4,9 +4,7 @@ $(document).ready(function () {
         subMenu.slideToggle();
         $(this).toggleClass('activeMenu');
 
-
         var parentItem = $(this).closest('.item');
-
 
         parentItem.siblings().find('.sub-menu').slideUp();
         parentItem.siblings().find('.sub-btn').removeClass('activeMenu');

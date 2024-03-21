@@ -26,7 +26,6 @@
                 </li>
 
                 @auth
-{{--                    @if(auth()->user()->hasRole(['admin', 'superuser', ]))--}}
                     @if(auth()->user()->can('home.womac'))
                         <li class="nav-item">
                             <a class="nav-link @if($routeName == 'home.womac' || Str::startsWith($routeName, 'womac.')) active @endif"
@@ -41,82 +40,70 @@
                     @endif
                 @endauth
 
-                    <li class="nav-item">
-                        <a class="nav-link @if($routeName == 'home.o_nas') active @endif" href="{{route('home.o_nas')}}">O
-                            nás</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link @if($routeName == 'home.o_nas') active @endif" href="{{route('home.o_nas')}}">O
+                        nás</a>
+                </li>
 
                 @auth
                     @if(auth()->user()->can('oznam.oznam'))
                         <li class="nav-item">
-                            <a class="nav-link @if(Str::startsWith($routeName, 'oznam.')) active @endif" href="{{route('oznam.oznam')}}">Oznam</a>
+                            <a class="nav-link @if(Str::startsWith($routeName, 'oznam.')) active @endif"
+                               href="{{route('oznam.oznam')}}">Oznam</a>
                         </li>
                     @endif
                 @endauth
             </ul>
 
-                    <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto">
 
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register.perform') }}">Register</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login.perform') }}">Login</a>
-                            </li>
-                        @endguest
-                        @auth
+                @guest
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register.perform') }}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login.perform') }}">Login</a>
+                    </li>
+                @endguest
+                @auth
 
-
-{{--                            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">--}}
-{{--                                <ul class="navbar-nav">--}}
-                                    <li class="nav-item dropdown">
-                                        <button class="btn btn-dark dropdown-toggle account-navbar" data-bs-toggle="dropdown" aria-expanded="false">
-                                            {{auth()->user()->username}}
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-dark">
-                                            <li><a class="dropdown-item" href="{{route('passwordChange.show')}}">Zmena hesla</a></li>
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-dark dropdown-toggle account-navbar" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            {{auth()->user()->username}}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="{{route('passwordChange.show')}}">Zmena hesla</a></li>
 
 
+                            @can('users.index')
+                                <div class="dropdown-divider bg-white"></div>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('users.index') }}">Používatelia</a>
+                                </li>
+                            @endcan
 
-{{--                                            @if(auth()->user()->hasRole('admin'))--}}
+                            @can('roles.index')
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('roles.index') }}">Role</a>
+                                </li>
+                            @endcan
+                            @can('permissions.index')
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('permissions.index') }}">Povolenia</a>
+                                </li>
+                            @endcan
 
-                                                <!-- users roles permissions -->
-                                                @can('users.index')
-                                                    <div class="dropdown-divider bg-white"></div>
-                                                    <li>
-                                                        <a class="dropdown-item" href="{{ route('users.index') }}">Používatelia</a>
-                                                    </li>
-                                                @endcan
-
-                                                @can('roles.index')
-                                                    <li>
-                                                        <a class="dropdown-item" href="{{ route('roles.index') }}">Role</a>
-                                                    </li>
-                                                @endcan
-                                                @can('permissions.index')
-                                                    <li>
-                                                        <a class="dropdown-item" href="{{ route('permissions.index') }}">Povolenia</a>
-                                                    </li>
-                                                @endcan
-{{--                                            @endif--}}
-
-                                        </ul>
-                                    </li>
+                        </ul>
+                    </li>
 
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('logout.perform') }}">Logout</a>
-                            </li>
-                        @endauth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('logout.perform') }}">Logout</a>
+                    </li>
+                @endauth
 
-                    </ul>
-
-
-
-
-
-
+            </ul>
 
 
         </div>

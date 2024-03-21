@@ -2,8 +2,6 @@ var updateMode = false;
 var lastClickedSubMenuId = null;
 $(document).ready(function () {
 
-
-
     $('.sub-item').click(function (e) {
         e.preventDefault();
 
@@ -20,19 +18,14 @@ $(document).ready(function () {
 
         if (lastClickedSubMenuId === idWomac) {
             updateMode = !updateMode;
-            // $('.vpisovanieDat').toggle();
             lastClickedSubMenuId = -1;
         } else {
             updateMode = true;
             lastClickedSubMenuId = idWomac;
         }
 
-
-
         womacIdFromJavaScript = idWomac;
-
         updateContentWomac(updateMode);
-
 
 
         if (updateMode) {
@@ -137,7 +130,6 @@ $(document).ready(function () {
             $('input[name="kss2"]').val(null);
             updateContentWomac(true);
         }
-        // updateMode = !updateMode;
     });
 
     function updateFormAction(operationID) {

@@ -18,38 +18,14 @@ class WomacController extends Controller
     public function show()
     {
 
-//        $womacData = Womac::where('id_womac', 25)->firstOrFail()->toArray();
-//        dd($womacData);
-//        $dataPacient = Pacient::with('operacie.womac')->get();
-//        $dataPacient = Pacient::all();
         $dataPacient = Pacient::paginate(10);
-//        dd($dataPacient, $pacientCount);
-
-//        foreach ($dataPacient as $pacient) {
-//
-//            $operacie = Operacia::where('id_pac', $pacient->id)->firstOrFail();
-////            $operacie = Operacia::where('id_pac', $pacient->id)->get();
-//
-//
-////            foreach ($operacie as $operacia) {
-//                $operacie->pacient()->associate($pacient);
-//                $operacie->save();
-////            }
-//        }
-
-//        dd($dataPacient);
 
         $womac = Womac::whereNull('closed_at')
             ->whereNull('deleted_at')
             ->whereNull('locked_at')->get();
 
-//        dd($womac->first()->operacie->first());
-
-//        dd($womac);
         $filter = "";
         return view('home.womac', compact('dataPacient', 'womac', 'filter'));
-//        return view('home.womac', compact('dataPacient', 'womac', 'womacOperations'));
-
     }
 
     public function filter(Request $request)
@@ -68,23 +44,11 @@ class WomacController extends Controller
             ->orWhere('priezvisko', 'like', "%$filter%")
             ->get();
 
-//        foreach ($dataPacient as $pacient) {
-//            $operacie = Operacia::where('id_pac', $pacient->id)->get();
-//
-//            foreach ($operacie as $operacia) {
-//                $operacia->pacient()->associate($pacient);
-//                $operacia->save();
-//            }
-//        }
-        $womac = Womac::whereNull('closed_at')
-            ->whereNull('deleted_at')
-            ->whereNull('locked_at')->get();
-//        dd($dataPacient, $operacie);
 
         $pageSize = 10;
         $totalPacient = $dataPacient->count();
         $currentPage = $request->input('page', 1);
-//        $pageSize = max(1, $pageSize);
+
 
         $dataPacient = new LengthAwarePaginator(
             $dataPacient->forPage($currentPage, $pageSize)->values(),
@@ -104,10 +68,6 @@ class WomacController extends Controller
             ->whereNull('closed_at')
             ->whereNull('deleted_at')
             ->whereNull('locked_at')->firstOrFail();
-
-
-//            $womacResult = WomacResult::where('id_womac', $id_womac)->firstOrFail();
-//            $resultValue = $womacResult->result_value;
 
         $localWomacOp = WomacOperation::where('id_womac', $womacData->id)->first();
         $womacOp = Operacia::where('id', $localWomacOp->id_operation)->first();
@@ -240,7 +200,6 @@ class WomacController extends Controller
 
         ]);
 
-//        $errors = $validator->errors();
 
         $request->merge([
             'filled'=>'',
@@ -259,7 +218,6 @@ class WomacController extends Controller
 
         if ($exists) {
 
-//            dd($request->all());
             $womacUpdate = Womac::where('id_womac', $request->id_womac)
                 ->whereNull('closed_at')
                 ->whereNull('deleted_at')
@@ -272,8 +230,7 @@ class WomacController extends Controller
 
             $op = Operacia::find($id_operation);
             $womacOperationUpdate = WomacOperation::where('id_womac', $womacUpdate->id);
-//            dd($op->typ);
-//            dd($womacUpdate->result->where('result_name', 'hhs')->first()->result_value);
+
             if ($op->typ == 0) {
                 $resultArray = ['hhs' => $womacUpdate->result->where('result_name', 'hhs')->first()->result_value];
             } else if ($op->typ == 1) {
@@ -282,7 +239,7 @@ class WomacController extends Controller
                     'kss2' => $womacUpdate->result->where('result_name', 'kss2')->first()->result_value
                 ];
             }
-//            dd($womacUpdate->result);
+
 
 
             $isDataChanged = $this->isDataChanged($request->all(), $womacUpdate, ['date_visit', 'date_womac']);
@@ -294,7 +251,7 @@ class WomacController extends Controller
                 'answer_21', 'answer_22', 'answer_23', 'answer_24',
             ]);
             $isDataChangedResults = $this->isDataChangedResult($request->all(), $womacUpdate, $resultArray);
-//            dd($isDataChanged, $isDataChangedAnswers, $isDataChangedResults);
+
 
             $womacOperationUpdate->update([
                 'id_visit' => $request->input('id_visit'),
@@ -383,11 +340,10 @@ class WomacController extends Controller
                 //TU SA RATA PRIEMER
                 $priemer = array_sum($percenta) / 24;
 
-                dd($womacUpdate->result);
                 $womacResult = WomacResult::where('id_womac', $womacUpdate->id)
                     ->where('result_name', 'avg')
                     ->first();
-                dd($womacUpdate->result);
+
                 $womacResult->update(['result_value' => $priemer]);
 
             }
@@ -396,7 +352,6 @@ class WomacController extends Controller
 
                 $womacOp = Operacia::where('id', $id_operation)->first();
 
-    //            dd($womacOp, $request->all());
                 if ($womacOp->typ == 0) {
     //                $typResult = "hhs";
                     $womacResult = WomacResult::where('id_womac', $womacUpdate->id)
@@ -424,9 +379,6 @@ class WomacController extends Controller
                 'filled' => $answerCount
             ]);
 
-//            dd($request->input());
-
-
         } else {
 
             $record = Womac::create($request->all());
@@ -453,26 +405,20 @@ class WomacController extends Controller
             $data['id_womac'] = $womac->id;
 
             $womacAnswers = WomacAnswers::create($data);
-//            $womacAnswers->update(['id_womac' => $womac->id]);
+
 
 
             $operacia = Operacia::find($id_operation);
-
-//            dd($operacia, $womac->operacie, $operacia->pacient->first());
-
             $pacient = $operacia->pacient;
 
 
-//            dd($womac->answers);
+
 
             $womacOperation->id_patient = $pacient->id;
-//            $womacOperation->id_womac = $record->id_womac;
             $womacOperation->id_womac = $womac->id;
             $womacOperation->id_operation = $id_operation;
             $womacOperation->id_visit = $request->input('id_visit');
 
-
-//            dd($request->all());
             $answerCount = 0;
 
             for ($i = 1; $i <= 24; $i++) {
@@ -548,20 +494,13 @@ class WomacController extends Controller
 
             }
 
-//            dd($womac);
-
-//            $womac->result()->associate($resultWomac);
-
-
             $womacOperation->save();
 
             $womacOperation->womac->update([
 
                 'filled' => $answerCount
             ]);
-//            dd($womacOperation->womac);
         }
-//        return redirect()->route('home.womac');
         return redirect()->back();
     }
 
@@ -600,7 +539,6 @@ class WomacController extends Controller
             'closed_by' => auth()->user()->id,
         ]);
 
-//        return redirect()->route('home.womac');
         return redirect()->back()->with('success', 'Dotazník úspešne odstránený');
     }
 }

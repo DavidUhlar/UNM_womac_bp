@@ -21,7 +21,6 @@ class ExportController extends Controller
     {
 
         $filteredOperaciePaginate = Operacia::paginate(10);
-//        $filteredOperacie = Operacia::all();
 
         $filter_operacia_SAR_ID = '';
         $filter_pacient_rc = '';
@@ -32,7 +31,6 @@ class ExportController extends Controller
 
         Session::put('filteredOperacie', Operacia::all());
 
-//        dd($operacie);
         return view('export.export', compact('filteredOperaciePaginate',
             'filter_operacia_SAR_ID',
             'filter_pacient_rc',
@@ -60,7 +58,6 @@ class ExportController extends Controller
         $filteredOperacie = collect();
 
 
-//        DB::enableQueryLog();
         foreach ($pacientiData as $pacient) {
 
             $operacie = Operacia::where('id_pac', $pacient->id)
@@ -69,23 +66,17 @@ class ExportController extends Controller
                 ->where('subtyp', 'like', "%$filter_operacia_subtyp%")
                 ->where('strana', 'like', "%$filter_operacia_strana%")
                 ->with('womac');
-//                ->get();
+
 
             $filteredOperacie = $filteredOperacie->merge($operacie->get());
 
         }
 
-//        dd($filteredOperacie);
-        Session::put('filteredOperacie', $filteredOperacie);
-//        dd($filteredOperacie);
 
-        //https://laracasts.com/discuss/channels/laravel/how-to-paginate-laravel-collection
-//        $perPage = 1;
-//        $currentPage = Paginator::resolveCurrentPage() ?: 1;
-//        $currentPageItems = $filteredOperacie->slice(($currentPage - 1) * $perPage, $perPage)->all();
-//        $filteredOperaciePaginate = new LengthAwarePaginator($currentPageItems, count($filteredOperacie), $perPage, $currentPage, [
-//            'path' => Paginator::resolveCurrentPath(),
-//        ]);
+        Session::put('filteredOperacie', $filteredOperacie);
+
+
+
         $pageSize = $request->input('page_size', 10);
         $totalOperacie = $filteredOperacie->count();
         $currentPage = $request->input('page', 1);
@@ -98,7 +89,7 @@ class ExportController extends Controller
             $currentPage,
             ['path' => $request->url(), 'query' => $request->query()]
         );
-//        $filteredOperaciePaginate = $filteredOperacie;
+
 
         return view('export.export', compact('filteredOperaciePaginate',
             'filter_operacia_SAR_ID',
@@ -121,7 +112,6 @@ class ExportController extends Controller
 
         foreach ($womacOperation as $womOp) {
 
-    //        dd($womacOperation);
             $womac = Womac::where('id', $womOp->id_womac)
                 ->whereNull('closed_at')
                 ->whereNull('deleted_at')
@@ -137,11 +127,7 @@ class ExportController extends Controller
 
 
         }
-//        dd($womacOperation->first()->womac->answers);
 
-
-//        dd($womacOperation->get(0)->womac()->first()->id_womac);
-//        dd($womacOperation->get(0));
         return view('export.exportShowOperacia', compact('womacOperation', 'operation'));
 
 
@@ -151,7 +137,6 @@ class ExportController extends Controller
     public function exportToExcel()
     {
         $filteredOperacie = Session::get('filteredOperacie');
-//        dd($filteredOperacie);
 
         return Excel::download(new FilteredOperacieExport($filteredOperacie), 'filtered_operacie.xlsx');
     }

@@ -16,7 +16,6 @@ class WomacResult extends Model
      */
     protected $table = 'womac_result';
 
-//    protected $primaryKey = ['id_womac', 'result_name'];
     /**
      * The attributes that are mass assignable.
      *

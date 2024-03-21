@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <link rel="stylesheet" href="{{ asset("css/oznam.css") }}"/>
-    <link rel="stylesheet" href="{{ asset("css/oznamPicture.css") }}"/>
+{{--    <link rel="stylesheet" href="{{ asset("css/oznam.css") }}"/>--}}
+{{--    <link rel="stylesheet" href="{{ asset("css/oznamPicture.css") }}"/>--}}
     <script>
         var totalOznam = {{ $oznamCount }};
         var loadMoreOznamRoute = @json(route("oznam.load-more-posts"));

@@ -4,9 +4,6 @@
 
 @section('content')
     @auth
-{{--        @dd($womacOperation->isEmpty())--}}
-
-
 
         <div class="womac-container">
             <a href="{{ url()->previous() }}" class="zobrazOperaciu">Návrat</a>
@@ -19,7 +16,6 @@
                 <div class="womac-row">
                     <div class="womac-cell womac-header">Typ</div>
                     <div class="womac-cell womac-value">
-{{--                        {{ $operation->typ  }}--}}
                         @if($operation->typ == 0)
                             Bedro
                         @elseif($operation->typ == 1)
@@ -30,7 +26,6 @@
                 <div class="womac-row">
                     <div class="womac-cell womac-header">Subtyp</div>
                     <div class="womac-cell womac-value">
-{{--                        {{ $operation->subtyp  }}--}}
                         @if($operation->subtyp == 0)
                             Primárne
                         @elseif($operation->subtyp == 1)
@@ -41,7 +36,6 @@
                 <div class="womac-row">
                     <div class="womac-cell womac-header">strana</div>
                     <div class="womac-cell womac-value">
-                        {{--                        {{ $operation->subtyp  }}--}}
                         @if($operation->strana == 0)
                             Ľavá
                         @elseif($operation->strana == 1)
@@ -108,13 +102,10 @@
     </div>
 </div>
 
-
-{{--@dd($womacOperation)--}}
         @if(!$womacOperation->isEmpty())
             <div class="womac-container">
                 <h4>WOMAC</h4>
 
-{{--                @dd($womacOperation)--}}
                 @foreach($womacOperation as $womacOperationLocal)
                     <div class="womac-table">
                         <div class="womac-row">

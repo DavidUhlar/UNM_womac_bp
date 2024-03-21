@@ -10,10 +10,7 @@ $(document).ready(function () {
         console.log('Clicked operation:', sarID);
         console.log('Clicked operation id:', operationID);
 
-
         lastClickedSubMenuId = null;
-
-
         operationIdFromJavaScript = sarID;
 
         if (typOperacie === 'bedro') {
@@ -47,18 +44,10 @@ $(document).ready(function () {
 
         $('#hiddenOperationIdInput').val(operationID);
 
-        // var currentPath = window.location.pathname;
-        // console.log(currentPath);
-
         console.log(createRoute + operationID);
-        // var formAction = '/unm_womac_bp/public/womac/create/' + operationID;
-
 
         updateFormAction(operationID);
 
-        // var formAction = createRoute + operationID;
-        //
-        // $('.vpisovanieDat').attr('action', formAction);
         function getCurrentDate() {
             const now = new Date();
             const year = now.getFullYear();
