@@ -114,6 +114,7 @@
             <div class="womac-container">
                 <h4>WOMAC</h4>
 
+{{--                @dd($womacOperation)--}}
                 @foreach($womacOperation as $womacOperationLocal)
                     <div class="womac-table">
                         <div class="womac-row">
@@ -128,7 +129,12 @@
                         @for($i = 1; $i <= 24; $i++)
                             <div class="womac-row">
                                 <div class="womac-cell womac-header">{{ $i }}</div>
-                                <div class="womac-cell womac-value">{{ $womacOperationLocal->womac->{'answer_' . str_pad($i, 2, '0', STR_PAD_LEFT)} }}</div>
+                                <div class="womac-cell womac-value">
+                                    {{ $womacOperationLocal->womac->answers
+                                        ->whereNull('closed_at')
+                                        ->whereNull('deleted_at')->first()
+                                        ->{'answer_' . str_pad($i, 2, '0', STR_PAD_LEFT)} }}
+                                </div>
                             </div>
                         @endfor
 

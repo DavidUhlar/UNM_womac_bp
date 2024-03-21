@@ -26,10 +26,14 @@ class FilteredOperacieExport implements FromCollection, WithHeadings, ShouldAuto
     {
         $data = collect();
 
+//        dd($this->filteredOperacie);
         foreach ($this->filteredOperacie as $operacia) {
             $pacient = $operacia->pacient;
-
-            if ($operacia->womac->isEmpty()) {
+            $womacs = $operacia->womac
+                ->whereNull('closed_at')
+                ->whereNull('deleted_at')
+                ->whereNull('locked_at');
+            if ($womacs->count() == 0) {
                 $data->push([
                     'Operacia SAR ID' => $operacia->sar_id,
                     'typ' => ($operacia->typ === 0) ? "bedro" : "koleno",
@@ -49,8 +53,8 @@ class FilteredOperacieExport implements FromCollection, WithHeadings, ShouldAuto
                 ]);
 
             } else {
-                foreach ($operacia->womac as $womac) {
-    //                dd($womac->result);
+                foreach ($womacs as $womac) {
+
                     $rowData = [
                         'Operacia SAR ID' => $operacia->sar_id,
                         'typ' =>  ($operacia->typ === 0) ? "bedro" : "koleno",
@@ -69,7 +73,9 @@ class FilteredOperacieExport implements FromCollection, WithHeadings, ShouldAuto
 
                     for ($i = 1; $i <= 24; $i++) {
                         $answerKey = str_pad($i, 2, '0', STR_PAD_LEFT);
-                        $rowData[$answerKey] = $womac->{'answer_' . $answerKey};
+                        $rowData[$answerKey] = $womac->answers
+                            ->whereNull('closed_at')
+                            ->whereNull('deleted_at')->first()->{'answer_' . $answerKey};
                     }
 
                     $results = [

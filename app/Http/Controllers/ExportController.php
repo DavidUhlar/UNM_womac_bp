@@ -75,6 +75,7 @@ class ExportController extends Controller
 
         }
 
+//        dd($filteredOperacie);
         Session::put('filteredOperacie', $filteredOperacie);
 //        dd($filteredOperacie);
 
@@ -113,7 +114,8 @@ class ExportController extends Controller
     {
 
 
-        $womacOperation = WomacOperation::where('id_operation', $id_operacie)->get();
+        $womacOperation = WomacOperation::where('id_operation', $id_operacie)
+            ->whereNull('closed_at')->get();
         $operation = Operacia::where('id', $id_operacie)->first();
 
 
@@ -135,7 +137,7 @@ class ExportController extends Controller
 
 
         }
-//        dd($womacOperation);
+//        dd($womacOperation->first()->womac->answers);
 
 
 //        dd($womacOperation->get(0)->womac()->first()->id_womac);
