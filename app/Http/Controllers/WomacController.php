@@ -15,6 +15,11 @@ use Illuminate\Validation\Rule;
 class WomacController extends Controller
 {
 
+    /**
+     * vracia pohľad home.womac, kde vypíše vo forme dropdown menu mená všetkých pacientov, ich operácie a ich womac dotazníky priradené k daným operáciam.
+     * Pacienti sú vypísaný pomocou stránkok, medzi ktorými sa dá prepínať.
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function show()
     {
 
@@ -28,11 +33,19 @@ class WomacController extends Controller
         return view('home.womac', compact('dataPacient', 'womac', 'filter'));
     }
 
+    /**
+     * vracia pohľad home.womac, kde vypíše vo forme dropdown menu mená tých pacientov, ktorý boli vyfiltrovaný podľa kritéria mena alebo rodného čísla.
+     * Následne sú vypísané ich operácie a ich WOMAC dotazníky priradené k daným operáciam.
+     * Pacienti sú vypísaný pomocou stránkok, medzi ktorými sa dá prepínať.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function filter(Request $request)
     {
 
         $request->validate([
-
+            'filter_criteria' => 'nullable|max:100',
 
         ]);
 
@@ -59,8 +72,16 @@ class WomacController extends Controller
         );
 
 
-    return view('home.womac', compact('dataPacient',  'filter'));
-}
+        return view('home.womac', compact('dataPacient',  'filter'));
+    }
+
+    /**
+     * je to pomocná metóda pre ajax, ktorý sa stará o vypĺnanie dotazníku existujúcimi hodnotami daného womac dotazníka.
+     * Metóda vracia json hodnôt womacu podľa parametra id_womac
+     *
+     * @param $id_womac
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getWomacData($id_womac)
     {
 
@@ -133,6 +154,15 @@ class WomacController extends Controller
 
     }
 
+    /**
+     * je privátna pomocná metóda ktorá zisťuje, či sa po odoslaní womac formuláru zmenili jeho hodnoty. Ak sa hodnoty zmenili, vracia true, inak vráti false.
+     * Podľa výsledku tejto pomocnej metódy sa následne v metóde create womac uploadne do databázy, alebo v prípade žiadnej zmeny to databázu obíde a databáza sa nezaťažuje.
+     *
+     * @param array $requestData odosielaný request
+     * @param mixed $womacData existujúce dáta v databáze
+     * @param array $womacZaznam atribúty, u ktorých sa kontroluje zmena
+     * @return bool vracia true alebo false podľa toho, či boli dáta zmenené
+     */
     private function isDataChanged(array $requestData, $womacData, array $womacZaznam)
     {
 
@@ -147,6 +177,15 @@ class WomacController extends Controller
         return false; // ziadna zmena
     }
 
+    /**
+     * je privátna pomocná metóda ktorá zisťuje, či sa po odoslaní womac formuláru zmenili hodnoty womac výsledkov. Ak sa hodnoty zmenili, vracia true, inak vráti false.
+     * Podobne ako pri metóde isDataChanged, v prípade žiadnej zmeny sa databáza obíde a databáza sa nezaťažuje.
+     *
+     * @param array $requestData odosielaný request
+     * @param Womac $womacData existujúce dáta v databáze
+     * @param array $resultArray atribúty, u ktorých sa kontroluje zmena
+     * @return bool vracia true alebo false podľa toho, či boli dáta zmenené
+     */
     private function isDataChangedResult(array $requestData, Womac $womacData, array $resultArray)
     {
         //prechadzam pole, podla ktoreho kontrolujem
@@ -162,6 +201,16 @@ class WomacController extends Controller
         }
         return false; // ziadna zmena
     }
+
+    /**
+     * create – stará sa o vytvorenie aj o upravenie womac dotazníkov a súvisiacich častí. Vstupy z formuláru sa zvalidujú a následne sa podľa podmienky zistí, či ide o update alebo o create.
+     * Pri update sa okrem samotného upravenia hodnôt dotazníku a jeho výsledkov pomocou pomocnej metódy isDataChanged zisťuje, či sa dáta od posledného potvrdenia zmenili alebo či sú rovnaké.
+     * Pri použití create sa vytvoria vo všetkých súvisiacich tabuľkách nové záznamy. Vygeneruje sa unikátne id_womac a v prípade dostatočného počtu vstupov v dotazníku sa vypočíta priemer.
+     *
+     * @param Request $request odosielaný request
+     * @param mixed $id_operation id operácie, pre ktorú sa vytvára daný womac dotazník
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function create(Request $request, $id_operation)
     {
 
@@ -346,6 +395,11 @@ class WomacController extends Controller
 
                 $womacResult->update(['result_value' => $priemer]);
 
+            } else {
+                $womacResult = WomacResult::where('id_womac', $womacUpdate->id)
+                    ->where('result_name', 'avg')
+                    ->first();
+                $womacResult->update(['result_value' => null]);
             }
 
             if ($isDataChangedResults) {
@@ -504,6 +558,12 @@ class WomacController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * metóda na základe id_womac z parametra vyhľada v tabuľkách záznamy mazaného womac dotazníka a následne ich v každej tabuľke nastaví ako vymazané.
+     *
+     * @param $id_womac id mazaného womac dotazníka
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deleteWomac($id_womac)
     {
 //        $womac = Womac::find($id_womac);

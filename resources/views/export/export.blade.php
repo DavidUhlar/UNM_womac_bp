@@ -27,7 +27,7 @@
 
                     <div class="filter_export">
                         <label for="filter_operacia_typ">Typ operácie:</label>
-                        <select name="filter_operacia_typ" id="filter_operacia_typ">
+                        <select name="filter_operacia_typ" id="filter_operacia_typ" class="borderExportFilterSelect">
                             <option value="" @if($filter_operacia_typ === null) selected @endif></option>
                             <option value="0" @if($filter_operacia_typ === '0') selected @endif>Bedro</option>
                             <option value="1" @if($filter_operacia_typ === '1') selected @endif>Koleno</option>
@@ -36,7 +36,7 @@
 
                     <div class="filter_export">
                         <label for="filter_operacia_subtyp">Subtyp operácie:</label>
-                        <select name="filter_operacia_subtyp" id="filter_operacia_subtyp">
+                        <select name="filter_operacia_subtyp" id="filter_operacia_subtyp" class="borderExportFilterSelect">
                             <option value="" @if($filter_operacia_subtyp === null) selected @endif></option>
                             <option value="0" @if($filter_operacia_subtyp === '0') selected @endif>Primárne</option>
                             <option value="1" @if($filter_operacia_subtyp === '1') selected @endif>Revízne</option>
@@ -45,7 +45,7 @@
 
                     <div class="filter_export">
                         <label for="filter_operacia_strana">Strana operácie:</label>
-                        <select name="filter_operacia_strana" id="filter_operacia_strana">
+                        <select name="filter_operacia_strana" id="filter_operacia_strana" class="borderExportFilterSelect">
                             <option value="" @if($filter_operacia_strana === null) selected @endif></option>
                             <option value="0" @if($filter_operacia_strana === '0') selected @endif>Ľavá</option>
                             <option value="1" @if($filter_operacia_strana === '1') selected @endif>Pravá</option>

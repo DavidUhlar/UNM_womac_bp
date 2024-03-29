@@ -1,6 +1,5 @@
-{{--<link rel="stylesheet" href="{{ asset("css/oznamPicture.css") }}">--}}
 @foreach ($oznam as $oznamLocal)
-    <div class="col-sm-6 mb-4">
+    <div class="col-md-6 mb-4">
         <div class="card h-100">
             <div class="card-header">
                 <h5 class="card-title">{{ $oznamLocal->nazov }}</h5>
@@ -8,7 +7,6 @@
             </div>
             <div class="card-body">
                 <p class="card-text">Autor: {{ $oznamLocal->user->username }}</p>
-
                 @php
                     $created_at = \Carbon\Carbon::parse($oznamLocal->created_at)->setTimezone('Europe/Berlin');
                     $updated_at = \Carbon\Carbon::parse($oznamLocal->updated_at)->setTimezone('Europe/Berlin');
@@ -28,7 +26,7 @@
                 @endif
 
                 @if($oznamLocal->image_path)
-                    <div class="image-container">
+                    <div class=" image-container">
                         <img src="{{ asset('storage/' . $oznamLocal->image_path) }}" alt="Oznam Image">
                     </div>
                 @endif
@@ -45,7 +43,8 @@
                                 <form action="{{ route('oznam.destroy', $oznamLocal->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm tlacitko">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-sm tlacitko">Delete
+                                    </button>
                                 </form>
                             </div>
                             <div class="col-sm tlacitko">
@@ -63,4 +62,3 @@
         </div>
     </div>
 @endforeach
-

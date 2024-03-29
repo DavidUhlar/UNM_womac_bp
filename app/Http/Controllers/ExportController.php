@@ -17,6 +17,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ExportController extends Controller
 {
+    /**
+     * vracia pohľad export.export kde vypíše vo forme záznamov operácie a mená ich pacientov. Operácie sú vypísané pomocou stránkok, medzi ktorými sa dá prepínať. V pohľade sa taktiež vykreslí filter, kde sa na základe rôzných vstupov filtrujú záznamy.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function show()
     {
 
@@ -43,6 +48,13 @@ class ExportController extends Controller
 
     }
 
+    /**
+     * vracia pohľad export.export kde vypíše podobne ako v show vo forme záznamov operácie a mená ich pacientov na základe kriterií ktoré boli zadané pri filtrovaní.
+     * Operácie sú stránkované takže pri väčšom množstve záznamov sa medzi stránkami dá prepínať
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function filter(Request $request)
     {
         $filter_operacia_SAR_ID = $request->input('filter_operacia_SAR_ID');
@@ -101,6 +113,13 @@ class ExportController extends Controller
         ));
     }
 
+    /**
+     * vracia pohľad export.exportShowOperacia kde sa zobrazuje konkrétne rozkliknutá operácia a údaje k nej.
+     * K vypisovaným údajom patrí samotná operácia, operovaný pacient a aj všetky dotazníky womac k danej operacií spolu s ich výsledkami.
+     *
+     * @param $id_operacie
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function showOperacia($id_operacie)
     {
 
@@ -110,36 +129,38 @@ class ExportController extends Controller
         $operation = Operacia::where('id', $id_operacie)->first();
 
 
-        foreach ($womacOperation as $womOp) {
-
-            $womac = Womac::where('id', $womOp->id_womac)
-                ->whereNull('closed_at')
-                ->whereNull('deleted_at')
-                ->whereNull('locked_at')->first();
-
-            $womacResult = WomacResult::where('id_womac', $womOp->id_womac)->get();
-
-            foreach ($womacResult as $result) {
-                $result->womac()->associate($womac);
-            }
-
-            $womOp->womac()->associate($womac);
-
-
-        }
+//        foreach ($womacOperation as $womOp) {
+//
+//            $womac = Womac::where('id', $womOp->id_womac)
+//                ->whereNull('closed_at')
+//                ->whereNull('deleted_at')
+//                ->whereNull('locked_at')->first();
+//
+//            $womacResult = WomacResult::where('id_womac', $womOp->id_womac)->get();
+//
+//            foreach ($womacResult as $result) {
+//                $result->womac()->associate($womac);
+//            }
+//
+//            $womOp->womac()->associate($womac);
+//
+//
+//        }
 
         return view('export.exportShowOperacia', compact('womacOperation', 'operation'));
-
-
     }
 
-
+    /**
+     * preberie zoznam vyfiltrovaných operacií zo Seassion a následne na základe predom definovaných kriterií vytvorí excel súbor s hodnotami aktuálnych operacií.
+     * Vytvorený excel sa následne používateľovi stiahne v prehliadači v podobe excel súboru, s ktorým je následne možné ďalej pracovať.
+     * Logika ku vytváraniu excelu sa volá FilteredOperacieExport a nachádza sa v podadresári Exports v adresári app.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function exportToExcel()
     {
         $filteredOperacie = Session::get('filteredOperacie');
 
         return Excel::download(new FilteredOperacieExport($filteredOperacie), 'filtered_operacie.xlsx');
     }
-
-
 }

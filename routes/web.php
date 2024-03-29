@@ -33,7 +33,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/', 'OznamController@index')->name('oznam.oznam');
 
             //ajax
-            Route::get('/load-more-posts', 'OznamController@loadMorePosts')->name('oznam.load-more-posts');
+            Route::get('/load-more-oznam', 'OznamController@loadMoreOznam')->name('oznam.load-more-oznam');
             Route::get('/oznam/{id}/load-more-comments', 'OznamController@loadMoreComments')->name('oznam.load-more-comments');
 
             Route::get('/oznam/create', 'OznamController@create')->name('oznam.create');

@@ -1,9 +1,9 @@
 $(document).ready(function () {
 
     var page = 2;
-    var oznamDisplayed = 0;
+    var oznamDisplayed = 6;
 
-    $('#load-more-posts').on('click', function () {
+    $('#load-more-oznam').on('click', function () {
         $.ajax({
             url: loadMoreOznamRoute,
             type: 'GET',
@@ -14,11 +14,11 @@ $(document).ready(function () {
                 oznamDisplayed += 6;
 
                 if (oznamDisplayed >= totalOznam) {
-                    $('#load-more-posts').hide();
+                    $('#load-more-oznam').hide();
                 }
             },
             error: function (error) {
-                console.error('Error loading more posts:', error);
+                console.error('Error loading more:', error);
             }
         });
     });
