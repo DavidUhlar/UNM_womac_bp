@@ -1,6 +1,6 @@
 @extends('layouts.app-master')
-<link rel="stylesheet" href=" {{ asset("css/export.css") }}">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+{{--<link rel="stylesheet" href=" {{ asset("css/export.css") }}">--}}
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>--}}
 
 @section('content')
     @auth
@@ -108,6 +108,27 @@
 
                 @foreach($womacOperation as $womacOperationLocal)
                     <div class="womac-table">
+                        <div class="womac-row">
+                            <div class="womac-cell womac-header">Vyšetrenie</div>
+                            <div class="womac-cell womac-value">
+                                @switch($womacOperationLocal->id_visit)
+                                    @case(1)
+                                        Predoperačné
+                                        @break
+                                    @case(2)
+                                        3 - mesačné
+                                        @break
+                                    @case(3)
+                                        6 - mesačné
+                                        @break
+                                    @case(4)
+                                        12 - mesačné
+                                        @break
+                                    @default
+                                        -
+                                @endswitch
+                            </div>
+                        </div>
                         <div class="womac-row">
                             <div class="womac-cell womac-header">Dátum womac</div>
                             <div class="womac-cell womac-value">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $womacOperationLocal->womac->date_womac)->format('d.m.Y') }}</div>
