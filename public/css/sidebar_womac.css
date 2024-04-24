@@ -23,7 +23,7 @@
 }
 
 .side-bar .menu {
-    height: 100vh;
+    height: 85vh;
     background-color: #444;
     border: black solid 2px;
     overflow-y: scroll;
