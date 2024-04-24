@@ -129,23 +129,6 @@ class ExportController extends Controller
         $operation = Operacia::where('id', $id_operacie)->first();
 
 
-//        foreach ($womacOperation as $womOp) {
-//
-//            $womac = Womac::where('id', $womOp->id_womac)
-//                ->whereNull('closed_at')
-//                ->whereNull('deleted_at')
-//                ->whereNull('locked_at')->first();
-//
-//            $womacResult = WomacResult::where('id_womac', $womOp->id_womac)->get();
-//
-//            foreach ($womacResult as $result) {
-//                $result->womac()->associate($womac);
-//            }
-//
-//            $womOp->womac()->associate($womac);
-//
-//
-//        }
 
         return view('export.exportShowOperacia', compact('womacOperation', 'operation'));
     }

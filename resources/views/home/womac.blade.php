@@ -43,6 +43,9 @@
                 </div>
             </form>
             <div class="menu">
+
+
+{{--            Inspiracia na dropdown menu: https://foolishdeveloper.com/sidebar-dropdown-menu-using-html-css-javascript/ --}}
                 @foreach($dataPacient as $pacient)
 
                     <div class="item">
